@@ -3,327 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>月の都 千曲｜文化財モンスター Ver.0.2</title>
+<title>月の都 千曲｜文化財モンスター Ver.0.3</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#0d1422;
+ color:#f8fafc;
+ font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",
+ "Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
 }
 
-body {
-  margin: 0;
-  background: #111827;
-  color: #f9fafb;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Helvetica Neue",
-    "Yu Gothic",
-    "Hiragino Kaku Gothic ProN",
-    sans-serif;
+button{font:inherit;cursor:pointer}
+
+#app{
+ max-width:620px;
+ min-height:100vh;
+ margin:auto;
+ background:#172033;
 }
 
-button {
-  font: inherit;
+.screen{
+ min-height:100vh;
+ padding:20px 16px 40px;
 }
 
-#app {
-  min-height: 100vh;
-  max-width: 600px;
-  margin: 0 auto;
-  background: #172033;
+.hidden{display:none!important}
+
+.title-screen{
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ background:
+ radial-gradient(circle at 50% 25%,#3b4968 0,#172033 42%,#0d1422 100%);
 }
 
-.screen {
-  min-height: 100vh;
-  padding: 24px 18px 40px;
+.moon{
+ width:130px;
+ height:130px;
+ border-radius:50%;
+ background:#f6e7a6;
+ box-shadow:0 0 55px rgba(246,231,166,.35);
+ margin-bottom:25px;
 }
 
-.hidden {
-  display: none !important;
+.title{
+ font-size:36px;
+ letter-spacing:.12em;
+ margin:0;
 }
 
-/* ---------- Title ---------- */
-
-.title-screen {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background:
-    radial-gradient(circle at 50% 25%, #384765 0, #172033 42%, #0d1422 100%);
+.subtitle{
+ margin:10px 0 35px;
+ color:#cbd5e1;
+ letter-spacing:.18em;
 }
 
-.moon {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  background: #f6e7a6;
-  box-shadow: 0 0 50px rgba(246, 231, 166, .35);
-  margin-bottom: 28px;
+.header{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ margin-bottom:20px;
 }
 
-.title {
-  font-size: 36px;
-  letter-spacing: .12em;
-  margin: 0;
+.header h2{
+ margin:0;
+ font-size:22px;
 }
 
-.subtitle {
-  margin: 12px 0 40px;
-  color: #cbd5e1;
-  letter-spacing: .2em;
-}
-
-/* ---------- Common ---------- */
-
-h1, h2, h3 {
-  margin-top: 0;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 22px;
-}
-
-.back-btn {
-  border: 0;
-  background: #334155;
-  color: white;
-  padding: 9px 14px;
-  border-radius: 10px;
+.back-btn{
+ border:0;
+ background:#334155;
+ color:white;
+ padding:8px 13px;
+ border-radius:10px;
 }
 
 .primary-btn,
 .menu-btn,
 .card-btn,
-.skill-btn {
-  width: 100%;
-  border: 0;
-  border-radius: 14px;
-  padding: 15px;
-  color: white;
-  background: #475569;
-  margin-top: 10px;
-  cursor: pointer;
+.skill-btn{
+ width:100%;
+ border:0;
+ border-radius:14px;
+ padding:15px;
+ color:white;
+ background:#475569;
+ margin-top:10px;
 }
 
-.primary-btn {
-  background: #7c5cff;
-  font-weight: bold;
+.primary-btn{
+ background:#7658e8;
+ font-weight:bold;
 }
 
-.menu-btn {
-  text-align: left;
-  font-size: 18px;
-  padding: 18px;
-  background: #26344d;
+.menu-btn{
+ text-align:left;
+ background:#26344d;
+ font-size:17px;
 }
 
-.menu-btn small {
-  display: block;
-  color: #94a3b8;
-  font-size: 12px;
-  margin-top: 5px;
+.menu-btn small{
+ display:block;
+ color:#94a3b8;
+ font-size:11px;
+ margin-top:5px;
 }
 
-.danger-btn {
-  background: #7f1d1d;
+.danger-btn{background:#7f1d1d}
+
+.progress{
+ background:#26344d;
+ border-radius:14px;
+ padding:15px;
+ margin-bottom:18px;
+}
+
+.progress-bar{
+ height:10px;
+ background:#111827;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:9px;
+}
+
+.progress-fill{
+ height:100%;
+ background:#8b72ee;
 }
 
 .card-grid,
-.monster-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.monster-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
 }
 
 .info-card,
-.monster-card {
-  background: #26344d;
-  border-radius: 14px;
-  padding: 14px;
+.monster-card{
+ background:#26344d;
+ border-radius:14px;
+ padding:13px;
 }
 
-.info-card {
-  cursor: pointer;
+.info-card{
+ cursor:pointer;
 }
 
-.icon {
-  font-size: 30px;
-  margin-bottom: 8px;
+.selection-card{
+ border:2px solid transparent;
 }
 
-.tag {
-  display: inline-block;
-  background: #374151;
-  border-radius: 999px;
-  padding: 4px 8px;
-  margin: 3px 2px;
-  font-size: 12px;
+.selection-card.selected{
+ border-color:#a78bfa;
+ background:#374151;
 }
 
-.muted {
-  color: #94a3b8;
+.icon{
+ font-size:29px;
+ margin-bottom:7px;
 }
 
-.notice {
-  background: #26344d;
-  border-left: 4px solid #7c5cff;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
+.big-icon{
+ font-size:70px;
+ text-align:center;
+ margin:8px 0 18px;
 }
 
-/* ---------- Home ---------- */
-
-.progress {
-  background: #26344d;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 20px;
+.tag{
+ display:inline-block;
+ background:#374151;
+ border-radius:999px;
+ padding:4px 7px;
+ margin:3px 2px;
+ font-size:11px;
 }
 
-/* ---------- Detail ---------- */
+.muted{color:#94a3b8}
 
-.detail-box {
-  background: #26344d;
-  border-radius: 16px;
-  padding: 20px;
+.notice{
+ background:#26344d;
+ border-left:4px solid #8064e8;
+ padding:12px;
+ border-radius:8px;
+ margin-bottom:15px;
+ line-height:1.6;
 }
 
-.big-icon {
-  font-size: 70px;
-  text-align: center;
-  margin: 10px 0 20px;
+.detail-box{
+ background:#26344d;
+ border-radius:16px;
+ padding:18px;
+ line-height:1.7;
 }
 
-/* ---------- Birth ---------- */
-
-.birth {
-  text-align: center;
-  padding-top: 60px;
+.birth{
+ text-align:center;
+ padding-top:50px;
 }
 
-.birth-icon {
-  font-size: 90px;
-  animation: pulse 1.4s infinite;
+.birth-icon{
+ font-size:90px;
+ animation:pulse 1.4s infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.12); }
+@keyframes pulse{
+ 0%,100%{transform:scale(1)}
+ 50%{transform:scale(1.12)}
 }
 
-/* ---------- Battle ---------- */
-
-.battle-area {
-  background: #0f172a;
-  border-radius: 18px;
-  padding: 16px;
+.battle-area{
+ background:#0f172a;
+ border-radius:18px;
+ padding:14px;
 }
 
-.fighter {
-  background: #26344d;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 14px;
+.fighter{
+ background:#26344d;
+ border-radius:15px;
+ padding:14px;
+ margin-bottom:12px;
 }
 
-.fighter-name {
-  font-size: 20px;
-  font-weight: bold;
+.fighter-name{
+ font-size:19px;
+ font-weight:bold;
 }
 
-.hp-bar {
-  height: 16px;
-  background: #111827;
-  border-radius: 999px;
-  overflow: hidden;
-  margin: 10px 0;
+.hp-bar{
+ height:15px;
+ background:#111827;
+ border-radius:999px;
+ overflow:hidden;
+ margin:9px 0;
 }
 
-.hp-fill {
-  height: 100%;
-  background: #22c55e;
-  transition: width .3s;
+.hp-fill{
+ height:100%;
+ background:#22c55e;
+ transition:width .3s;
 }
 
-.hp-text {
-  font-size: 13px;
-  color: #cbd5e1;
+.hp-text{
+ font-size:12px;
+ color:#cbd5e1;
 }
 
-.battle-log {
-  background: #111827;
-  border-radius: 12px;
-  padding: 12px;
-  height: 150px;
-  overflow-y: auto;
-  font-size: 13px;
-  line-height: 1.7;
-  margin: 14px 0;
+.battle-log{
+ background:#111827;
+ border-radius:12px;
+ padding:10px;
+ height:145px;
+ overflow-y:auto;
+ font-size:12px;
+ line-height:1.7;
+ margin:12px 0;
 }
 
-.skill-list {
-  display: grid;
-  gap: 8px;
+.skill-list{
+ display:grid;
+ gap:8px;
 }
 
-.skill-btn {
-  margin-top: 0;
-  background: #334155;
+.skill-btn{
+ margin:0;
+ background:#334155;
 }
 
-.skill-btn:disabled {
-  opacity: .4;
+.skill-btn:disabled{
+ opacity:.4;
 }
 
-.skill-name {
-  font-weight: bold;
+.skill-name{
+ font-weight:bold;
+ display:block;
 }
 
-.skill-info {
-  display: block;
-  font-size: 11px;
-  color: #cbd5e1;
-  margin-top: 3px;
+.skill-info{
+ font-size:11px;
+ color:#cbd5e1;
 }
 
-/* ---------- Result ---------- */
-
-.result {
-  text-align: center;
-  padding-top: 70px;
+.result{
+ text-align:center;
+ padding-top:70px;
 }
 
-.result-title {
-  font-size: 46px;
-  margin-bottom: 20px;
+.result-title{
+ font-size:45px;
+ margin-bottom:20px;
 }
 
-/* ---------- Selection ---------- */
-
-.selection-card {
-  cursor: pointer;
-  border: 2px solid transparent;
+.small-label{
+ font-size:11px;
+ color:#94a3b8;
 }
 
-.selection-card.selected {
-  border-color: #a78bfa;
-  background: #374151;
-}
-
-/* ---------- Footer ---------- */
-
-.footer {
-  margin-top: 35px;
-  text-align: center;
-  color: #64748b;
-  font-size: 11px;
+.footer{
+ margin-top:30px;
+ text-align:center;
+ color:#64748b;
+ font-size:10px;
 }
 </style>
 </head>
@@ -332,254 +317,291 @@ h1, h2, h3 {
 
 <div id="app">
 
-<!-- =========================
-     TITLE
-========================= -->
+<!-- ================= TITLE ================= -->
 
 <section id="titleScreen" class="screen title-screen">
-  <div class="moon"></div>
 
-  <h1 class="title">月の都 千曲</h1>
-  <div class="subtitle">文化財モンスター</div>
+<div class="moon"></div>
 
-  <button class="primary-btn" onclick="startGame()">はじめる</button>
-  <button class="menu-btn" onclick="continueGame()">つづきから</button>
+<h1 class="title">月の都 千曲</h1>
 
-  <div class="footer">Ver.0.2</div>
+<div class="subtitle">文化財モンスター</div>
+
+<button class="primary-btn" onclick="startGame()">
+はじめる
+</button>
+
+<button class="menu-btn" onclick="continueGame()">
+つづきから
+</button>
+
+<div class="footer">Ver.0.3</div>
+
 </section>
 
 
-<!-- =========================
-     HOME
-========================= -->
+<!-- ================= HOME ================= -->
 
 <section id="homeScreen" class="screen hidden">
 
-  <div class="header">
-    <h2>月の都 千曲</h2>
-  </div>
+<div class="header">
+<h2>🌙 月の都 千曲</h2>
+</div>
 
-  <div class="progress">
-    <strong>探索状況</strong>
-    <div id="progressText" class="muted"></div>
-  </div>
+<div class="progress">
 
-  <button class="menu-btn" onclick="showScreen('cardsScreen')">
-    🏛️ 文化財カード
-    <small>千曲の文化財を集めよう</small>
-  </button>
+<strong>探索状況</strong>
 
-  <button class="menu-btn" onclick="showScreen('fusionScreen')">
-    🧬 融合
-    <small>文化財カードを組み合わせてモンスターを発見</small>
-  </button>
+<div id="progressText" class="muted"></div>
 
-  <button class="menu-btn" onclick="showScreen('monsterScreen')">
-    📖 モンスター図鑑
-    <small>発見したモンスターを確認</small>
-  </button>
+<div class="progress-bar">
+<div id="progressFill" class="progress-fill"></div>
+</div>
 
-  <button class="menu-btn" onclick="prepareBattle()">
-    ⚔️ バトル
-    <small>発見したモンスターで戦う</small>
-  </button>
+</div>
 
-  <button class="menu-btn danger-btn" onclick="resetSave()">
-    🗑️ セーブデータをリセット
-    <small>最初からやり直します</small>
-  </button>
+<button class="menu-btn" onclick="showScreen('cardsScreen')">
+🏛️ 文化財カード
+<small>日本遺産「月の都 千曲」の29文化財</small>
+</button>
+
+<button class="menu-btn" onclick="showScreen('fusionScreen')">
+🧬 融合
+<small>文化財カードを組み合わせてモンスターを発見</small>
+</button>
+
+<button class="menu-btn" onclick="prepareBattle()">
+⚔️ バトル
+<small>発見したモンスターで戦う</small>
+</button>
+
+<button class="menu-btn" onclick="showScreen('monsterScreen')">
+📖 モンスター図鑑
+<small>発見したモンスターを確認</small>
+</button>
+
+<button class="menu-btn" onclick="showScreen('heritageScreen')">
+🏛️ 文化財図鑑
+<small>29の構成文化財を知る</small>
+</button>
+
+<button class="menu-btn danger-btn" onclick="resetSave()">
+🗑️ セーブデータをリセット
+<small>最初からやり直します</small>
+</button>
 
 </section>
 
 
-<!-- =========================
-     CULTURAL CARDS
-========================= -->
+<!-- ================= CARDS ================= -->
 
 <section id="cardsScreen" class="screen hidden">
 
-  <div class="header">
-    <button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
-    <h2>文化財カード</h2>
-  </div>
+<div class="header">
+<button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
+<h2>文化財カード</h2>
+</div>
 
-  <div id="cardGrid" class="card-grid"></div>
+<div class="notice">
+29枚の文化財カード。
+組み合わせることで、未知のモンスターが生まれます。
+</div>
+
+<div id="cardGrid" class="card-grid"></div>
 
 </section>
 
 
-<!-- =========================
-     CARD DETAIL
-========================= -->
+<!-- ================= CARD DETAIL ================= -->
 
 <section id="cardDetailScreen" class="screen hidden">
 
-  <div class="header">
-    <button class="back-btn" onclick="showScreen('cardsScreen')">← 戻る</button>
-    <h2>文化財</h2>
-  </div>
+<div class="header">
+<button class="back-btn" onclick="showScreen('cardsScreen')">← 戻る</button>
+<h2>文化財</h2>
+</div>
 
-  <div id="cardDetail"></div>
+<div id="cardDetail"></div>
 
 </section>
 
 
-<!-- =========================
-     FUSION
-========================= -->
+<!-- ================= FUSION ================= -->
 
 <section id="fusionScreen" class="screen hidden">
 
-  <div class="header">
-    <button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
-    <h2>融合</h2>
-  </div>
+<div class="header">
+<button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
+<h2>融合</h2>
+</div>
 
-  <div class="notice">
-    2～3枚の文化財カードを選んで融合してみよう。<br>
-    組み合わせによって、新しいモンスターが生まれます。
-  </div>
+<div class="notice">
+2～3枚の文化財カードを選んで融合しよう。
+組み合わせによって、新しいモンスターが生まれます。
+</div>
 
-  <div id="fusionSlots" class="info-card">
-    選択中：0枚
-  </div>
+<div id="fusionSlots" class="info-card">
+選択中：0枚
+</div>
 
-  <div id="fusionCards" class="card-grid"></div>
+<div id="fusionCards" class="card-grid"></div>
 
-  <button class="primary-btn" onclick="fuseCards()">
-    🧬 融合する
-  </button>
+<button class="primary-btn" onclick="fuseCards()">
+🧬 融合する
+</button>
 
 </section>
 
 
-<!-- =========================
-     BIRTH
-========================= -->
+<!-- ================= BIRTH ================= -->
 
 <section id="birthScreen" class="screen hidden">
 
-  <div class="birth">
+<div class="birth">
 
-    <div class="birth-icon">🌙</div>
+<div class="birth-icon">🌙</div>
 
-    <h2>新しいモンスターを発見しました！</h2>
+<h2>新しいモンスターを発見！</h2>
 
-    <div id="birthMonster"></div>
+<div id="birthMonster"></div>
 
-    <button class="primary-btn" onclick="showMonsterFromBirth()">
-      モンスターを見る
-    </button>
+<button class="primary-btn" onclick="showMonsterFromBirth()">
+図鑑を見る
+</button>
 
-  </div>
+</div>
 
 </section>
 
 
-<!-- =========================
-     MONSTER ENCYCLOPEDIA
-========================= -->
+<!-- ================= MONSTER BOOK ================= -->
 
 <section id="monsterScreen" class="screen hidden">
 
-  <div class="header">
-    <button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
-    <h2>モンスター図鑑</h2>
-  </div>
+<div class="header">
+<button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
+<h2>モンスター図鑑</h2>
+</div>
 
-  <div id="monsterGrid" class="monster-grid"></div>
+<div id="monsterGrid" class="monster-grid"></div>
 
 </section>
 
 
-<!-- =========================
-     MONSTER DETAIL
-========================= -->
+<!-- ================= MONSTER DETAIL ================= -->
 
 <section id="monsterDetailScreen" class="screen hidden">
 
-  <div class="header">
-    <button class="back-btn" onclick="showScreen('monsterScreen')">← 戻る</button>
-    <h2>モンスター</h2>
-  </div>
+<div class="header">
+<button class="back-btn" onclick="showScreen('monsterScreen')">← 戻る</button>
+<h2>モンスター</h2>
+</div>
 
-  <div id="monsterDetail"></div>
+<div id="monsterDetail"></div>
 
 </section>
 
 
-<!-- =========================
-     BATTLE SELECT
-========================= -->
+<!-- ================= HERITAGE BOOK ================= -->
+
+<section id="heritageScreen" class="screen hidden">
+
+<div class="header">
+<button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
+<h2>文化財図鑑</h2>
+</div>
+
+<div class="notice">
+「月の都 千曲」を構成する29の文化財。
+ゲームを楽しみながら千曲の歴史・文化を知ろう。
+</div>
+
+<div id="heritageGrid" class="card-grid"></div>
+
+</section>
+
+
+<!-- ================= HERITAGE DETAIL ================= -->
+
+<section id="heritageDetailScreen" class="screen hidden">
+
+<div class="header">
+<button class="back-btn" onclick="showScreen('heritageScreen')">← 戻る</button>
+<h2>文化財図鑑</h2>
+</div>
+
+<div id="heritageDetail"></div>
+
+</section>
+
+
+<!-- ================= BATTLE SELECT ================= -->
 
 <section id="battleSelectScreen" class="screen hidden">
 
-  <div class="header">
-    <button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
-    <h2>出撃モンスター</h2>
-  </div>
+<div class="header">
+<button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
+<h2>出撃モンスター</h2>
+</div>
 
-  <div class="notice">
-    バトルに出すモンスターを選んでください。
-  </div>
+<div class="notice">
+発見したモンスターから1体を選んでください。
+</div>
 
-  <div id="battleMonsterGrid" class="monster-grid"></div>
+<div id="battleMonsterGrid" class="monster-grid"></div>
 
-  <button id="battleStartButton"
-          class="primary-btn"
-          onclick="startBattle()"
-          disabled>
-    このモンスターで戦う
-  </button>
+<button id="battleStartButton"
+class="primary-btn"
+onclick="startBattle()"
+disabled>
+このモンスターで戦う
+</button>
 
 </section>
 
 
-<!-- =========================
-     BATTLE
-========================= -->
+<!-- ================= BATTLE ================= -->
 
 <section id="battleScreen" class="screen hidden">
 
-  <div class="header">
-    <h2>⚔️ バトル</h2>
-  </div>
+<div class="header">
+<h2>⚔️ バトル</h2>
+</div>
 
-  <div class="battle-area">
+<div class="battle-area">
 
-    <div id="enemyFighter" class="fighter"></div>
+<div id="enemyFighter" class="fighter"></div>
 
-    <div id="playerFighter" class="fighter"></div>
+<div id="playerFighter" class="fighter"></div>
 
-    <div id="battleLog" class="battle-log"></div>
+<div id="battleLog" class="battle-log"></div>
 
-    <div id="skillList" class="skill-list"></div>
+<div id="skillList" class="skill-list"></div>
 
-  </div>
+</div>
 
 </section>
 
 
-<!-- =========================
-     RESULT
-========================= -->
+<!-- ================= RESULT ================= -->
 
 <section id="resultScreen" class="screen hidden">
 
-  <div class="result">
+<div class="result">
 
-    <div id="resultTitle" class="result-title"></div>
-    <div id="resultText"></div>
+<div id="resultTitle" class="result-title"></div>
 
-    <button class="primary-btn" onclick="prepareBattle()">
-      もう一度バトル
-    </button>
+<div id="resultText"></div>
 
-    <button class="menu-btn" onclick="showScreen('homeScreen')">
-      ホームへ戻る
-    </button>
+<button class="primary-btn" onclick="prepareBattle()">
+もう一度バトル
+</button>
 
-  </div>
+<button class="menu-btn" onclick="showScreen('homeScreen')">
+ホームへ戻る
+</button>
+
+</div>
 
 </section>
 
@@ -589,1267 +611,1592 @@ h1, h2, h3 {
 <script>
 
 /* =========================================================
-   文化財データ
+   日本遺産「月の都 千曲」
+   29構成文化財
 ========================================================= */
 
 const cards = [
-  {
-    id: 1,
-    name: "姨捨の棚田",
-    icon: "🌾",
-    tags: ["🌙月", "🌾農", "💧水"],
-    description: "姨捨の山腹に広がる美しい棚田。月と水田が織りなす景観は、月の都千曲を象徴する風景のひとつです。"
-  },
-  {
-    id: 2,
-    name: "鏡台山",
-    icon: "⛰️",
-    tags: ["🌙月", "⛰️山"],
-    description: "姨捨の月と深く関わる山。月を映す景観の舞台として語られてきました。"
-  },
-  {
-    id: 3,
-    name: "大池",
-    icon: "💧",
-    tags: ["💧水", "🌾農"],
-    description: "姨捨の棚田を支える農業用水と景観に関わる重要な場所です。"
-  },
-  {
-    id: 4,
-    name: "更級川・分水工・用水路",
-    icon: "🌊",
-    tags: ["💧水", "🌾農"],
-    description: "水を分け、田畑へ届ける仕組み。姨捨の棚田を支える水の文化を伝えます。"
-  },
-  {
-    id: 5,
-    name: "冠着山（姨捨山）",
-    icon: "⛰️",
-    tags: ["⛰️山", "🌙月"],
-    description: "古くから姨捨山として知られ、月や文学と深く結びついてきた山です。"
-  },
-  {
-    id: 6,
-    name: "冠着神社と遥拝所",
-    icon: "⛩️",
-    tags: ["⛩️神", "⛰️山"],
-    description: "冠着山への信仰と地域の祈りを伝える文化資産です。"
-  },
-  {
-    id: 7,
-    name: "姨捨駅 駅舎",
-    icon: "🚉",
-    tags: ["🚶旅", "🌙月"],
-    description: "善光寺平を望む姨捨駅。月と棚田の景観を楽しめる場所としても知られます。"
-  },
-  {
-    id: 8,
-    name: "長楽寺境内と歌碑群",
-    icon: "📖",
-    tags: ["📖文学", "🌙月"],
-    description: "姨捨の月をめぐる文学や歌と深い関わりを持つ場所です。"
-  },
-  {
-    id: 9,
-    name: "武水別神社の仲秋祭",
-    icon: "🎭",
-    tags: ["🎭祭", "⛩️神", "🌙月"],
-    description: "武水別神社で行われる祭礼。地域に受け継がれてきた信仰と文化を伝えます。"
-  },
-  {
-    id: 10,
-    name: "大池の百八灯",
-    icon: "🔥",
-    tags: ["🔥火", "🎭祭", "🌙月"],
-    description: "大池で行われる火の行事。夜の景観と地域の伝統を象徴する文化です。"
-  }
+
+{
+id:1,
+name:"長楽寺境内と歌碑群",
+icon:"📖",
+tags:["🌙月","📖文学"],
+description:"姨捨の月と深く結びつく長楽寺。境内には月や姨捨に関わる文学を伝える歌碑などがあります。"
+},
+
+{
+id:2,
+name:"歌川広重作 浮世絵「信濃更科田毎月鏡台山」",
+icon:"🎨",
+tags:["🎨絵画","🌙月"],
+description:"歌川広重が描いた「田毎の月」と鏡台山を題材とする浮世絵。姨捨の月景色が広く知られるきっかけの一つとなった文化資産です。"
+},
+
+{
+id:3,
+name:"揚州周延作 錦絵「更科田毎の月」",
+icon:"🖼️",
+tags:["🎨絵画","🌙月"],
+description:"更科の田毎の月を題材とした錦絵。姨捨の月景色が絵画として表現されてきたことを伝えます。"
+},
+
+{
+id:4,
+name:"藤原信一作 教訓画譜「姨捨山之図」",
+icon:"📜",
+tags:["📖文学","⛰️山"],
+description:"姨捨山を題材とする教訓画譜。姨捨にまつわる物語や文化が後世へ伝えられてきたことを示す文化資産です。"
+},
+
+{
+id:5,
+name:"姨捨の棚田",
+icon:"🌾",
+tags:["🌙月","🌾農","💧水"],
+description:"姨捨山の斜面に広がる棚田。「田毎の月」で知られる月景観を形づくるとともに、地域の農の営みを伝えています。"
+},
+
+{
+id:6,
+name:"大池",
+icon:"💧",
+tags:["💧水","🌾農"],
+description:"姨捨の棚田を支える水に関わる文化資産。農業や地域の暮らしと深く結びついています。"
+},
+
+{
+id:7,
+name:"更級川・分水工・用水路",
+icon:"🌊",
+tags:["💧水","🌾農"],
+description:"水を分け、地域の田畑へ届ける仕組み。棚田での農業を支えてきた人々の知恵を伝えます。"
+},
+
+{
+id:8,
+name:"武水別神社 高良社本殿",
+icon:"⛩️",
+tags:["⛩️神","🏯建築"],
+description:"武水別神社に伝わる歴史的建造物。地域の信仰と文化を今に伝えています。"
+},
+
+{
+id:9,
+name:"武水別神社 神主松田家館跡",
+icon:"🏯",
+tags:["🏯歴史","⛩️神"],
+description:"武水別神社の神主を務めた松田家に関わる歴史的な場所。地域の信仰と暮らしの歴史を伝えます。"
+},
+
+{
+id:10,
+name:"武水別神社 神宮寺跡",
+icon:"🏯",
+tags:["🏯歴史","⛩️神"],
+description:"武水別神社と神宮寺の歴史を伝える場所。地域における信仰の歴史を感じることができます。"
+},
+
+{
+id:11,
+name:"武水別神社の仲秋祭",
+icon:"🎭",
+tags:["🎭祭","⛩️神","🌙月"],
+description:"武水別神社に伝わる祭礼。月と季節、地域の信仰や人々のつながりを伝える行事です。"
+},
+
+{
+id:12,
+name:"武水別神社の頭人行事（大頭祭）",
+icon:"🎎",
+tags:["🎭祭","⛩️神"],
+description:"武水別神社に伝わる伝統行事。地域の人々によって受け継がれてきた信仰と祭りの文化を伝えます。"
+},
+
+{
+id:13,
+name:"大池の百八灯",
+icon:"🔥",
+tags:["🔥火","🎭祭","🌙月"],
+description:"大池で行われる火の行事。夜の景観と地域に受け継がれてきた伝統を象徴する文化です。"
+},
+
+{
+id:14,
+name:"稲荷山の街なみと祇園祭",
+icon:"🏮",
+tags:["🏮街","🎭祭"],
+description:"善光寺街道の宿場として発展した稲荷山に残る歴史的な街なみと、地域で受け継がれてきた祇園祭です。"
+},
+
+{
+id:15,
+name:"月待ち行事 二十三夜塔",
+icon:"🌙",
+tags:["🌙月","🙏信仰"],
+description:"月の出を待つ月待ちの信仰に関わる文化資産。二十三夜塔などに地域の月への信仰が残されています。"
+},
+
+{
+id:16,
+name:"冠着神社と遥拝所",
+icon:"⛩️",
+tags:["⛩️神","⛰️山"],
+description:"冠着山への信仰と関わる神社・遥拝の文化を伝える場所です。"
+},
+
+{
+id:17,
+name:"冠着山（姨捨山）",
+icon:"⛰️",
+tags:["⛰️山","🌙月"],
+description:"古くから姨捨山として知られ、月や文学と深く結びついてきた山です。"
+},
+
+{
+id:18,
+name:"鏡台山",
+icon:"⛰️",
+tags:["⛰️山","🌙月"],
+description:"姨捨の月景観を語るうえで重要な山。浮世絵などにも描かれています。"
+},
+
+{
+id:19,
+name:"東山道の支道",
+icon:"🛤️",
+tags:["🛤️道","🏯歴史"],
+description:"古代の交通路に関わる文化資産。人や物が行き交った歴史を伝えています。"
+},
+
+{
+id:20,
+name:"八幡遺跡群（更級郡衙推定地）",
+icon:"🏺",
+tags:["🏺遺跡","🏯歴史"],
+description:"古代の地域支配や行政に関わる遺跡群。千曲地域の歴史を考えるうえで重要な文化資産です。"
+},
+
+{
+id:21,
+name:"北国街道脇往還 善光寺道",
+icon:"🛤️",
+tags:["🛤️道","🚶旅"],
+description:"善光寺参詣などの人々が行き交った街道。千曲地域の交通と人々の往来の歴史を伝えます。"
+},
+
+{
+id:22,
+name:"姨捨十三景",
+icon:"🌙",
+tags:["🌙月","🏞️景観"],
+description:"姨捨周辺の景観を名所として捉えた文化。月や山、棚田をめぐる景観の魅力を伝えています。"
+},
+
+{
+id:23,
+name:"姨捨駅 駅舎",
+icon:"🚉",
+tags:["🚉旅","🌙月"],
+description:"姨捨の景観を望む駅。近代以降、新たな月見・眺望の場所として親しまれてきました。"
+},
+
+{
+id:24,
+name:"冠着山のヒメボタル生息地",
+icon:"✨",
+tags:["✨自然","⛰️山"],
+description:"冠着山周辺に生息するヒメボタルに関わる自然環境。山と自然の豊かさを伝えます。"
+},
+
+{
+id:25,
+name:"戸倉上山田温泉 笹屋ホテル別荘（豊年蟲）",
+icon:"♨️",
+tags:["♨️温泉","🏯建築"],
+description:"戸倉上山田温泉の歴史を伝える建築。温泉地として発展してきた千曲の文化を伝えます。"
+},
+
+{
+id:26,
+name:"長野銘醸酒蔵",
+icon:"🍶",
+tags:["🍶酒","🏯建築"],
+description:"地域の酒造りの歴史を伝える酒蔵。千曲の水や土地と結びついた食文化を感じる文化資産です。"
+},
+
+{
+id:27,
+name:"坂井銘醸酒蔵",
+icon:"🍶",
+tags:["🍶酒","🏯建築"],
+description:"坂井銘醸に伝わる酒蔵。地域に根付いた酒造りの文化を今に伝えています。"
+},
+
+{
+id:28,
+name:"千曲川のハヤのつけ場漁",
+icon:"🎣",
+tags:["🎣漁","🌊川"],
+description:"千曲川の流れを利用した伝統的な漁法。川とともに暮らしてきた地域の知恵を伝えます。"
+},
+
+{
+id:29,
+name:"蕎麦・おしぼりうどん・おやき",
+icon:"🍜",
+tags:["🍜食","🌾農"],
+description:"地域の暮らしの中で受け継がれてきた食文化。土地の農産物や知恵と結びついた千曲の味です。"
+}
+
 ];
 
 
 /* =========================================================
-   モンスターデータ
+   モンスター
+   ※融合レシピはゲーム上のオリジナル設定
 ========================================================= */
 
 const monsters = [
 
-  {
-    id: 1,
-    name: "田毎龍",
-    rarity: "★★",
-    icon: "🐉",
-    hp: 100,
-    recipe: [1,2],
-    description: "棚田に映る月と山の力が融合して生まれた龍。",
-    skills: [
-      {name:"月光斬", damage:20, heal:0, max:99},
-      {name:"豊穣の光", damage:10, heal:10, max:99},
-      {name:"田毎の月", damage:35, heal:0, max:2}
-    ]
-  },
+{
+id:1,
+name:"月影龍・タゴト",
+icon:"🐉",
+rarity:"★★",
+hp:100,
+recipe:[5,18],
+description:"姨捨の棚田と鏡台山に宿る月の力から生まれた龍。",
+skills:[
+{name:"月光斬",damage:20,heal:0,max:99},
+{name:"豊穣の光",damage:10,heal:10,max:99},
+{name:"田毎の月",damage:35,heal:0,max:2}
+]
+},
 
-  {
-    id: 2,
-    name: "タゴトミズチ",
-    rarity: "★★",
-    icon: "🐍",
-    hp: 110,
-    recipe: [1,3],
-    description: "棚田と大池の水の力を宿した水龍。",
-    skills: [
-      {name:"水流撃", damage:20, heal:0, max:99},
-      {name:"恵みの水", damage:0, heal:15, max:3},
-      {name:"田水龍撃", damage:30, heal:0, max:2}
-    ]
-  },
+{
+id:2,
+name:"タゴトミズチ",
+icon:"🐍",
+rarity:"★★",
+hp:110,
+recipe:[5,6],
+description:"棚田と大池の水の力を宿した水龍。",
+skills:[
+{name:"水流撃",damage:20,heal:0,max:99},
+{name:"恵みの水",damage:0,heal:15,max:3},
+{name:"田水龍撃",damage:30,heal:0,max:2}
+]
+},
 
-  {
-    id: 3,
-    name: "ミズワケ",
-    rarity: "★★",
-    icon: "💧",
-    hp: 115,
-    recipe: [3,4],
-    description: "大池と用水路の力から生まれた水の精霊。",
-    skills: [
-      {name:"分水撃", damage:18, heal:0, max:99},
-      {name:"清流", damage:0, heal:20, max:2},
-      {name:"大河流撃", damage:32, heal:0, max:2}
-    ]
-  },
+{
+id:3,
+name:"ミズワケ",
+icon:"💧",
+rarity:"★★",
+hp:115,
+recipe:[6,7],
+description:"大池と用水の力から生まれた水の精霊。",
+skills:[
+{name:"分水撃",damage:18,heal:0,max:99},
+{name:"清流",damage:0,heal:20,max:2},
+{name:"大河流撃",damage:32,heal:0,max:2}
+]
+},
 
-  {
-    id: 4,
-    name: "オバステヤマノヌシ",
-    rarity: "★★",
-    icon: "👹",
-    hp: 120,
-    recipe: [1,5],
-    description: "棚田と冠着山の大地の力を宿す山の主。",
-    skills: [
-      {name:"山砕き", damage:25, heal:0, max:99},
-      {name:"大地の息吹", damage:0, heal:10, max:2},
-      {name:"山神撃", damage:40, heal:0, max:2}
-    ]
-  },
+{
+id:4,
+name:"オバステヤマノヌシ",
+icon:"👹",
+rarity:"★★",
+hp:120,
+recipe:[5,17],
+description:"棚田と冠着山の大地の力を宿す山の主。",
+skills:[
+{name:"山砕き",damage:25,heal:0,max:99},
+{name:"大地の息吹",damage:0,heal:10,max:2},
+{name:"山神撃",damage:40,heal:0,max:2}
+]
+},
 
-  {
-    id: 5,
-    name: "ツクヨミノカムイ",
-    rarity: "★★",
-    icon: "🌙",
-    hp: 100,
-    recipe: [5,6],
-    description: "冠着山と神社の信仰が融合した月の神。",
-    skills: [
-      {name:"神撃", damage:25, heal:0, max:99},
-      {name:"月影", damage:30, heal:0, max:99},
-      {name:"神降ろし", damage:40, heal:0, max:2}
-    ]
-  },
+{
+id:5,
+name:"ツクヨミノカムイ",
+icon:"🌙",
+rarity:"★★",
+hp:100,
+recipe:[16,17],
+description:"冠着山と神への信仰から生まれた月の神。",
+skills:[
+{name:"神撃",damage:25,heal:0,max:99},
+{name:"月影",damage:30,heal:0,max:99},
+{name:"神降ろし",damage:40,heal:0,max:2}
+]
+},
 
-  {
-    id: 6,
-    name: "ムーンライナー",
-    rarity: "★★",
-    icon: "🚆",
-    hp: 90,
-    recipe: [2,7],
-    description: "鏡台山の月と姨捨駅を走る、夜の旅人。",
-    skills: [
-      {name:"月走り", damage:25, heal:0, max:99},
-      {name:"夜汽車", damage:30, heal:0, max:99},
-      {name:"月影疾走", damage:35, heal:0, max:2}
-    ]
-  },
+{
+id:6,
+name:"ムーンライナー",
+icon:"🚆",
+rarity:"★★",
+hp:90,
+recipe:[18,23],
+description:"鏡台山の月と姨捨駅を走る夜の旅人。",
+skills:[
+{name:"月走り",damage:25,heal:0,max:99},
+{name:"夜汽車",damage:30,heal:0,max:99},
+{name:"月影疾走",damage:35,heal:0,max:2}
+]
+},
 
-  {
-    id: 7,
-    name: "ツキヨミコトノハ",
-    rarity: "★★",
-    icon: "📖",
-    hp: 95,
-    recipe: [8,1],
-    description: "長楽寺の歌と棚田の月から生まれた言葉の精霊。",
-    skills: [
-      {name:"月詠", damage:20, heal:0, max:99},
-      {name:"歌の力", damage:15, heal:10, max:99},
-      {name:"名月詠唱", damage:35, heal:0, max:2}
-    ]
-  },
+{
+id:7,
+name:"ツキヨミコトノハ",
+icon:"📖",
+rarity:"★★",
+hp:95,
+recipe:[1,5],
+description:"長楽寺と棚田の月から生まれた言葉の精霊。",
+skills:[
+{name:"月詠",damage:20,heal:0,max:99},
+{name:"歌の力",damage:15,heal:10,max:99},
+{name:"名月詠唱",damage:35,heal:0,max:2}
+]
+},
 
-  {
-    id: 8,
-    name: "マツリビ",
-    rarity: "★★",
-    icon: "🔥",
-    hp: 90,
-    recipe: [9,10],
-    description: "祭りと灯火の力を宿した炎のモンスター。",
-    skills: [
-      {name:"火祭", damage:25, heal:0, max:99},
-      {name:"灯火", damage:20, heal:5, max:99},
-      {name:"百八炎", damage:40, heal:0, max:2}
-    ]
-  },
+{
+id:8,
+name:"マツリビ",
+icon:"🔥",
+rarity:"★★",
+hp:90,
+recipe:[11,13],
+description:"祭りと灯火の力を宿した炎のモンスター。",
+skills:[
+{name:"火祭",damage:25,heal:0,max:99},
+{name:"灯火",damage:20,heal:5,max:99},
+{name:"百八炎",damage:40,heal:0,max:2}
+]
+},
 
-  {
-    id: 9,
-    name: "シシガミ",
-    rarity: "★★",
-    icon: "🦁",
-    hp: 105,
-    recipe: [9,6],
-    description: "祭りと神社の力が融合した守護獣。",
-    skills: [
-      {name:"神楽撃", damage:20, heal:0, max:99},
-      {name:"祭神の守り", damage:0, heal:15, max:3},
-      {name:"神威", damage:35, heal:0, max:2}
-    ]
-  },
+{
+id:9,
+name:"シシガミ",
+icon:"🦁",
+rarity:"★★",
+hp:105,
+recipe:[12,16],
+description:"祭りと神社の力が融合した守護獣。",
+skills:[
+{name:"神楽撃",damage:20,heal:0,max:99},
+{name:"祭神の守り",damage:0,heal:15,max:3},
+{name:"神威",damage:35,heal:0,max:2}
+]
+},
 
-  {
-    id: 10,
-    name: "月水神・オバステ",
-    rarity: "★★★",
-    icon: "🐲",
-    hp: 130,
-    recipe: [1,2,3],
-    description: "月・山・水・棚田の力が集まって生まれた希少なモンスター。",
-    skills: [
-      {name:"月水撃", damage:25, heal:0, max:99},
-      {name:"月の恵み", damage:0, heal:20, max:2},
-      {name:"田毎天月", damage:45, heal:0, max:2}
-    ]
-  }
+{
+id:10,
+name:"月水神・オバステ",
+icon:"🐲",
+rarity:"★★★",
+hp:130,
+recipe:[5,6,18],
+description:"月・山・水・棚田の力が集まって生まれた希少なモンスター。",
+skills:[
+{name:"月水撃",damage:25,heal:0,max:99},
+{name:"月の恵み",damage:0,heal:20,max:2},
+{name:"田毎天月",damage:45,heal:0,max:2}
+]
+},
+
+{
+id:11,
+name:"ウキヨエガミ",
+icon:"🎨",
+rarity:"★★",
+hp:95,
+recipe:[2,3],
+description:"浮世絵に描かれた月景色から生まれた絵の神。",
+skills:[
+{name:"墨流し",damage:22,heal:0,max:99},
+{name:"月描き",damage:28,heal:0,max:99},
+{name:"浮世月光",damage:38,heal:0,max:2}
+]
+},
+
+{
+id:12,
+name:"オバステモノガタリ",
+icon:"📜",
+rarity:"★★",
+hp:100,
+recipe:[4,17],
+description:"姨捨山に伝わる物語と山の力を宿すモンスター。",
+skills:[
+{name:"物語撃",damage:20,heal:0,max:99},
+{name:"古の教え",damage:0,heal:15,max:3},
+{name:"姨捨伝承",damage:38,heal:0,max:2}
+]
+},
+
+{
+id:13,
+name:"マツダノカミ",
+icon:"🏯",
+rarity:"★★",
+hp:110,
+recipe:[8,9],
+description:"武水別神社と松田家館跡の歴史から生まれた守護神。",
+skills:[
+{name:"館守り",damage:22,heal:0,max:99},
+{name:"神守",damage:0,heal:18,max:2},
+{name:"松田神威",damage:40,heal:0,max:2}
+]
+},
+
+{
+id:14,
+name:"イナリヤマツカサ",
+icon:"🏮",
+rarity:"★★",
+hp:100,
+recipe:[14,21],
+description:"街道と祭りの力を宿した稲荷山の守護者。",
+skills:[
+{name:"街道撃",damage:22,heal:0,max:99},
+{name:"祭囃子",damage:18,heal:10,max:99},
+{name:"祇園大祭",damage:38,heal:0,max:2}
+]
+},
+
+{
+id:15,
+name:"サンヤヨイノツキ",
+icon:"🌙",
+rarity:"★★",
+hp:90,
+recipe:[15,22],
+description:"月待ちと姨捨十三景の月景観から生まれた月の精。",
+skills:[
+{name:"月待ち",damage:20,heal:0,max:99},
+{name:"月影守",damage:0,heal:20,max:2},
+{name:"十三夜光",damage:40,heal:0,max:2}
+]
+},
+
+{
+id:16,
+name:"コウザンホタル",
+icon:"✨",
+rarity:"★★",
+hp:85,
+recipe:[17,24],
+description:"冠着山の森とヒメボタルの光から生まれた精霊。",
+skills:[
+{name:"蛍火",damage:22,heal:0,max:99},
+{name:"森の息吹",damage:0,heal:18,max:2},
+{name:"星蛍乱舞",damage:36,heal:0,max:2}
+]
+},
+
+{
+id:17,
+name:"ユノカミ",
+icon:"♨️",
+rarity:"★★",
+hp:115,
+recipe:[25,26],
+description:"温泉と酒造りの力を宿した湯の神。",
+skills:[
+{name:"湯けむり",damage:22,heal:0,max:99},
+{name:"温泉の恵み",damage:0,heal:22,max:2},
+{name:"豊年湯酒",damage:40,heal:0,max:2}
+]
+},
+
+{
+id:18,
+name:"サカイノカメ",
+icon:"🍶",
+rarity:"★★",
+hp:105,
+recipe:[26,27],
+description:"千曲の酒蔵に宿る酒造りの守護獣。",
+skills:[
+{name:"銘醸撃",damage:22,heal:0,max:99},
+{name:"仕込み水",damage:0,heal:18,max:2},
+{name:"芳醇波",damage:38,heal:0,max:2}
+]
+},
+
+{
+id:19,
+name:"チクマガワオウ",
+icon:"🐟",
+rarity:"★★",
+hp:110,
+recipe:[28,29],
+description:"千曲川の漁と地域の食文化から生まれた川の王。",
+skills:[
+{name:"川流撃",damage:24,heal:0,max:99},
+{name:"川の恵み",damage:0,heal:18,max:2},
+{name:"千曲大漁",damage:40,heal:0,max:2}
+]
+},
+
+{
+id:20,
+name:"ツキノミヤコ",
+icon:"🐉",
+rarity:"★★★★",
+hp:145,
+recipe:[1,5,14],
+description:"月・棚田・街の歴史が融合して生まれる、月の都を象徴する希少モンスター。",
+skills:[
+{name:"月都斬",damage:28,heal:0,max:99},
+{name:"都の恵み",damage:0,heal:22,max:2},
+{name:"月都万華",damage:50,heal:0,max:2}
+]
+}
 
 ];
 
 
 /* =========================================================
-   セーブデータ
+   セーブ
 ========================================================= */
 
-const SAVE_KEY = "chikuma_monster_save_v02";
+const SAVE_KEY="chikuma_monster_save_v03";
 
-let saveData = {
-  discovered: [1,2,3]
+let saveData={
+ discovered:[1,2,3]
 };
 
-function loadSave() {
+function loadSave(){
 
-  try {
+ try{
 
-    const saved = localStorage.getItem(SAVE_KEY);
+  const saved=localStorage.getItem(SAVE_KEY);
 
-    if (saved) {
-      saveData = JSON.parse(saved);
-    }
-
-  } catch (e) {
-
-    console.log("セーブデータ読み込みエラー", e);
-
+  if(saved){
+   saveData=JSON.parse(saved);
   }
 
-  if (!Array.isArray(saveData.discovered)) {
-    saveData.discovered = [1,2,3];
-  }
+ }catch(e){
+  console.log(e);
+ }
+
+ if(!Array.isArray(saveData.discovered)){
+  saveData.discovered=[1,2,3];
+ }
 
 }
 
+function saveGame(){
 
-function saveGame() {
-
-  try {
-
-    localStorage.setItem(
-      SAVE_KEY,
-      JSON.stringify(saveData)
-    );
-
-  } catch (e) {
-
-    console.log("セーブエラー", e);
-
-  }
-
-}
-
-
-function resetSave() {
-
-  const ok = confirm(
-    "セーブデータを削除して最初からやり直しますか？"
+ try{
+  localStorage.setItem(
+   SAVE_KEY,
+   JSON.stringify(saveData)
   );
+ }catch(e){
+  console.log(e);
+ }
 
-  if (!ok) return;
+}
 
-  localStorage.removeItem(SAVE_KEY);
+function resetSave(){
 
-  saveData = {
-    discovered: [1,2,3]
-  };
+ if(!confirm("セーブデータを削除して最初からやり直しますか？")){
+  return;
+ }
 
-  updateHome();
+ localStorage.removeItem(SAVE_KEY);
 
-  alert("セーブデータをリセットしました。");
+ saveData={
+  discovered:[1,2,3]
+ };
+
+ updateHome();
+
+ alert("セーブデータをリセットしました。");
 
 }
 
 
 /* =========================================================
-   初期化
+   START
 ========================================================= */
 
 loadSave();
 
+function startGame(){
 
-function startGame() {
-
-  loadSave();
-
-  showScreen("homeScreen");
-
-  updateHome();
+ loadSave();
+ showScreen("homeScreen");
+ updateHome();
 
 }
 
+function continueGame(){
 
-function continueGame() {
-
-  loadSave();
-
-  showScreen("homeScreen");
-
-  updateHome();
+ loadSave();
+ showScreen("homeScreen");
+ updateHome();
 
 }
 
 
 /* =========================================================
-   画面切り替え
+   SCREEN
 ========================================================= */
 
-function showScreen(id) {
+function showScreen(id){
 
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.add("hidden");
-  });
+ document.querySelectorAll(".screen")
+ .forEach(s=>s.classList.add("hidden"));
 
-  document.getElementById(id).classList.remove("hidden");
+ document.getElementById(id)
+ .classList.remove("hidden");
 
-  if (id === "homeScreen") {
-    updateHome();
-  }
-
-  if (id === "cardsScreen") {
-    renderCards();
-  }
-
-  if (id === "fusionScreen") {
-    renderFusion();
-  }
-
-  if (id === "monsterScreen") {
-    renderMonsterBook();
-  }
+ if(id==="homeScreen")updateHome();
+ if(id==="cardsScreen")renderCards();
+ if(id==="fusionScreen")renderFusion();
+ if(id==="monsterScreen")renderMonsterBook();
+ if(id==="heritageScreen")renderHeritageBook();
 
 }
 
 
 /* =========================================================
-   ホーム
+   HOME
 ========================================================= */
 
-function updateHome() {
+function updateHome(){
 
-  const count = saveData.discovered.length;
+ const monsterCount=saveData.discovered.length;
 
-  document.getElementById("progressText").textContent =
-    `発見モンスター ${count} / ${monsters.length}`;
+ const monsterPercent=
+  Math.min(
+   100,
+   monsterCount/monsters.length*100
+  );
+
+ document.getElementById("progressText").innerHTML=
+ `文化財 29 / 29　｜　モンスター ${monsterCount} / ${monsters.length}`;
+
+ document.getElementById("progressFill").style.width=
+ `${monsterPercent}%`;
 
 }
 
 
 /* =========================================================
-   文化財カード
+   CARDS
 ========================================================= */
 
-function renderCards() {
+function renderCards(){
 
-  const grid = document.getElementById("cardGrid");
+ const grid=document.getElementById("cardGrid");
 
-  grid.innerHTML = "";
+ grid.innerHTML="";
 
-  cards.forEach(card => {
+ cards.forEach(card=>{
 
-    const div = document.createElement("div");
+  const div=document.createElement("div");
 
-    div.className = "info-card";
+  div.className="info-card";
 
-    div.onclick = () => showCardDetail(card.id);
+  div.onclick=()=>showCardDetail(card.id);
 
-    div.innerHTML = `
-      <div class="icon">${card.icon}</div>
-      <strong>${card.name}</strong>
-      <div>
-        ${card.tags.map(tag =>
-          `<span class="tag">${tag}</span>`
-        ).join("")}
-      </div>
-    `;
-
-    grid.appendChild(div);
-
-  });
-
-}
-
-
-function showCardDetail(id) {
-
-  const card = cards.find(c => c.id === id);
-
-  if (!card) return;
-
-  document.getElementById("cardDetail").innerHTML = `
-    <div class="detail-box">
-
-      <div class="big-icon">${card.icon}</div>
-
-      <h2>${card.name}</h2>
-
-      <div>
-        ${card.tags.map(tag =>
-          `<span class="tag">${tag}</span>`
-        ).join("")}
-      </div>
-
-      <p>${card.description}</p>
-
-      <button class="primary-btn"
-              onclick="addFusionCard(${card.id})">
-        このカードを融合に使う
-      </button>
-
-    </div>
+  div.innerHTML=`
+   <div class="icon">${card.icon}</div>
+   <strong>${card.name}</strong>
+   <div>
+   ${card.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+   </div>
   `;
 
-  showScreen("cardDetailScreen");
+  grid.appendChild(div);
+
+ });
+
+}
+
+
+function showCardDetail(id){
+
+ const card=cards.find(c=>c.id===id);
+
+ if(!card)return;
+
+ document.getElementById("cardDetail").innerHTML=`
+
+ <div class="detail-box">
+
+  <div class="big-icon">${card.icon}</div>
+
+  <h2>${card.name}</h2>
+
+  <div>
+  ${card.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+  </div>
+
+  <p>${card.description}</p>
+
+  <button class="primary-btn"
+  onclick="addFusionCard(${card.id})">
+  このカードを融合に使う
+  </button>
+
+ </div>
+
+ `;
+
+ showScreen("cardDetailScreen");
 
 }
 
 
 /* =========================================================
-   融合
+   FUSION
 ========================================================= */
 
-let selectedFusionCards = [];
+let selectedFusionCards=[];
 
+function renderFusion(){
 
-function renderFusion() {
+ const grid=document.getElementById("fusionCards");
 
-  const grid = document.getElementById("fusionCards");
+ grid.innerHTML="";
 
-  grid.innerHTML = "";
+ cards.forEach(card=>{
 
-  cards.forEach(card => {
+  const selected=
+   selectedFusionCards.includes(card.id);
 
-    const selected =
-      selectedFusionCards.includes(card.id);
+  const div=document.createElement("div");
 
-    const div = document.createElement("div");
+  div.className=
+   "info-card selection-card"+
+   (selected?" selected":"");
 
-    div.className =
-      "info-card selection-card" +
-      (selected ? " selected" : "");
+  div.onclick=()=>addFusionCard(card.id);
 
-    div.onclick = () => addFusionCard(card.id);
-
-    div.innerHTML = `
-      <div class="icon">${card.icon}</div>
-      <strong>${card.name}</strong>
-    `;
-
-    grid.appendChild(div);
-
-  });
-
-  updateFusionSlots();
-
-}
-
-
-function addFusionCard(id) {
-
-  if (selectedFusionCards.includes(id)) {
-
-    selectedFusionCards =
-      selectedFusionCards.filter(x => x !== id);
-
-  } else {
-
-    if (selectedFusionCards.length >= 3) {
-
-      alert("融合できるカードは3枚までです。");
-
-      return;
-
-    }
-
-    selectedFusionCards.push(id);
-
-  }
-
-  showScreen("fusionScreen");
-
-}
-
-
-function updateFusionSlots() {
-
-  const slot = document.getElementById("fusionSlots");
-
-  if (selectedFusionCards.length === 0) {
-
-    slot.innerHTML = "選択中：0枚";
-
-    return;
-
-  }
-
-  const names = selectedFusionCards.map(id => {
-
-    const card = cards.find(c => c.id === id);
-
-    return card ? card.name : "";
-
-  });
-
-  slot.innerHTML =
-    `選択中：${selectedFusionCards.length}枚<br>` +
-    names.join(" ＋ ");
-
-}
-
-
-function sameRecipe(a, b) {
-
-  if (a.length !== b.length) {
-    return false;
-  }
-
-  const x = [...a].sort((a,b) => a-b);
-  const y = [...b].sort((a,b) => a-b);
-
-  return x.every((v,i) => v === y[i]);
-
-}
-
-
-function fuseCards() {
-
-  if (
-    selectedFusionCards.length < 2 ||
-    selectedFusionCards.length > 3
-  ) {
-
-    alert("2～3枚のカードを選んでください。");
-
-    return;
-
-  }
-
-  const monster =
-    monsters.find(m =>
-      sameRecipe(
-        selectedFusionCards,
-        m.recipe
-      )
-    );
-
-  if (!monster) {
-
-    alert(
-      "……何も起こらなかった。\n" +
-      "別の組み合わせを試してみよう。"
-    );
-
-    return;
-
-  }
-
-  if (!saveData.discovered.includes(monster.id)) {
-
-    saveData.discovered.push(monster.id);
-
-    saveGame();
-
-    document.getElementById("birthMonster").innerHTML = `
-      <div class="detail-box">
-
-        <div class="big-icon">${monster.icon}</div>
-
-        <h2>${monster.name}</h2>
-
-        <p>${monster.rarity}</p>
-
-      </div>
-    `;
-
-    selectedFusionCards = [];
-
-    showScreen("birthScreen");
-
-  } else {
-
-    alert(
-      `${monster.name}はすでに発見済みです！`
-    );
-
-    selectedFusionCards = [];
-
-    renderFusion();
-
-  }
-
-}
-
-
-let birthMonsterId = null;
-
-
-function showMonsterFromBirth() {
-
-  const monster =
-    monsters.find(m =>
-      m.recipe.length === 0
-    );
-
-  showScreen("monsterScreen");
-
-}
-
-
-/* =========================================================
-   モンスター図鑑
-========================================================= */
-
-function renderMonsterBook() {
-
-  const grid =
-    document.getElementById("monsterGrid");
-
-  grid.innerHTML = "";
-
-  monsters.forEach(monster => {
-
-    const discovered =
-      saveData.discovered.includes(monster.id);
-
-    const div =
-      document.createElement("div");
-
-    div.className = "monster-card";
-
-    if (discovered) {
-
-      div.onclick =
-        () => showMonsterDetail(monster.id);
-
-      div.innerHTML = `
-        <div class="icon">${monster.icon}</div>
-        <strong>${monster.name}</strong>
-        <div class="muted">${monster.rarity}</div>
-      `;
-
-    } else {
-
-      div.innerHTML = `
-        <div class="icon">❓</div>
-        <strong>？？？？？</strong>
-        <div class="muted">未発見</div>
-      `;
-
-    }
-
-    grid.appendChild(div);
-
-  });
-
-}
-
-
-function showMonsterDetail(id) {
-
-  const monster =
-    monsters.find(m => m.id === id);
-
-  if (!monster) return;
-
-  const recipeNames =
-    monster.recipe.map(cardId => {
-
-      const card =
-        cards.find(c => c.id === cardId);
-
-      return card ? card.name : "";
-
-    });
-
-  document.getElementById("monsterDetail").innerHTML = `
-    <div class="detail-box">
-
-      <div class="big-icon">${monster.icon}</div>
-
-      <h2>${monster.name}</h2>
-
-      <p>${monster.rarity}</p>
-
-      <p>${monster.description}</p>
-
-      <p>
-        <strong>HP：</strong>${monster.hp}
-      </p>
-
-      <p>
-        <strong>融合素材：</strong><br>
-        ${recipeNames.join(" ＋ ")}
-      </p>
-
-      <h3>スキル</h3>
-
-      ${monster.skills.map(skill => `
-        <div class="info-card" style="margin-top:8px;">
-          <strong>${skill.name}</strong><br>
-          ${skill.damage > 0 ? `攻撃 ${skill.damage}` : ""}
-          ${skill.heal > 0 ? `回復 ${skill.heal}` : ""}
-        </div>
-      `).join("")}
-
-    </div>
+  div.innerHTML=`
+   <div class="icon">${card.icon}</div>
+   <strong>${card.name}</strong>
   `;
 
-  showScreen("monsterDetailScreen");
+  grid.appendChild(div);
+
+ });
+
+ updateFusionSlots();
 
 }
 
 
-/* =========================================================
-   バトル選択
-========================================================= */
+function addFusionCard(id){
 
-let selectedBattleMonsterId = null;
+ if(selectedFusionCards.includes(id)){
 
+  selectedFusionCards=
+   selectedFusionCards.filter(x=>x!==id);
 
-function prepareBattle() {
+ }else{
 
-  const grid =
-    document.getElementById("battleMonsterGrid");
+  if(selectedFusionCards.length>=3){
 
-  grid.innerHTML = "";
-
-  selectedBattleMonsterId = null;
-
-  const startButton =
-    document.getElementById("battleStartButton");
-
-  startButton.disabled = true;
-
-  const discoveredMonsters =
-    monsters.filter(m =>
-      saveData.discovered.includes(m.id)
-    );
-
-  discoveredMonsters.forEach(monster => {
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "monster-card selection-card";
-
-    div.onclick = () => {
-
-      document
-        .querySelectorAll("#battleMonsterGrid .selection-card")
-        .forEach(el =>
-          el.classList.remove("selected")
-        );
-
-      div.classList.add("selected");
-
-      selectedBattleMonsterId =
-        monster.id;
-
-      startButton.disabled = false;
-
-    };
-
-    div.innerHTML = `
-      <div class="icon">${monster.icon}</div>
-      <strong>${monster.name}</strong>
-      <div class="muted">
-        ${monster.rarity} / HP ${monster.hp}
-      </div>
-    `;
-
-    grid.appendChild(div);
-
-  });
-
-  showScreen("battleSelectScreen");
-
-}
-
-
-/* =========================================================
-   バトル
-========================================================= */
-
-let battle = null;
-
-
-function startBattle() {
-
-  if (!selectedBattleMonsterId) {
-
-    alert("モンスターを選んでください。");
-
-    return;
+   alert("融合できるカードは3枚までです。");
+   return;
 
   }
 
-  const player =
-    monsters.find(m =>
-      m.id === selectedBattleMonsterId
-    );
+  selectedFusionCards.push(id);
 
-  const enemyCandidates =
-    monsters.filter(m =>
-      m.id !== player.id
-    );
+ }
 
-  const enemy =
-    enemyCandidates[
-      Math.floor(
-        Math.random() *
-        enemyCandidates.length
-      )
-    ];
+ showScreen("fusionScreen");
 
-  battle = {
+}
 
-    player: player,
-    enemy: enemy,
 
-    php: player.hp,
-    ehp: enemy.hp,
+function updateFusionSlots(){
 
-    playerSkillUses:
-      Array(player.skills.length).fill(0),
+ const slot=document.getElementById("fusionSlots");
 
-    enemySkillUses:
-      Array(enemy.skills.length).fill(0),
+ if(selectedFusionCards.length===0){
 
-    playerTurn: true
+  slot.innerHTML="選択中：0枚";
+  return;
+
+ }
+
+ const names=
+ selectedFusionCards.map(id=>{
+  const card=cards.find(c=>c.id===id);
+  return card?card.name:"";
+ });
+
+ slot.innerHTML=
+ `選択中：${selectedFusionCards.length}枚<br>`+
+ names.join(" ＋ ");
+
+}
+
+
+function sameRecipe(a,b){
+
+ if(a.length!==b.length)return false;
+
+ const x=[...a].sort((a,b)=>a-b);
+ const y=[...b].sort((a,b)=>a-b);
+
+ return x.every((v,i)=>v===y[i]);
+
+}
+
+
+function fuseCards(){
+
+ if(
+  selectedFusionCards.length<2||
+  selectedFusionCards.length>3
+ ){
+
+  alert("2～3枚のカードを選んでください。");
+  return;
+
+ }
+
+ const monster=
+ monsters.find(m=>
+  sameRecipe(
+   selectedFusionCards,
+   m.recipe
+  )
+ );
+
+ if(!monster){
+
+  alert(
+   "……何も起こらなかった。\n"+
+   "別の組み合わせを試してみよう。"
+  );
+
+  return;
+
+ }
+
+ if(saveData.discovered.includes(monster.id)){
+
+  alert(`${monster.name}はすでに発見済みです！`);
+
+  selectedFusionCards=[];
+
+  renderFusion();
+
+  return;
+
+ }
+
+ saveData.discovered.push(monster.id);
+
+ saveGame();
+
+ document.getElementById("birthMonster").innerHTML=`
+
+ <div class="detail-box">
+
+  <div class="big-icon">${monster.icon}</div>
+
+  <h2>${monster.name}</h2>
+
+  <p>${monster.rarity}</p>
+
+  <p>${monster.description}</p>
+
+ </div>
+
+ `;
+
+ selectedFusionCards=[];
+
+ showScreen("birthScreen");
+
+}
+
+
+function showMonsterFromBirth(){
+
+ showScreen("monsterScreen");
+
+}
+
+
+/* =========================================================
+   MONSTER BOOK
+========================================================= */
+
+function renderMonsterBook(){
+
+ const grid=document.getElementById("monsterGrid");
+
+ grid.innerHTML="";
+
+ monsters.forEach(monster=>{
+
+  const discovered=
+   saveData.discovered.includes(monster.id);
+
+  const div=document.createElement("div");
+
+  div.className="monster-card";
+
+  if(discovered){
+
+   div.onclick=
+    ()=>showMonsterDetail(monster.id);
+
+   div.innerHTML=`
+    <div class="icon">${monster.icon}</div>
+    <strong>${monster.name}</strong>
+    <div class="muted">${monster.rarity}</div>
+   `;
+
+  }else{
+
+   div.innerHTML=`
+    <div class="icon">❓</div>
+    <strong>？？？？？</strong>
+    <div class="muted">未発見</div>
+   `;
+
+  }
+
+  grid.appendChild(div);
+
+ });
+
+}
+
+
+function showMonsterDetail(id){
+
+ const monster=monsters.find(m=>m.id===id);
+
+ if(!monster)return;
+
+ const recipeNames=
+ monster.recipe.map(cardId=>{
+  const card=cards.find(c=>c.id===cardId);
+  return card?card.name:"";
+ });
+
+ document.getElementById("monsterDetail").innerHTML=`
+
+ <div class="detail-box">
+
+  <div class="big-icon">${monster.icon}</div>
+
+  <h2>${monster.name}</h2>
+
+  <p><strong>${monster.rarity}</strong></p>
+
+  <p>${monster.description}</p>
+
+  <p>
+  <strong>HP：</strong>${monster.hp}
+  </p>
+
+  <p>
+  <strong>融合素材：</strong><br>
+  ${recipeNames.join(" ＋ ")}
+  </p>
+
+  <h3>スキル</h3>
+
+  ${monster.skills.map(skill=>`
+
+   <div class="info-card" style="margin-top:8px">
+
+   <strong>${skill.name}</strong><br>
+
+   ${skill.damage>0?`攻撃 ${skill.damage}`:""}
+
+   ${skill.heal>0?`回復 ${skill.heal}`:""}
+
+   </div>
+
+  `).join("")}
+
+ </div>
+
+ `;
+
+ showScreen("monsterDetailScreen");
+
+}
+
+
+/* =========================================================
+   HERITAGE BOOK
+========================================================= */
+
+function renderHeritageBook(){
+
+ const grid=document.getElementById("heritageGrid");
+
+ grid.innerHTML="";
+
+ cards.forEach(card=>{
+
+  const div=document.createElement("div");
+
+  div.className="info-card";
+
+  div.onclick=
+   ()=>showHeritageDetail(card.id);
+
+  div.innerHTML=`
+   <div class="icon">${card.icon}</div>
+   <strong>${card.name}</strong>
+   <div>
+   ${card.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+   </div>
+  `;
+
+  grid.appendChild(div);
+
+ });
+
+}
+
+
+function showHeritageDetail(id){
+
+ const card=cards.find(c=>c.id===id);
+
+ if(!card)return;
+
+ document.getElementById("heritageDetail").innerHTML=`
+
+ <div class="detail-box">
+
+  <div class="big-icon">${card.icon}</div>
+
+  <div class="small-label">
+  日本遺産「月の都 千曲」
+  </div>
+
+  <h2>${card.name}</h2>
+
+  <div>
+  ${card.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+  </div>
+
+  <h3>文化財について</h3>
+
+  <p>${card.description}</p>
+
+  <hr style="border-color:#475569">
+
+  <div class="small-label">
+  ゲーム属性
+  </div>
+
+  <p>
+  ${card.tags.join("　")}
+  </p>
+
+ </div>
+
+ `;
+
+ showScreen("heritageDetailScreen");
+
+}
+
+
+/* =========================================================
+   BATTLE SELECT
+========================================================= */
+
+let selectedBattleMonsterId=null;
+
+function prepareBattle(){
+
+ const grid=
+ document.getElementById("battleMonsterGrid");
+
+ grid.innerHTML="";
+
+ selectedBattleMonsterId=null;
+
+ const button=
+ document.getElementById("battleStartButton");
+
+ button.disabled=true;
+
+ monsters
+ .filter(m=>saveData.discovered.includes(m.id))
+ .forEach(monster=>{
+
+  const div=document.createElement("div");
+
+  div.className=
+   "monster-card selection-card";
+
+  div.onclick=()=>{
+
+   document
+   .querySelectorAll(
+    "#battleMonsterGrid .selection-card"
+   )
+   .forEach(el=>
+    el.classList.remove("selected")
+   );
+
+   div.classList.add("selected");
+
+   selectedBattleMonsterId=monster.id;
+
+   button.disabled=false;
 
   };
 
-  document.getElementById("battleLog").innerHTML = "";
-
-  showScreen("battleScreen");
-
-  renderBattle();
-
-  addBattleLog(
-    `${player.name} VS ${enemy.name}！`
-  );
-
-  addBattleLog(
-    `${player.name}のターンです。`
-  );
-
-}
-
-
-function renderBattle() {
-
-  if (!battle) return;
-
-  const p =
-    document.getElementById("playerFighter");
-
-  const e =
-    document.getElementById("enemyFighter");
-
-  p.innerHTML = fighterHTML(
-    battle.player,
-    battle.php
-  );
-
-  e.innerHTML = fighterHTML(
-    battle.enemy,
-    battle.ehp
-  );
-
-  renderSkills();
-
-}
-
-
-function fighterHTML(monster, hp) {
-
-  const percent =
-    Math.max(
-      0,
-      Math.min(
-        100,
-        hp / monster.hp * 100
-      )
-    );
-
-  return `
-    <div class="fighter-name">
-      ${monster.icon} ${monster.name}
-    </div>
-
-    <div class="hp-bar">
-      <div
-        class="hp-fill"
-        style="width:${percent}%">
-      </div>
-    </div>
-
-    <div class="hp-text">
-      HP ${hp} / ${monster.hp}
-    </div>
+  div.innerHTML=`
+   <div class="icon">${monster.icon}</div>
+   <strong>${monster.name}</strong>
+   <div class="muted">
+   ${monster.rarity} / HP ${monster.hp}
+   </div>
   `;
 
-}
+  grid.appendChild(div);
 
+ });
 
-function renderSkills() {
-
-  const container =
-    document.getElementById("skillList");
-
-  container.innerHTML = "";
-
-  if (!battle || !battle.playerTurn) {
-
-    container.innerHTML =
-      `<div class="muted">敵のターンです……</div>`;
-
-    return;
-
-  }
-
-  battle.player.skills.forEach((skill, index) => {
-
-    const used =
-      battle.playerSkillUses[index];
-
-    const remaining =
-      skill.max === 99
-        ? "∞"
-        : Math.max(
-            0,
-            skill.max - used
-          );
-
-    const button =
-      document.createElement("button");
-
-    button.className = "skill-btn";
-
-    button.disabled =
-      skill.max !== 99 &&
-      used >= skill.max;
-
-    button.innerHTML = `
-      <span class="skill-name">
-        ${skill.name}
-      </span>
-      <span class="skill-info">
-        ${skill.damage > 0
-          ? `攻撃 ${skill.damage}`
-          : ""}
-        ${skill.heal > 0
-          ? `回復 ${skill.heal}`
-          : ""}
-        ／ 残り ${remaining}回
-      </span>
-    `;
-
-    button.onclick =
-      () => playerUseSkill(index);
-
-    container.appendChild(button);
-
-  });
-
-}
-
-
-function playerUseSkill(index) {
-
-  if (!battle || !battle.playerTurn) {
-    return;
-  }
-
-  const skill =
-    battle.player.skills[index];
-
-  if (!skill) return;
-
-  if (
-    skill.max !== 99 &&
-    battle.playerSkillUses[index] >= skill.max
-  ) {
-
-    return;
-
-  }
-
-  battle.playerSkillUses[index]++;
-
-  if (skill.damage > 0) {
-
-    battle.ehp =
-      Math.max(
-        0,
-        battle.ehp - skill.damage
-      );
-
-    addBattleLog(
-      `${battle.player.name}の「${skill.name}」！ ${skill.damage}ダメージ！`
-    );
-
-  }
-
-  if (skill.heal > 0) {
-
-    const before = battle.php;
-
-    battle.php =
-      Math.min(
-        battle.player.hp,
-        battle.php + skill.heal
-      );
-
-    const actual =
-      battle.php - before;
-
-    if (actual > 0) {
-
-      addBattleLog(
-        `${battle.player.name}は${actual}回復した！`
-      );
-
-    }
-
-  }
-
-  renderBattle();
-
-  if (battle.ehp <= 0) {
-
-    finishBattle(true);
-
-    return;
-
-  }
-
-  battle.playerTurn = false;
-
-  renderBattle();
-
-  setTimeout(enemyTurn, 900);
-
-}
-
-
-function enemyTurn() {
-
-  if (!battle) return;
-
-  if (battle.php <= 0) {
-
-    finishBattle(false);
-
-    return;
-
-  }
-
-  const available =
-    battle.enemy.skills
-      .map((skill, index) => ({
-        skill,
-        index
-      }))
-      .filter(item =>
-        item.skill.max === 99 ||
-        battle.enemySkillUses[item.index] < item.skill.max
-      );
-
-  if (available.length === 0) {
-
-    battle.playerTurn = true;
-
-    renderBattle();
-
-    return;
-
-  }
-
-  /*
-    敵の行動選択
-
-    基本的には攻撃系を優先し、
-    HPが低い場合は回復技を選ぶ。
-  */
-
-  let candidates = available;
-
-  const enemyHpRate =
-    battle.ehp / battle.enemy.hp;
-
-  const healing =
-    available.filter(item =>
-      item.skill.heal > 0 &&
-      item.skill.damage === 0
-    );
-
-  if (
-    enemyHpRate <= 0.45 &&
-    healing.length > 0
-  ) {
-
-    candidates = healing;
-
-  }
-
-  const choice =
-    candidates[
-      Math.floor(
-        Math.random() *
-        candidates.length
-      )
-    ];
-
-  const skill = choice.skill;
-  const index = choice.index;
-
-  battle.enemySkillUses[index]++;
-
-  if (skill.damage > 0) {
-
-    battle.php =
-      Math.max(
-        0,
-        battle.php - skill.damage
-      );
-
-    addBattleLog(
-      `${battle.enemy.name}の「${skill.name}」！ ${skill.damage}ダメージ！`
-    );
-
-  }
-
-  if (skill.heal > 0) {
-
-    const before = battle.ehp;
-
-    battle.ehp =
-      Math.min(
-        battle.enemy.hp,
-        battle.ehp + skill.heal
-      );
-
-    const actual =
-      battle.ehp - before;
-
-    if (actual > 0) {
-
-      addBattleLog(
-        `${battle.enemy.name}は${actual}回復した！`
-      );
-
-    }
-
-  }
-
-  renderBattle();
-
-  if (battle.php <= 0) {
-
-    finishBattle(false);
-
-    return;
-
-  }
-
-  battle.playerTurn = true;
-
-  addBattleLog(
-    `${battle.player.name}のターンです。`
-  );
-
-  renderBattle();
-
-}
-
-
-function addBattleLog(text) {
-
-  const log =
-    document.getElementById("battleLog");
-
-  log.innerHTML +=
-    `<div>${text}</div>`;
-
-  log.scrollTop =
-    log.scrollHeight;
-
-}
-
-
-function finishBattle(playerWon) {
-
-  const title =
-    document.getElementById("resultTitle");
-
-  const text =
-    document.getElementById("resultText");
-
-  if (playerWon) {
-
-    title.textContent = "YOU WIN";
-
-    text.innerHTML = `
-      ${battle.player.name}の勝利！<br><br>
-      月の都の力が、またひとつ証明された。
-    `;
-
-  } else {
-
-    title.textContent = "YOU LOSE";
-
-    text.innerHTML = `
-      ${battle.enemy.name}の勝利……<br><br>
-      もう一度、融合とバトルに挑もう。
-    `;
-
-  }
-
-  showScreen("resultScreen");
+ showScreen("battleSelectScreen");
 
 }
 
 
 /* =========================================================
-   起動
+   BATTLE
+========================================================= */
+
+let battle=null;
+
+function startBattle(){
+
+ if(!selectedBattleMonsterId){
+
+  alert("モンスターを選んでください。");
+  return;
+
+ }
+
+ const player=
+ monsters.find(m=>m.id===selectedBattleMonsterId);
+
+ const enemyCandidates=
+ monsters.filter(m=>m.id!==player.id);
+
+ const enemy=
+ enemyCandidates[
+  Math.floor(
+   Math.random()*enemyCandidates.length
+  )
+ ];
+
+ battle={
+
+  player,
+  enemy,
+
+  php:player.hp,
+  ehp:enemy.hp,
+
+  playerSkillUses:
+   Array(player.skills.length).fill(0),
+
+  enemySkillUses:
+   Array(enemy.skills.length).fill(0),
+
+  playerTurn:true
+
+ };
+
+ document.getElementById("battleLog").innerHTML="";
+
+ showScreen("battleScreen");
+
+ renderBattle();
+
+ addBattleLog(
+  `${player.name} VS ${enemy.name}！`
+ );
+
+ addBattleLog(
+  `${player.name}のターンです。`
+ );
+
+}
+
+
+function renderBattle(){
+
+ if(!battle)return;
+
+ document.getElementById("playerFighter").innerHTML=
+ fighterHTML(
+  battle.player,
+  battle.php
+ );
+
+ document.getElementById("enemyFighter").innerHTML=
+ fighterHTML(
+  battle.enemy,
+  battle.ehp
+ );
+
+ renderSkills();
+
+}
+
+
+function fighterHTML(monster,hp){
+
+ const percent=
+ Math.max(
+  0,
+  Math.min(
+   100,
+   hp/monster.hp*100
+  )
+ );
+
+ return`
+
+ <div class="fighter-name">
+ ${monster.icon} ${monster.name}
+ </div>
+
+ <div class="hp-bar">
+ <div class="hp-fill"
+ style="width:${percent}%"></div>
+ </div>
+
+ <div class="hp-text">
+ HP ${hp} / ${monster.hp}
+ </div>
+
+ `;
+
+}
+
+
+function renderSkills(){
+
+ const container=
+ document.getElementById("skillList");
+
+ container.innerHTML="";
+
+ if(!battle||!battle.playerTurn){
+
+  container.innerHTML=
+  `<div class="muted">敵のターンです……</div>`;
+
+  return;
+
+ }
+
+ battle.player.skills.forEach((skill,index)=>{
+
+  const used=
+   battle.playerSkillUses[index];
+
+  const remaining=
+   skill.max===99
+   ?"∞"
+   :Math.max(
+    0,
+    skill.max-used
+   );
+
+  const button=
+   document.createElement("button");
+
+  button.className="skill-btn";
+
+  button.disabled=
+   skill.max!==99&&
+   used>=skill.max;
+
+  button.innerHTML=`
+
+   <span class="skill-name">
+   ${skill.name}
+   </span>
+
+   <span class="skill-info">
+   ${skill.damage>0?`攻撃 ${skill.damage}`:""}
+   ${skill.heal>0?`回復 ${skill.heal}`:""}
+   ／ 残り ${remaining}回
+   </span>
+
+  `;
+
+  button.onclick=
+   ()=>playerUseSkill(index);
+
+  container.appendChild(button);
+
+ });
+
+}
+
+
+function playerUseSkill(index){
+
+ if(!battle||!battle.playerTurn)return;
+
+ const skill=
+  battle.player.skills[index];
+
+ if(!skill)return;
+
+ if(
+  skill.max!==99&&
+  battle.playerSkillUses[index]>=skill.max
+ ){
+  return;
+ }
+
+ battle.playerSkillUses[index]++;
+
+ if(skill.damage>0){
+
+  battle.ehp=
+   Math.max(
+    0,
+    battle.ehp-skill.damage
+   );
+
+  addBattleLog(
+   `${battle.player.name}の「${skill.name}」！ ${skill.damage}ダメージ！`
+  );
+
+ }
+
+ if(skill.heal>0){
+
+  const before=battle.php;
+
+  battle.php=
+   Math.min(
+    battle.player.hp,
+    battle.php+skill.heal
+   );
+
+  const actual=
+   battle.php-before;
+
+  if(actual>0){
+
+   addBattleLog(
+    `${battle.player.name}は${actual}回復した！`
+   );
+
+  }
+
+ }
+
+ renderBattle();
+
+ if(battle.ehp<=0){
+
+  finishBattle(true);
+  return;
+
+ }
+
+ battle.playerTurn=false;
+
+ renderBattle();
+
+ setTimeout(enemyTurn,900);
+
+}
+
+
+function enemyTurn(){
+
+ if(!battle)return;
+
+ if(battle.php<=0){
+
+  finishBattle(false);
+  return;
+
+ }
+
+ const available=
+ battle.enemy.skills
+ .map((skill,index)=>({
+  skill,
+  index
+ }))
+ .filter(item=>
+  item.skill.max===99||
+  battle.enemySkillUses[item.index]<
+  item.skill.max
+ );
+
+ if(available.length===0){
+
+  battle.playerTurn=true;
+  renderBattle();
+  return;
+
+ }
+
+ const lowHp=
+  battle.ehp/battle.enemy.hp<=.45;
+
+ const healing=
+  available.filter(item=>
+   item.skill.heal>0&&
+   item.skill.damage===0
+  );
+
+ let candidates=available;
+
+ if(lowHp&&healing.length>0){
+  candidates=healing;
+ }
+
+ const choice=
+  candidates[
+   Math.floor(
+    Math.random()*candidates.length
+   )
+  ];
+
+ const skill=choice.skill;
+ const index=choice.index;
+
+ battle.enemySkillUses[index]++;
+
+ if(skill.damage>0){
+
+  battle.php=
+   Math.max(
+    0,
+    battle.php-skill.damage
+   );
+
+  addBattleLog(
+   `${battle.enemy.name}の「${skill.name}」！ ${skill.damage}ダメージ！`
+  );
+
+ }
+
+ if(skill.heal>0){
+
+  const before=battle.ehp;
+
+  battle.ehp=
+   Math.min(
+    battle.enemy.hp,
+    battle.ehp+skill.heal
+   );
+
+  const actual=
+   battle.ehp-before;
+
+  if(actual>0){
+
+   addBattleLog(
+    `${battle.enemy.name}は${actual}回復した！`
+   );
+
+  }
+
+ }
+
+ renderBattle();
+
+ if(battle.php<=0){
+
+  finishBattle(false);
+  return;
+
+ }
+
+ battle.playerTurn=true;
+
+ addBattleLog(
+  `${battle.player.name}のターンです。`
+ );
+
+ renderBattle();
+
+}
+
+
+function addBattleLog(text){
+
+ const log=
+  document.getElementById("battleLog");
+
+ log.innerHTML+=
+  `<div>${text}</div>`;
+
+ log.scrollTop=
+  log.scrollHeight;
+
+}
+
+
+function finishBattle(playerWon){
+
+ const title=
+  document.getElementById("resultTitle");
+
+ const text=
+  document.getElementById("resultText");
+
+ if(playerWon){
+
+  title.textContent="YOU WIN";
+
+  text.innerHTML=`
+   ${battle.player.name}の勝利！<br><br>
+   月の都の力が、またひとつ証明された。
+  `;
+
+ }else{
+
+  title.textContent="YOU LOSE";
+
+  text.innerHTML=`
+   ${battle.enemy.name}の勝利……<br><br>
+   もう一度、融合とバトルに挑もう。
+  `;
+
+ }
+
+ showScreen("resultScreen");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
 ========================================================= */
 
 updateHome();
