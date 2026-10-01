@@ -477,6 +477,10 @@ h1,h2,h3{
   opacity:.4;
 }
 
+.normal-attack{
+  background:#52637e;
+}
+
 .result{
   background:#1a2743;
   border-radius:18px;
@@ -1263,6 +1267,8 @@ function goBack(){
     battle
   ){
 
+    stopBattleTimers();
+
     battle = null;
     battleSessionId++;
 
@@ -1312,12 +1318,10 @@ function leaveBattleScreen(){
 
   }
 
+  stopBattleTimers();
+
   battle = null;
 
-  /*
-    現在動いている敵ターンなどの
-    setTimeoutを無効化。
-  */
   battleSessionId++;
 
   screenHistory = [];
@@ -1333,6 +1337,8 @@ function leaveBattleScreen(){
 function goHome(){
 
   screenHistory = [];
+
+  stopBattleTimers();
 
   battle = null;
 
@@ -1639,6 +1645,7 @@ const monsters = [
     attack:45,
     defense:38,
     speed:42,
+    recipe:[1,5],
     skills:[
       {name:"月光斬",type:"attack",power:22,element:"月"},
       {name:"豊穣の光",type:"heal",power:15,element:"月"},
@@ -1655,6 +1662,7 @@ const monsters = [
     attack:42,
     defense:42,
     speed:35,
+    recipe:[5,7],
     skills:[
       {name:"水流撃",type:"attack",power:21,element:"水"},
       {name:"恵みの水",type:"heal",power:18,element:"水"},
@@ -1671,6 +1679,7 @@ const monsters = [
     attack:40,
     defense:45,
     speed:32,
+    recipe:[6,7],
     skills:[
       {name:"分水撃",type:"attack",power:20,element:"水"},
       {name:"清流",type:"heal",power:20,element:"水"},
@@ -1687,6 +1696,7 @@ const monsters = [
     attack:48,
     defense:50,
     speed:25,
+    recipe:[5,17],
     skills:[
       {name:"山砕き",type:"attack",power:25,element:"自然"},
       {name:"大地の息吹",type:"buff",power:10,element:"自然",target:"defense"},
@@ -1703,6 +1713,7 @@ const monsters = [
     attack:47,
     defense:35,
     speed:48,
+    recipe:[15,17],
     skills:[
       {name:"神撃",type:"attack",power:24,element:"月"},
       {name:"月影",type:"attack",power:30,element:"月"},
@@ -1719,6 +1730,7 @@ const monsters = [
     attack:42,
     defense:30,
     speed:65,
+    recipe:[22,23],
     skills:[
       {name:"月走り",type:"attack",power:22,element:"月"},
       {name:"夜汽車",type:"attack",power:29,element:"月"},
@@ -1735,6 +1747,7 @@ const monsters = [
     attack:40,
     defense:34,
     speed:52,
+    recipe:[1,15],
     skills:[
       {name:"月詠",type:"attack",power:20,element:"月"},
       {name:"歌の力",type:"buff",power:10,element:"月",target:"attack"},
@@ -1751,6 +1764,7 @@ const monsters = [
     attack:55,
     defense:28,
     speed:50,
+    recipe:[11,13],
     skills:[
       {name:"火祭",type:"attack",power:26,element:"火"},
       {name:"灯火",type:"buff",power:10,element:"火",target:"attack"},
@@ -1767,6 +1781,7 @@ const monsters = [
     attack:43,
     defense:44,
     speed:34,
+    recipe:[8,12],
     skills:[
       {name:"神楽撃",type:"attack",power:21,element:"自然"},
       {name:"祭神の守り",type:"buff",power:15,element:"自然",target:"defense"},
@@ -1783,6 +1798,7 @@ const monsters = [
     attack:52,
     defense:48,
     speed:38,
+    recipe:[5,17],
     skills:[
       {name:"月水撃",type:"attack",power:26,element:"月"},
       {name:"月の恵み",type:"heal",power:20,element:"月"},
@@ -1799,6 +1815,7 @@ const monsters = [
     attack:44,
     defense:32,
     speed:55,
+    recipe:[2,3],
     skills:[
       {name:"墨流し",type:"attack",power:22,element:"月"},
       {name:"月描き",type:"buff",power:10,element:"月",target:"attack"},
@@ -1815,6 +1832,7 @@ const monsters = [
     attack:45,
     defense:39,
     speed:37,
+    recipe:[4,17],
     skills:[
       {name:"物語撃",type:"attack",power:21,element:"月"},
       {name:"古の教え",type:"buff",power:12,element:"月",target:"defense"},
@@ -1831,6 +1849,7 @@ const monsters = [
     attack:46,
     defense:46,
     speed:30,
+    recipe:[8,9],
     skills:[
       {name:"館守り",type:"attack",power:23,element:"自然"},
       {name:"神守",type:"buff",power:15,element:"自然",target:"defense"},
@@ -1847,6 +1866,7 @@ const monsters = [
     attack:50,
     defense:35,
     speed:47,
+    recipe:[14,21],
     skills:[
       {name:"街道撃",type:"attack",power:23,element:"火"},
       {name:"祭囃子",type:"buff",power:10,element:"火",target:"attack"},
@@ -1863,6 +1883,7 @@ const monsters = [
     attack:43,
     defense:31,
     speed:58,
+    recipe:[15,22],
     skills:[
       {name:"月待ち",type:"attack",power:21,element:"月"},
       {name:"月影守",type:"buff",power:18,element:"月",target:"defense"},
@@ -1879,6 +1900,7 @@ const monsters = [
     attack:39,
     defense:30,
     speed:68,
+    recipe:[17,24],
     skills:[
       {name:"蛍火",type:"attack",power:23,element:"自然"},
       {name:"森の息吹",type:"heal",power:18,element:"自然"},
@@ -1895,6 +1917,7 @@ const monsters = [
     attack:48,
     defense:43,
     speed:29,
+    recipe:[11,25],
     skills:[
       {name:"湯けむり",type:"attack",power:23,element:"火"},
       {name:"温泉の恵み",type:"heal",power:22,element:"火"},
@@ -1911,6 +1934,7 @@ const monsters = [
     attack:45,
     defense:47,
     speed:31,
+    recipe:[26,27],
     skills:[
       {name:"銘醸撃",type:"attack",power:23,element:"水"},
       {name:"仕込み水",type:"heal",power:18,element:"水"},
@@ -1927,6 +1951,7 @@ const monsters = [
     attack:49,
     defense:40,
     speed:43,
+    recipe:[7,28],
     skills:[
       {name:"川流撃",type:"attack",power:25,element:"水"},
       {name:"川の恵み",type:"heal",power:18,element:"水"},
@@ -1943,6 +1968,7 @@ const monsters = [
     attack:58,
     defense:52,
     speed:45,
+    recipe:[22,23],
     skills:[
       {name:"月都斬",type:"attack",power:30,element:"月"},
       {name:"都の恵み",type:"heal",power:22,element:"月"},
@@ -1963,6 +1989,70 @@ let battle = null;
 
 let battleSessionId = 0;
 
+/*
+  現在動いている敵ターン用タイマー。
+  これを必ず管理する。
+*/
+let battleTimer = null;
+
+
+/* =========================================================
+   BATTLE TIMER CONTROL
+========================================================= */
+
+function stopBattleTimers(){
+
+  if(battleTimer !== null){
+
+    clearTimeout(
+      battleTimer
+    );
+
+    battleTimer = null;
+
+  }
+
+}
+
+
+/*
+  敵ターンを予約する。
+*/
+function scheduleEnemyTurn(delay=600){
+
+  stopBattleTimers();
+
+  if(!battle){
+    return;
+  }
+
+  const session =
+    battle.sessionId;
+
+  battleTimer =
+    setTimeout(
+      () => {
+
+        battleTimer = null;
+
+        if(
+          !battle ||
+          battle.finished ||
+          battle.sessionId !== session
+        ){
+
+          return;
+
+        }
+
+        enemyTurn();
+
+      },
+      delay
+    );
+
+}
+
 
 /* =========================================================
    SAVE DATA
@@ -1979,6 +2069,8 @@ function saveGame(){
 
 
 function startGame(){
+
+  stopBattleTimers();
 
   battle = null;
   battleSessionId++;
@@ -2018,6 +2110,8 @@ function continueGame(){
     return;
 
   }
+
+  stopBattleTimers();
 
   battle = null;
   battleSessionId++;
@@ -2104,6 +2198,8 @@ function resetGame(){
   if(!ok){
     return;
   }
+
+  stopBattleTimers();
 
   battle = null;
   battleSessionId++;
@@ -2795,11 +2891,23 @@ function showMonsterDetail(id){
               ${attributeData[skill.element].icon}
               ${skill.element}
 
+              ／ 1バトルにつき3回まで
+
             </div>
 
           </div>
 
         `).join("")}
+
+        <div class="skill">
+          <div class="skill-name">
+            通常攻撃
+          </div>
+          <div class="skill-info">
+            攻撃力 ${monster.attack}
+            ／ 使用回数制限なし
+          </div>
+        </div>
 
       </div>
 
@@ -3244,6 +3352,14 @@ function showBirth(
 */
 function renderBattleSelect(){
 
+  /*
+    選択画面を表示する時点で、
+    進行中のバトルは完全に終了させる。
+  */
+  stopBattleTimers();
+
+  battle = null;
+
   const selectArea =
     document.getElementById(
       "battleSelectArea"
@@ -3254,26 +3370,9 @@ function renderBattleSelect(){
       "battleArea"
     );
 
-  /*
-    バトル選択画面を表示するときは、
-    現在のバトル画面を必ず初期化。
-  */
   battleArea.classList.add(
     "hidden"
   );
-
-  /*
-    選択画面へ戻った場合は、
-    進行中のバトルを破棄。
-  */
-  if(
-    battle &&
-    !battle.finished
-  ){
-
-    battle = null;
-
-  }
 
   if(
     saveData.discoveredMonsters.length === 0
@@ -3382,13 +3481,17 @@ function renderBattleSelect(){
 function startBattle(playerId){
 
   /*
-    既存バトルを完全破棄。
+    前のタイマーを確実に停止。
+  */
+  stopBattleTimers();
+
+  /*
+    古いバトルを完全破棄。
   */
   battle = null;
 
   /*
-    新しいバトル世代を発行。
-    古いsetTimeoutはこの番号と一致しなくなる。
+    新しいセッション番号。
   */
   battleSessionId++;
 
@@ -3404,9 +3507,6 @@ function startBattle(playerId){
     return;
   }
 
-  /*
-    プレイヤー以外から敵をランダム選択。
-  */
   const enemies =
     monsters.filter(
       m => m.id !== playerId
@@ -3435,9 +3535,6 @@ function startBattle(playerId){
       playerProgress.level
     );
 
-  /*
-    敵はLv.1。
-  */
   const enemyStats =
     getEffectiveStats(
       enemy,
@@ -3445,9 +3542,9 @@ function startBattle(playerId){
     );
 
   /*
-    ★★★
-    バトル状態を毎回完全初期化。
-    ★★★
+    ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    新しいバトル状態を完全初期化
+    ★★★★★★★★★★★★★★★★★★★★★★★★★
   */
   battle = {
 
@@ -3466,8 +3563,8 @@ function startBattle(playerId){
     enemyHP:enemyStats.hp,
 
     /*
-      3種類の技。
-      各技3回まで。
+      各スキルの使用回数。
+      1バトルにつき各3回。
     */
     playerUses:[
       0,
@@ -3481,9 +3578,6 @@ function startBattle(playerId){
       0
     ],
 
-    /*
-      バフ値も毎回0から。
-    */
     playerAttackBonus:0,
 
     playerDefenseBonus:0,
@@ -3498,9 +3592,6 @@ function startBattle(playerId){
 
   };
 
-  /*
-    選択画面を隠す。
-  */
   document
     .getElementById(
       "battleSelectArea"
@@ -3509,9 +3600,6 @@ function startBattle(playerId){
       "hidden"
     );
 
-  /*
-    バトル画面を表示。
-  */
   document
     .getElementById(
       "battleArea"
@@ -3520,18 +3608,12 @@ function startBattle(playerId){
       "hidden"
     );
 
-  /*
-    ログを完全初期化。
-  */
   document
     .getElementById(
       "battleLog"
     )
     .innerHTML = "";
 
-  /*
-    技ボタンも完全初期化。
-  */
   document
     .getElementById(
       "battleSkills"
@@ -3557,18 +3639,25 @@ function startBattle(playerId){
 function retryBattle(){
 
   /*
-    現在のバトルを完全破棄。
+    前のタイマーを完全停止。
+  */
+  stopBattleTimers();
+
+  /*
+    前回のバトルを完全破棄。
   */
   battle = null;
 
   /*
-    古いタイマーを無効化。
+    新しいバトル世代へ。
   */
   battleSessionId++;
 
   /*
-    バトル選択画面へ。
+    結果画面から直接バトル選択画面へ。
   */
+  screenHistory = [];
+
   showScreen(
     "battleScreen",
     false
@@ -3636,22 +3725,7 @@ function determineFirstTurn(){
       "相手の先攻です！"
     );
 
-    setTimeout(
-      () => {
-
-        if(
-          !battle ||
-          battle.finished ||
-          battle.sessionId !== session
-        ){
-          return;
-        }
-
-        enemyTurn();
-
-      },
-      500
-    );
+    scheduleEnemyTurn(500);
 
   }
 
@@ -3699,12 +3773,10 @@ function updateBattleDisplay(){
     .getElementById(
       "battleEnemyLevel"
     )
+    )
     .textContent =
       `Lv.1 ／ ${battle.enemy.rarity}`;
 
-  /*
-    バフ表示
-  */
   const playerBuffParts = [];
 
   if(
@@ -3863,11 +3935,6 @@ function renderBattleSkills(){
         button.className =
           "skill-button";
 
-        /*
-          ★重要
-          ・自分のターンのみ使用可能
-          ・1つの技につき3回まで
-        */
         button.disabled =
           battle.turn !== "player" ||
           used >= 3;
@@ -3903,7 +3970,7 @@ function renderBattleSkills(){
         `;
 
         button.onclick =
-          () => playerAttack(index);
+          () => playerUseSkill(index);
 
         container.appendChild(
           button
@@ -3912,64 +3979,52 @@ function renderBattleSkills(){
       }
     );
 
-}
-
-
-/*
-  ========================================================
-  ダメージ計算
-  ========================================================
-
-  ★今回の重要修正
-
-  攻撃技のダメージは、
-  「技に設定されたpower」を基本値として使用する。
-
-  例：
-  月光斬 power:22
-  → 相手HPから22減る
-
-  以前入っていた
-  ・攻撃力補正
-  ・防御力補正
-  ・属性相性倍率
-
-  は、このバトル仕様では使用しない。
-*/
-function calculateDamage(
-  attacker,
-  defender,
-  skill,
-  attackerAttackBonus=0,
-  defenderDefenseBonus=0
-){
 
   /*
-    技のpowerをそのままダメージにする。
+    通常攻撃。
+    スキル3種類をすべて使い切った場合でも
+    バトルが停止しないための無制限攻撃。
   */
-  const damage =
-    Math.max(
-      0,
-      Number(skill.power) || 0
+  const normalButton =
+    document.createElement(
+      "button"
     );
 
-  return {
+  normalButton.className =
+    "skill-button normal-attack";
 
-    damage:damage,
+  normalButton.disabled =
+    battle.turn !== "player";
 
-    multiplier:1
+  normalButton.innerHTML = `
 
-  };
+    <strong>
+      ⚔️ 通常攻撃
+    </strong>
+
+    <small>
+      攻撃 ${battle.playerStats.attack}
+      ／ 使用回数制限なし
+    </small>
+
+  `;
+
+  normalButton.onclick =
+    () => playerNormalAttack();
+
+  container.appendChild(
+    normalButton
+  );
 
 }
 
 
 /*
   ========================================================
-  プレイヤー攻撃
+  プレイヤー：スキル使用
   ========================================================
 */
-function playerAttack(index){
+function playerUseSkill(index){
 
   if(
     !battle ||
@@ -3979,9 +4034,6 @@ function playerAttack(index){
     return;
   }
 
-  /*
-    プレイヤーのターンでなければ無効。
-  */
   if(
     battle.turn !== "player"
   ){
@@ -3996,9 +4048,6 @@ function playerAttack(index){
     return;
   }
 
-  /*
-    ★各技3回まで。
-  */
   if(
     battle.playerUses[index] >= 3
   ){
@@ -4016,23 +4065,13 @@ function playerAttack(index){
   const session =
     battle.sessionId;
 
-  /*
-    使用回数を1増やす。
-  */
   battle.playerUses[index]++;
 
-  /*
-    技を実行。
-  */
   executeSkill(
     "player",
     skill
   );
 
-  /*
-    技によってバトルが終了した場合は、
-    ここから先を実行しない。
-  */
   if(
     !battle ||
     battle.finished ||
@@ -4042,37 +4081,85 @@ function playerAttack(index){
     return;
   }
 
-  /*
-    敵ターンへ。
-  */
   battle.turn =
     "enemy";
 
-  /*
-    プレイヤーのボタンを無効化。
-  */
   renderBattleSkills();
 
-  /*
-    少し間を置いて敵が行動。
-  */
-  setTimeout(
-    () => {
+  scheduleEnemyTurn(600);
 
-      if(
-        !battle ||
-        battle.finished ||
-        battle.sessionId !== session
-      ){
+}
 
-        return;
-      }
 
-      enemyTurn();
+/*
+  旧関数名との互換用
+*/
+function playerAttack(index){
+  playerUseSkill(index);
+}
 
-    },
-    600
+
+/*
+  ========================================================
+  プレイヤー：通常攻撃
+  ========================================================
+*/
+function playerNormalAttack(){
+
+  if(
+    !battle ||
+    battle.finished
+  ){
+
+    return;
+  }
+
+  if(
+    battle.turn !== "player"
+  ){
+
+    return;
+  }
+
+  const session =
+    battle.sessionId;
+
+  const damage =
+    Math.max(
+      0,
+      battle.playerStats.attack +
+      battle.playerAttackBonus
+    );
+
+  battle.enemyHP -=
+    damage;
+
+  addBattleLog(
+    "あなたの通常攻撃！"
   );
+
+  addBattleLog(
+    `${damage}ダメージ！`
+  );
+
+  updateBattleDisplay();
+
+  if(
+    battle.enemyHP <= 0
+  ){
+
+    finishBattle(true);
+
+    return;
+
+  }
+
+  battle.turn =
+    "enemy";
+
+  renderBattleSkills();
+
+  scheduleEnemyTurn(600);
 
 }
 
@@ -4105,6 +4192,11 @@ function executeSkill(
     skill.type === "attack"
   ){
 
+    /*
+      今回の仕様：
+      技powerをそのままダメージとして使用。
+      攻撃力・防御力・属性補正は使わない。
+    */
     const damage =
       Math.max(
         0,
@@ -4133,16 +4225,11 @@ function executeSkill(
 
     updateBattleDisplay();
 
-    /*
-      ★HP0なら即終了。
-    */
     if(
       battle.enemyHP <= 0
     ){
 
-      finishBattle(
-        true
-      );
+      finishBattle(true);
 
       return;
 
@@ -4152,9 +4239,7 @@ function executeSkill(
       battle.playerHP <= 0
     ){
 
-      finishBattle(
-        false
-      );
+      finishBattle(false);
 
       return;
 
@@ -4166,9 +4251,7 @@ function executeSkill(
 
 
   /*
-    ======================================================
     回復
-    ======================================================
   */
   if(
     skill.type === "heal"
@@ -4232,9 +4315,7 @@ function executeSkill(
 
 
   /*
-    ======================================================
     バフ
-    ======================================================
   */
   if(
     skill.type === "buff"
@@ -4323,7 +4404,7 @@ function enemyTurn(){
     battle.sessionId;
 
   /*
-    まだ3回使用していない技だけを候補にする。
+    使用可能なスキルを取得。
   */
   const available =
     battle.enemy.skills
@@ -4341,54 +4422,57 @@ function enemyTurn(){
       );
 
   /*
-    敵が全技を3回ずつ使用した場合、
-    全技の使用回数をリセット。
-    
-    これによりバトルが止まらない。
+    3種類のスキルをすべて使い切った場合は
+    通常攻撃に切り替える。
   */
   if(
     available.length === 0
   ){
 
-    battle.enemyUses = [
-      0,
-      0,
-      0
-    ];
-
-  }
-
-  const usable =
-    battle.enemy.skills
-      .map(
-        (skill,index) => ({
-          skill,
-          index
-        })
-      )
-      .filter(
-        x =>
-          battle.enemyUses[
-            x.index
-          ] < 3
+    const damage =
+      Math.max(
+        0,
+        battle.enemyStats.attack +
+        battle.enemyAttackBonus
       );
 
-  if(
-    usable.length === 0
-  ){
+    battle.playerHP -=
+      damage;
+
+    addBattleLog(
+      "相手の通常攻撃！"
+    );
+
+    addBattleLog(
+      `${damage}ダメージ！`
+    );
+
+    updateBattleDisplay();
+
+    if(
+      battle.playerHP <= 0
+    ){
+
+      finishBattle(false);
+
+      return;
+
+    }
+
+    battle.turn =
+      "player";
+
+    renderBattleSkills();
 
     return;
 
   }
 
-  /*
-    敵は使用可能な技からランダム選択。
-  */
   const selected =
-    usable[
+    available[
       Math.floor(
         Math.random() *
-        usable.length
+        available.length
       )
     ];
 
@@ -4399,26 +4483,18 @@ function enemyTurn(){
   ){
 
     return;
+
   }
 
-  /*
-    敵の使用回数を1増やす。
-  */
   battle.enemyUses[
     selected.index
   ]++;
 
-  /*
-    技を実行。
-  */
   executeSkill(
     "enemy",
     selected.skill
   );
 
-  /*
-    バトル終了ならターン変更しない。
-  */
   if(
     !battle ||
     battle.finished ||
@@ -4426,11 +4502,9 @@ function enemyTurn(){
   ){
 
     return;
+
   }
 
-  /*
-    プレイヤーターンへ。
-  */
   battle.turn =
     "player";
 
@@ -4439,11 +4513,10 @@ function enemyTurn(){
 }
 
 
-/*
-  ========================================================
-  バトルログ
-  ========================================================
-*/
+/* =========================================================
+   BATTLE LOG
+========================================================= */
+
 function addBattleLog(text){
 
   const log =
@@ -4473,11 +4546,10 @@ function addBattleLog(text){
 }
 
 
-/*
-  ========================================================
-  バトル終了
-  ========================================================
-*/
+/* =========================================================
+   BATTLE FINISH
+========================================================= */
+
 function finishBattle(
   playerWon
 ){
@@ -4491,20 +4563,22 @@ function finishBattle(
   }
 
   /*
-    ★終了フラグを最初に立てる。
-    
-    同じ処理内で複数回finishBattleが
-    呼ばれることを防止。
+    まず終了フラグを立てる。
   */
   battle.finished = true;
 
   /*
-    古いsetTimeoutを無効化。
+    タイマーを完全停止。
+  */
+  stopBattleTimers();
+
+  /*
+    セッションを無効化。
   */
   battleSessionId++;
 
   /*
-    技ボタンを消す。
+    技ボタンを無効化。
   */
   document
     .getElementById(
@@ -4512,6 +4586,9 @@ function finishBattle(
     )
     .innerHTML = "";
 
+  /*
+    勝利
+  */
   if(playerWon){
 
     const playerId =
@@ -4536,24 +4613,26 @@ function finishBattle(
       playerId
     );
 
-  }else{
-
-    showBattleResult(
-      false,
-      null,
-      battle.player.id
-    );
+    return;
 
   }
+
+  /*
+    敗北
+  */
+  showBattleResult(
+    false,
+    null,
+    battle.player.id
+  );
 
 }
 
 
-/*
-  ========================================================
-  バトル結果
-  ========================================================
-*/
+/* =========================================================
+   BATTLE RESULT
+========================================================= */
+
 function showBattleResult(
   playerWon,
   result,
@@ -4716,7 +4795,7 @@ function showBattleResult(
   }
 
   /*
-    結果画面では履歴を作らない。
+    結果画面へ。
   */
   showScreen(
     "battleResultScreen",
@@ -4973,6 +5052,8 @@ function renderMissions(){
 document.addEventListener(
   "DOMContentLoaded",
   () => {
+
+    stopBattleTimers();
 
     battle = null;
 
