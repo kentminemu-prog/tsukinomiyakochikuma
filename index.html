@@ -2202,6 +2202,982 @@ function finishBattle(playerWon){
 updateHome();
 
 </script>
+<!-- =========================================================
+     Ver.0.4 追加機能
+     日本遺産3テーマ・融合ヒント
+========================================================= -->
 
+<style>
+
+.v04-theme-card{
+ background:#26344d;
+ border-radius:16px;
+ padding:16px;
+ margin-bottom:12px;
+}
+
+.v04-theme-title{
+ font-size:18px;
+ font-weight:bold;
+ margin-bottom:6px;
+}
+
+.v04-theme-sub{
+ font-size:12px;
+ color:#94a3b8;
+ line-height:1.6;
+}
+
+.v04-theme-progress{
+ margin-top:10px;
+ font-size:12px;
+ color:#cbd5e1;
+}
+
+.v04-filter{
+ display:flex;
+ gap:7px;
+ overflow-x:auto;
+ margin-bottom:12px;
+ padding-bottom:4px;
+}
+
+.v04-filter button{
+ border:0;
+ border-radius:999px;
+ padding:8px 12px;
+ background:#334155;
+ color:white;
+ white-space:nowrap;
+}
+
+.v04-filter button.active{
+ background:#7658e8;
+}
+
+.v04-theme-tag{
+ display:inline-block;
+ background:#4c3d83;
+ color:#ddd6fe;
+ border-radius:999px;
+ padding:4px 8px;
+ font-size:10px;
+ margin-top:6px;
+}
+
+.v04-hint{
+ background:#302b4d;
+ border:1px solid #6655a6;
+ border-radius:14px;
+ padding:14px;
+ margin-top:12px;
+ line-height:1.7;
+}
+
+.v04-hint-title{
+ font-weight:bold;
+ color:#ddd6fe;
+ margin-bottom:5px;
+}
+
+.v04-mission{
+ background:#26344d;
+ border-radius:14px;
+ padding:14px;
+ margin-top:10px;
+}
+
+.v04-mission.done{
+ border:1px solid #22c55e;
+}
+
+.v04-mission-title{
+ font-weight:bold;
+}
+
+.v04-check{
+ color:#22c55e;
+ font-weight:bold;
+}
+
+</style>
+
+
+<script>
+
+/* =========================================================
+   Ver.0.4
+   日本遺産3テーマ
+========================================================= */
+
+const v04Themes = {
+
+ 1:{
+  name:"古人の「遊び心」",
+  icon:"🌙",
+  description:
+   "月の名所として知られた千曲の歴史や、月を題材にした文学・絵画などを楽しむテーマ。",
+  ids:[1,2,3]
+ },
+
+ 2:{
+  name:"先人の「暮らしの知恵」",
+  icon:"🌾",
+  description:
+   "棚田の耕作や水、信仰、祭り、街道など、地域の人々が積み重ねてきた暮らしの知恵を伝えるテーマ。",
+  ids:[
+   4,5,6,7,8,9,10,11,12,13,14,15,16
+  ]
+ },
+
+ 3:{
+  name:"今に生きる「月見の地」",
+  icon:"🌕",
+  description:
+   "伝統的な月見の場所から、駅や温泉、酒蔵、食文化など、現在につながる千曲の魅力を伝えるテーマ。",
+  ids:[
+   17,18,19,20,21,22,23,24,25,26,27,28,29
+  ]
+ }
+
+};
+
+
+/* =========================================================
+   文化財 → テーマ
+========================================================= */
+
+function v04GetTheme(cardId){
+
+ for(const key in v04Themes){
+
+  if(v04Themes[key].ids.includes(cardId)){
+   return Number(key);
+  }
+
+ }
+
+ return null;
+
+}
+
+
+function v04ThemeName(cardId){
+
+ const themeId=v04GetTheme(cardId);
+
+ if(!themeId)return "";
+
+ return v04Themes[themeId].name;
+
+}
+
+
+/* =========================================================
+   セーブデータ拡張
+========================================================= */
+
+if(!Array.isArray(saveData.viewedCards)){
+ saveData.viewedCards=[];
+}
+
+
+/* =========================================================
+   文化財を見た記録
+========================================================= */
+
+function v04MarkViewed(cardId){
+
+ if(!Array.isArray(saveData.viewedCards)){
+  saveData.viewedCards=[];
+ }
+
+ if(!saveData.viewedCards.includes(cardId)){
+
+  saveData.viewedCards.push(cardId);
+
+  saveGame();
+
+ }
+
+}
+
+
+/* =========================================================
+   ホーム画面に3テーマボタンを追加
+========================================================= */
+
+function v04AddHomeButton(){
+
+ const home=document.getElementById("homeScreen");
+
+ if(!home)return;
+
+ if(document.getElementById("v04ThemeButton"))return;
+
+ const button=document.createElement("button");
+
+ button.id="v04ThemeButton";
+
+ button.className="menu-btn";
+
+ button.innerHTML=`
+ 🧭 日本遺産3テーマ
+ <small>「月の都 千曲」を物語から探る</small>
+ `;
+
+ button.onclick=()=>v04ShowThemeScreen();
+
+ const heritageButton=
+  Array.from(home.querySelectorAll("button"))
+  .find(b=>b.textContent.includes("文化財図鑑"));
+
+ if(heritageButton){
+
+  heritageButton.after(button);
+
+ }else{
+
+  home.appendChild(button);
+
+ }
+
+}
+
+
+/* =========================================================
+   3テーマ画面
+========================================================= */
+
+function v04CreateThemeScreen(){
+
+ if(document.getElementById("v04ThemeScreen"))return;
+
+ const section=document.createElement("section");
+
+ section.id="v04ThemeScreen";
+
+ section.className="screen hidden";
+
+ section.innerHTML=`
+
+ <div class="header">
+
+  <button class="back-btn"
+  onclick="showScreen('homeScreen')">
+  ← 戻る
+  </button>
+
+  <h2>3つの物語</h2>
+
+ </div>
+
+ <div class="notice">
+
+ 日本遺産「月の都 千曲」は、
+ 29の文化財を3つのテーマで結んだ物語です。
+
+ </div>
+
+ <div id="v04ThemeList"></div>
+
+ `;
+
+ document.getElementById("app")
+ .appendChild(section);
+
+}
+
+
+function v04ShowThemeScreen(){
+
+ v04CreateThemeScreen();
+
+ const container=
+  document.getElementById("v04ThemeList");
+
+ container.innerHTML="";
+
+ Object.keys(v04Themes).forEach(key=>{
+
+  const theme=v04Themes[key];
+
+  const viewed=
+   theme.ids.filter(id=>
+    saveData.viewedCards.includes(id)
+   ).length;
+
+  const percent=
+   Math.round(
+    viewed/theme.ids.length*100
+   );
+
+  const div=
+   document.createElement("div");
+
+  div.className="v04-theme-card";
+
+  div.innerHTML=`
+
+   <div class="v04-theme-title">
+   ${theme.icon} ${theme.name}
+   </div>
+
+   <div class="v04-theme-sub">
+   ${theme.description}
+   </div>
+
+   <div class="v04-theme-progress">
+   閲覧した文化財：${viewed} / ${theme.ids.length}
+   </div>
+
+   <div class="progress-bar">
+    <div class="progress-fill"
+    style="width:${percent}%"></div>
+   </div>
+
+   <button class="menu-btn"
+   onclick="v04ShowThemeCards(${key})">
+   このテーマの文化財を見る
+   </button>
+
+  `;
+
+  container.appendChild(div);
+
+ });
+
+ showScreen("v04ThemeScreen");
+
+}
+
+
+/* =========================================================
+   テーマ別文化財一覧
+========================================================= */
+
+function v04ShowThemeCards(themeId){
+
+ const theme=v04Themes[themeId];
+
+ if(!theme)return;
+
+ showScreen("heritageScreen");
+
+ const grid=
+  document.getElementById("heritageGrid");
+
+ grid.innerHTML="";
+
+ const title=
+  document.createElement("div");
+
+ title.className="notice";
+
+ title.innerHTML=
+  `${theme.icon} <strong>${theme.name}</strong><br>`+
+  `${theme.description}`;
+
+ grid.appendChild(title);
+
+ theme.ids.forEach(id=>{
+
+  const card=
+   cards.find(c=>c.id===id);
+
+  if(!card)return;
+
+  const div=
+   document.createElement("div");
+
+  div.className="info-card";
+
+  div.onclick=
+   ()=>showHeritageDetail(card.id);
+
+  div.innerHTML=`
+
+   <div class="icon">${card.icon}</div>
+
+   <strong>${card.name}</strong>
+
+   <div>
+   ${card.tags.map(t=>
+    `<span class="tag">${t}</span>`
+   ).join("")}
+   </div>
+
+   <div class="v04-theme-tag">
+   ${theme.name}
+   </div>
+
+  `;
+
+  grid.appendChild(div);
+
+ });
+
+}
+
+
+/* =========================================================
+   文化財図鑑をVer.0.4仕様に拡張
+========================================================= */
+
+const v04OriginalRenderHeritageBook=
+ renderHeritageBook;
+
+renderHeritageBook=function(){
+
+ const grid=
+  document.getElementById("heritageGrid");
+
+ grid.innerHTML="";
+
+ const filter=
+  document.createElement("div");
+
+ filter.className="v04-filter";
+
+ filter.innerHTML=`
+
+ <button class="active"
+ onclick="v04FilterHeritage(0,this)">
+ すべて
+ </button>
+
+ <button
+ onclick="v04FilterHeritage(1,this)">
+ 🌙 遊び心
+ </button>
+
+ <button
+ onclick="v04FilterHeritage(2,this)">
+ 🌾 暮らしの知恵
+ </button>
+
+ <button
+ onclick="v04FilterHeritage(3,this)">
+ 🌕 月見の地
+ </button>
+
+ `;
+
+ grid.appendChild(filter);
+
+ const cardsArea=
+  document.createElement("div");
+
+ cardsArea.id="v04HeritageCards";
+
+ grid.appendChild(cardsArea);
+
+ v04RenderHeritageCards(0);
+
+};
+
+
+/* =========================================================
+   文化財フィルター
+========================================================= */
+
+function v04FilterHeritage(themeId,button){
+
+ document
+ .querySelectorAll(".v04-filter button")
+ .forEach(b=>b.classList.remove("active"));
+
+ button.classList.add("active");
+
+ v04RenderHeritageCards(themeId);
+
+}
+
+
+function v04RenderHeritageCards(themeId){
+
+ const area=
+  document.getElementById("v04HeritageCards");
+
+ if(!area)return;
+
+ area.innerHTML="";
+
+ const targetCards=
+  themeId===0
+   ?cards
+   :cards.filter(card=>
+    v04GetTheme(card.id)===themeId
+   );
+
+ targetCards.forEach(card=>{
+
+  const div=
+   document.createElement("div");
+
+  div.className="info-card";
+
+  div.onclick=
+   ()=>showHeritageDetail(card.id);
+
+  div.innerHTML=`
+
+   <div class="icon">${card.icon}</div>
+
+   <strong>${card.name}</strong>
+
+   <div>
+   ${card.tags.map(t=>
+    `<span class="tag">${t}</span>`
+   ).join("")}
+   </div>
+
+   <div class="v04-theme-tag">
+   ${v04Themes[v04GetTheme(card.id)].icon}
+   ${v04Themes[v04GetTheme(card.id)].name}
+   </div>
+
+  `;
+
+  area.appendChild(div);
+
+ });
+
+}
+
+
+/* =========================================================
+   文化財詳細にテーマを追加
+========================================================= */
+
+const v04OriginalShowHeritageDetail=
+ showHeritageDetail;
+
+showHeritageDetail=function(id){
+
+ v04MarkViewed(id);
+
+ const card=
+  cards.find(c=>c.id===id);
+
+ if(!card)return;
+
+ const themeId=
+  v04GetTheme(id);
+
+ const theme=
+  v04Themes[themeId];
+
+ document.getElementById("heritageDetail").innerHTML=`
+
+ <div class="detail-box">
+
+  <div class="big-icon">
+  ${card.icon}
+  </div>
+
+  <div class="small-label">
+  日本遺産「月の都 千曲」
+  </div>
+
+  <h2>${card.name}</h2>
+
+  <div>
+  ${card.tags.map(t=>
+   `<span class="tag">${t}</span>`
+  ).join("")}
+  </div>
+
+  <div class="v04-hint">
+
+   <div class="v04-hint-title">
+   ${theme.icon} 日本遺産のテーマ
+   </div>
+
+   ${theme.name}
+
+   <div class="v04-theme-sub">
+   ${theme.description}
+   </div>
+
+  </div>
+
+  <h3>文化財について</h3>
+
+  <p>
+  ${card.description}
+  </p>
+
+  <hr style="border-color:#475569">
+
+  <div class="small-label">
+  ゲーム属性
+  </div>
+
+  <p>
+  ${card.tags.join("　")}
+  </p>
+
+  <button class="primary-btn"
+  onclick="addFusionCard(${card.id})">
+  このカードを融合に使う
+  </button>
+
+ </div>
+
+ `;
+
+ showScreen("heritageDetailScreen");
+
+};
+
+
+/* =========================================================
+   融合ヒントボタン
+========================================================= */
+
+function v04AddFusionHintButton(){
+
+ const fusionScreen=
+  document.getElementById("fusionScreen");
+
+ if(!fusionScreen)return;
+
+ if(document.getElementById("v04FusionHint"))return;
+
+ const button=
+  document.createElement("button");
+
+ button.id="v04FusionHint";
+
+ button.className="menu-btn";
+
+ button.innerHTML=`
+ 💡 融合ヒント
+ <small>今選んでいるカードから手がかりを探す</small>
+ `;
+
+ button.onclick=
+  ()=>v04FusionHint();
+
+ const primary=
+  fusionScreen.querySelector(".primary-btn");
+
+ if(primary){
+  primary.after(button);
+ }else{
+  fusionScreen.appendChild(button);
+ }
+
+}
+
+
+/* =========================================================
+   融合ヒント
+========================================================= */
+
+function v04FusionHint(){
+
+ if(selectedFusionCards.length===0){
+
+  alert(
+   "まず文化財カードを1枚以上選んでください。"
+  );
+
+  return;
+
+ }
+
+
+ if(selectedFusionCards.length===1){
+
+  const card=
+   cards.find(c=>
+    c.id===selectedFusionCards[0]
+   );
+
+  const theme=
+   v04Themes[v04GetTheme(card.id)];
+
+  alert(
+   `「${card.name}」は\n`+
+   `「${theme.name}」に属する文化財です。\n\n`+
+   `同じ物語につながる文化財や、\n`+
+   `相性のよさそうな属性を探してみましょう。`
+  );
+
+  return;
+
+ }
+
+
+ const possible=
+  monsters.filter(monster=>
+   !saveData.discovered.includes(monster.id)&&
+   selectedFusionCards.every(id=>
+    monster.recipe.includes(id)
+   )
+  );
+
+ if(possible.length>0){
+
+  const monster=possible[0];
+
+  const recipeLength=
+   monster.recipe.length;
+
+  if(
+   selectedFusionCards.length===
+   recipeLength
+  ){
+
+   alert(
+    "✨ 強い反応があります！\n\n"+
+    "この組み合わせには、\n"+
+    "新しいモンスターにつながる可能性があります。"
+   );
+
+  }else{
+
+   const missing=
+    monster.recipe.filter(id=>
+     !selectedFusionCards.includes(id)
+    );
+
+   const missingCard=
+    cards.find(c=>c.id===missing[0]);
+
+   alert(
+    "✨ 何かが反応しています……\n\n"+
+    "もう1枚、別の文化財が必要かもしれません。\n\n"+
+    "ヒント："+
+    missingCard.icon+
+    " 「"+missingCard.name+"」のようなカードを探してみよう。"
+   );
+
+  }
+
+ }else{
+
+  const themes=
+   [...new Set(
+    selectedFusionCards.map(id=>
+     v04ThemeName(id)
+    )
+   )];
+
+  alert(
+   "今の組み合わせからは、\n"+
+   "まだ強い反応を感じません。\n\n"+
+   "テーマ：\n"+
+   themes.join("\n")+
+   "\n\n"+
+   "同じテーマだけでなく、\n"+
+   異なるテーマを組み合わせるのも試してみよう。"
+  );
+
+ }
+
+}
+
+
+/* =========================================================
+   融合画面にヒントボタンを追加
+========================================================= */
+
+const v04OriginalRenderFusion=
+ renderFusion;
+
+renderFusion=function(){
+
+ v04OriginalRenderFusion();
+
+ v04AddFusionHintButton();
+
+};
+
+
+/* =========================================================
+   ミッション
+========================================================= */
+
+function v04CreateMissionButton(){
+
+ const home=
+  document.getElementById("homeScreen");
+
+ if(!home)return;
+
+ if(document.getElementById("v04MissionButton"))return;
+
+ const button=
+  document.createElement("button");
+
+ button.id="v04MissionButton";
+
+ button.className="menu-btn";
+
+ button.innerHTML=`
+ 🎯 探索ミッション
+ <small>文化財を知って、物語を完成させよう</small>
+ `;
+
+ button.onclick=
+  ()=>v04ShowMissions();
+
+ const themeButton=
+  document.getElementById("v04ThemeButton");
+
+ if(themeButton){
+
+  themeButton.after(button);
+
+ }else{
+
+  home.appendChild(button);
+
+ }
+
+}
+
+
+/* =========================================================
+   ミッション画面
+========================================================= */
+
+function v04ShowMissions(){
+
+ if(!document.getElementById("v04MissionScreen")){
+
+  const section=
+   document.createElement("section");
+
+  section.id="v04MissionScreen";
+
+  section.className="screen hidden";
+
+  section.innerHTML=`
+
+   <div class="header">
+
+    <button class="back-btn"
+    onclick="showScreen('homeScreen')">
+    ← 戻る
+    </button>
+
+    <h2>探索ミッション</h2>
+
+   </div>
+
+   <div class="notice">
+
+   文化財図鑑を読んで、
+   千曲の3つの物語を完成させよう。
+
+   </div>
+
+   <div id="v04MissionList"></div>
+
+  `;
+
+  document.getElementById("app")
+  .appendChild(section);
+
+ }
+
+ const list=
+  document.getElementById("v04MissionList");
+
+ list.innerHTML="";
+
+ const missions=[
+  {
+   theme:1,
+   goal:3,
+   text:"「古人の遊び心」の文化財を3件見る"
+  },
+  {
+   theme:2,
+   goal:5,
+   text:"「先人の暮らしの知恵」の文化財を5件見る"
+  },
+  {
+   theme:3,
+   goal:5,
+   text:"「今に生きる月見の地」の文化財を5件見る"
+  }
+ ];
+
+ missions.forEach(m=>{
+
+  const count=
+   v04Themes[m.theme].ids.filter(id=>
+    saveData.viewedCards.includes(id)
+   ).length;
+
+  const done=
+   count>=m.goal;
+
+  const div=
+   document.createElement("div");
+
+  div.className=
+   "v04-mission"+
+   (done?" done":"");
+
+  div.innerHTML=`
+
+   <div class="v04-mission-title">
+
+   ${done?"✅":"🎯"}
+
+   ${m.text}
+
+   </div>
+
+   <div class="muted">
+   ${count} / ${m.goal}
+   </div>
+
+  `;
+
+  list.appendChild(div);
+
+ });
+
+ showScreen("v04MissionScreen");
+
+}
+
+
+/* =========================================================
+   起動時に追加機能を準備
+========================================================= */
+
+v04CreateThemeScreen();
+
+v04AddHomeButton();
+
+v04CreateMissionButton();
+
+
+/* =========================================================
+   ホーム更新を拡張
+========================================================= */
+
+const v04OriginalUpdateHome=
+ updateHome;
+
+updateHome=function(){
+
+ v04OriginalUpdateHome();
+
+ v04AddHomeButton();
+
+ v04CreateMissionButton();
+
+};
+
+</script>
 </body>
 </html>
