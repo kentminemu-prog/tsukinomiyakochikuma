@@ -177,6 +177,49 @@ h1,h2,h3{
   transition:width .3s;
 }
 
+/* =========================================================
+   MONSTER EXP BAR
+========================================================= */
+
+.monster-exp-box{
+  margin-top:10px;
+}
+
+.monster-exp-label{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:12px;
+  color:#bbc6de;
+}
+
+.monster-exp-bar{
+  height:10px;
+  background:#0b1325;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:5px;
+}
+
+.monster-exp-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(
+    90deg,
+    #8068d8,
+    #d4aa3a
+  );
+  border-radius:999px;
+  transition:width .4s ease;
+}
+
+.next-level-text{
+  text-align:center;
+  color:#9eabc5;
+  font-size:11px;
+  margin-top:5px;
+}
+
 .menu-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -345,21 +388,9 @@ h1,h2,h3{
   font-weight:bold;
 }
 
-.skill{
-  background:#111a2e;
-  border-radius:12px;
-  padding:12px;
-  margin-top:9px;
-}
-
-.skill-name{
+.stat-up{
+  color:#6fda91;
   font-weight:bold;
-}
-
-.skill-info{
-  color:#bdc8dd;
-  font-size:13px;
-  margin-top:4px;
 }
 
 .fusion-area{
@@ -504,6 +535,26 @@ h1,h2,h3{
   text-align:left;
 }
 
+.level-up-title{
+  color:#f5d76a;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.level-stat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.level-stat{
+  background:#171d2d;
+  border-radius:8px;
+  padding:8px;
+  font-size:13px;
+}
+
 .mission{
   background:#1a2641;
   border-radius:15px;
@@ -574,6 +625,7 @@ h1,h2,h3{
 }
 
 @media(max-width:600px){
+
   .screen{
     padding:14px;
   }
@@ -585,6 +637,11 @@ h1,h2,h3{
   .battle-status{
     grid-template-columns:1fr;
   }
+
+  .level-stat-grid{
+    grid-template-columns:1fr;
+  }
+
 }
 </style>
 </head>
@@ -1243,6 +1300,10 @@ function showScreen(id,addHistory=true){
 
   if(id === "monsterScreen"){
     renderMonsters();
+  }
+
+  if(id === "monsterDetailScreen"){
+    renderCurrentMonsterDetail();
   }
 
   if(id === "battleScreen"){
@@ -1991,12 +2052,10 @@ let battleSessionId = 0;
 
 let battleTimer = null;
 
-/*
-  ★今回追加
-  直前のバトルで使用したモンスターID。
-  「もう一度バトル」で同じモンスターを使用する。
-*/
 let lastBattlePlayerId = null;
+
+/* 現在表示しているモンスター */
+let currentMonsterDetailId = null;
 
 
 /* =========================================================
@@ -2083,6 +2142,8 @@ function startGame(){
 
   lastBattlePlayerId = null;
 
+  currentMonsterDetailId = null;
+
   saveData = {
 
     foundCards:[1,5],
@@ -2126,6 +2187,8 @@ function continueGame(){
   battleSessionId++;
 
   lastBattlePlayerId = null;
+
+  currentMonsterDetailId = null;
 
   screenHistory = [];
 
@@ -2179,6 +2242,8 @@ function loadGame(){
 
     normalizeMonsterProgress();
 
+    saveGame();
+
     return true;
 
   }catch(e){
@@ -2217,6 +2282,8 @@ function resetGame(){
   battleSessionId++;
 
   lastBattlePlayerId = null;
+
+  currentMonsterDetailId = null;
 
   saveData = {
 
@@ -2559,6 +2626,49 @@ function getEffectiveStats(
 }
 
 
+/*
+  EXPゲージ用情報
+*/
+function getExpInfo(id){
+
+  const progress =
+    ensureMonsterProgress(id);
+
+  const required =
+    getRequiredExp(
+      progress.level
+    );
+
+  const percent =
+    required > 0
+      ? Math.min(
+          100,
+          progress.exp /
+          required *
+          100
+        )
+      : 0;
+
+  return {
+
+    current:progress.exp,
+
+    required,
+
+    percent,
+
+    remaining:
+      Math.max(
+        0,
+        required -
+        progress.exp
+      )
+
+  };
+
+}
+
+
 function getExpReward(monster){
 
   if(monster.rarity === "★★★★"){
@@ -2574,6 +2684,9 @@ function getExpReward(monster){
 }
 
 
+/*
+  EXPを獲得し、レベルアップ情報を返す
+*/
 function gainMonsterExp(
   monsterId,
   amount
@@ -2583,6 +2696,22 @@ function gainMonsterExp(
     ensureMonsterProgress(
       monsterId
     );
+
+  const monster =
+    monsters.find(
+      m => m.id === monsterId
+    );
+
+  const beforeLevel =
+    progress.level;
+
+  const beforeStats =
+    monster
+      ? getEffectiveStats(
+          monster,
+          beforeLevel
+        )
+      : null;
 
   const levelUps = [];
 
@@ -2602,30 +2731,55 @@ function gainMonsterExp(
 
     progress.exp -= required;
 
+    const oldLevel =
+      progress.level;
+
     progress.level++;
 
     levelUps.push({
 
-      level:progress.level,
+      oldLevel,
+
+      newLevel:
+        progress.level,
 
       hp:5,
+
       attack:2,
+
       defense:2,
+
       speed:1
 
     });
 
   }
 
+  const afterStats =
+    monster
+      ? getEffectiveStats(
+          monster,
+          progress.level
+        )
+      : null;
+
   return {
 
     amount,
 
-    level:progress.level,
+    beforeLevel,
 
-    exp:progress.exp,
+    level:
+      progress.level,
 
-    levelUps
+    exp:
+      progress.exp,
+
+    levelUps,
+
+    beforeStats,
+
+    afterStats
 
   };
 
@@ -2649,6 +2803,55 @@ function monsterEmoji(monster){
 }
 
 
+/*
+  モンスター用EXPゲージHTML
+*/
+function renderMonsterExpBar(
+  monsterId
+){
+
+  const info =
+    getExpInfo(
+      monsterId
+    );
+
+  return `
+
+    <div class="monster-exp-box">
+
+      <div class="monster-exp-label">
+
+        <span>EXP</span>
+
+        <span>
+          ${info.current} / ${info.required}
+        </span>
+
+      </div>
+
+      <div class="monster-exp-bar">
+
+        <div
+          class="monster-exp-fill"
+          style="width:${info.percent}%"
+        ></div>
+
+      </div>
+
+      <div class="next-level-text">
+
+        次のレベルまであと
+        ${info.remaining} EXP
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
 function renderMonsterCard(monster){
 
   const progress =
@@ -2659,11 +2862,6 @@ function renderMonsterCard(monster){
   const stats =
     getEffectiveStats(
       monster,
-      progress.level
-    );
-
-  const required =
-    getRequiredExp(
       progress.level
     );
 
@@ -2689,9 +2887,7 @@ function renderMonsterCard(monster){
         ${monster.attribute}
       </div>
 
-      <div class="exp-line">
-        EXP ${progress.exp} / ${required}
-      </div>
+      ${renderMonsterExpBar(monster.id)}
 
       <div class="stat-grid">
 
@@ -2789,6 +2985,29 @@ function renderMonsters(){
 
 function showMonsterDetail(id){
 
+  currentMonsterDetailId = id;
+
+  renderMonsterDetail();
+
+}
+
+
+function renderCurrentMonsterDetail(){
+
+  if(currentMonsterDetailId){
+
+    renderMonsterDetail();
+
+  }
+
+}
+
+
+function renderMonsterDetail(){
+
+  const id =
+    currentMonsterDetailId;
+
   const monster =
     monsters.find(
       m => m.id === id
@@ -2807,10 +3026,8 @@ function showMonsterDetail(id){
       progress.level
     );
 
-  const required =
-    getRequiredExp(
-      progress.level
-    );
+  const expInfo =
+    getExpInfo(id);
 
   document
     .getElementById(
@@ -2844,9 +3061,7 @@ function showMonsterDetail(id){
           Lv.${progress.level}
         </div>
 
-        <div class="exp-line">
-          EXP ${progress.exp} / ${required}
-        </div>
+        ${renderMonsterExpBar(monster.id)}
 
         <div class="stat-grid">
 
@@ -2868,6 +3083,37 @@ function showMonsterDetail(id){
           <div class="stat">
             <div class="stat-label">素早さ</div>
             <div class="stat-value">${stats.speed}</div>
+          </div>
+
+        </div>
+
+        <div class="notice" style="margin-top:15px;margin-bottom:0">
+
+          💡 このモンスターは
+          あと ${expInfo.remaining} EXP で
+          Lv.${progress.level + 1} に成長します。
+
+        </div>
+
+      </div>
+
+      <div class="detail-card">
+
+        <h3>📈 成長ルール</h3>
+
+        <div class="detail-text">
+
+          バトルでEXPを獲得するとレベルアップします。<br><br>
+
+          レベルアップすると、
+
+          <div style="margin-top:10px">
+
+            <span class="stat-up">HP ＋5</span><br>
+            <span class="stat-up">攻撃 ＋2</span><br>
+            <span class="stat-up">防御 ＋2</span><br>
+            <span class="stat-up">素早さ ＋1</span>
+
           </div>
 
         </div>
@@ -2914,13 +3160,16 @@ function showMonsterDetail(id){
         `).join("")}
 
         <div class="skill">
+
           <div class="skill-name">
             通常攻撃
           </div>
+
           <div class="skill-info">
             攻撃力 ${monster.attack}
             ／ 使用回数制限なし
           </div>
+
         </div>
 
       </div>
@@ -3287,6 +3536,12 @@ function showBirth(
   const progress =
     getMonsterProgress(id);
 
+  const stats =
+    getEffectiveStats(
+      monster,
+      progress.level
+    );
+
   document
     .getElementById(
       "birthContent"
@@ -3312,6 +3567,32 @@ function showBirth(
 
         <div class="level-line">
           Lv.${progress.level}
+        </div>
+
+        ${renderMonsterExpBar(monster.id)}
+
+        <div class="stat-grid">
+
+          <div class="stat">
+            <div class="stat-label">HP</div>
+            <div class="stat-value">${stats.hp}</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">攻撃</div>
+            <div class="stat-value">${stats.attack}</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">防御</div>
+            <div class="stat-value">${stats.defense}</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">素早さ</div>
+            <div class="stat-value">${stats.speed}</div>
+          </div>
+
         </div>
 
         <p class="detail-text">
@@ -3360,17 +3641,8 @@ function showBirth(
    BATTLE
 ========================================================= */
 
-
-/*
-  バトル選択画面
-*/
 function renderBattleSelect(){
 
-  /*
-    ★修正
-    進行中のバトルがある場合、
-    バトル状態を消さない。
-  */
   if(
     battle &&
     !battle.finished
@@ -3463,16 +3735,7 @@ function renderBattleSelect(){
                   Lv.${progress.level}
                 </div>
 
-                <div class="exp-line">
-
-                  EXP
-                  ${progress.exp}
-                  /
-                  ${getRequiredExp(
-                    progress.level
-                  )}
-
-                </div>
+                ${renderMonsterExpBar(monster.id)}
 
                 <button
                   class="btn"
@@ -3497,19 +3760,14 @@ function renderBattleSelect(){
 }
 
 
-/*
-  ========================================================
-  バトル開始
-  ========================================================
-*/
+/* =========================================================
+   BATTLE START
+========================================================= */
+
 function startBattle(playerId){
 
   stopBattleTimers();
 
-  /*
-    ★修正
-    前回のバトル状態を完全に破棄してから開始。
-  */
   battle = null;
 
   battleSessionId++;
@@ -3522,11 +3780,6 @@ function startBattle(playerId){
       m => m.id === playerId
     );
 
-  /*
-    ★修正
-    発見済みモンスター以外では
-    バトルを開始できない。
-  */
   if(
     !player ||
     !saveData.discoveredMonsters.includes(playerId)
@@ -3545,11 +3798,6 @@ function startBattle(playerId){
     return;
   }
 
-  /*
-    ★修正
-    今回使用するモンスターを記憶。
-    「もう一度バトル」で使用する。
-  */
   lastBattlePlayerId =
     playerId;
 
@@ -3663,18 +3911,11 @@ function startBattle(playerId){
 }
 
 
-/*
-  ========================================================
-  もう一度バトル
-  ========================================================
-*/
-function retryBattle(){
+/* =========================================================
+   RETRY BATTLE
+========================================================= */
 
-  /*
-    ★今回の重要修正
-    直前のモンスターを取得して、
-    バトル選択画面を経由せず直接再戦する。
-  */
+function retryBattle(){
 
   stopBattleTimers();
 
@@ -3685,11 +3926,6 @@ function retryBattle(){
 
   battleSessionId++;
 
-  /*
-    直前のモンスターが存在しない、
-    または発見済みでなくなっている場合は
-    通常のバトル選択画面へ戻す。
-  */
   if(
     !playerId ||
     !saveData.discoveredMonsters.includes(playerId)
@@ -3706,10 +3942,6 @@ function retryBattle(){
 
   }
 
-  /*
-    バトル選択画面を表示するだけではなく、
-    そのまま startBattle() を実行する。
-  */
   screenHistory = [];
 
   showScreen(
@@ -3724,19 +3956,15 @@ function retryBattle(){
 }
 
 
-/*
-  ========================================================
-  先攻決定
-  ========================================================
-*/
+/* =========================================================
+   FIRST TURN
+========================================================= */
+
 function determineFirstTurn(){
 
   if(!battle){
     return;
   }
-
-  const session =
-    battle.sessionId;
 
   const playerSpeed =
     battle.playerStats.speed;
@@ -3791,7 +4019,7 @@ function determineFirstTurn(){
 
 
 /* =========================================================
-   BATTLE DAMAGE CALCULATION
+   BATTLE DAMAGE
 ========================================================= */
 
 function getAttributeMultiplier(
@@ -3803,10 +4031,12 @@ function getAttributeMultiplier(
     attributeData[attackElement];
 
   if(!data){
+
     return {
       multiplier:1,
       type:"通常"
     };
+
   }
 
   if(
@@ -4388,9 +4618,6 @@ function executeSkill(
   const isPlayer =
     side === "player";
 
-  /*
-    攻撃
-  */
   if(
     skill.type === "attack"
   ){
@@ -4491,9 +4718,6 @@ function executeSkill(
   }
 
 
-  /*
-    回復
-  */
   if(
     skill.type === "heal"
   ){
@@ -4555,9 +4779,6 @@ function executeSkill(
   }
 
 
-  /*
-    バフ
-  */
   if(
     skill.type === "buff"
   ){
@@ -4660,10 +4881,6 @@ function enemyTurn(){
           ] < 3
       );
 
-  /*
-    すべてのスキルを使い切ったら
-    通常攻撃へ。
-  */
   if(
     available.length === 0
   ){
@@ -4855,10 +5072,6 @@ function finishBattle(
     const playerId =
       battle.player.id;
 
-    /*
-      ★念のため最後に使用した
-      モンスターを保持。
-    */
     lastBattlePlayerId =
       playerId;
 
@@ -4885,9 +5098,6 @@ function finishBattle(
 
   }
 
-  /*
-    ★敗北時も再戦対象を保持。
-  */
   lastBattlePlayerId =
     battle.player.id;
 
@@ -4938,26 +5148,130 @@ function showBattleResult(
       levelUpHtml =
         result.levelUps
           .map(
-            up => `
+            (up,index) => {
 
-              <div class="level-up">
+              const oldLevel =
+                up.oldLevel;
 
-                <strong>
-                  🎉 Lv.${up.level} にレベルアップ！
-                </strong>
+              const newLevel =
+                up.newLevel;
 
-                <div style="margin-top:8px">
+              const monsterStats =
+                player
+                  ? getEffectiveStats(
+                      player,
+                      newLevel
+                    )
+                  : null;
 
-                  HP　＋${up.hp}<br>
-                  攻撃 ＋${up.attack}<br>
-                  防御 ＋${up.defense}<br>
-                  素早さ ＋${up.speed}
+              const previousStats =
+                player
+                  ? getEffectiveStats(
+                      player,
+                      oldLevel
+                    )
+                  : null;
+
+              return `
+
+                <div class="level-up">
+
+                  <div class="level-up-title">
+
+                    🎉 LEVEL UP!
+
+                  </div>
+
+                  <div style="margin-top:6px;font-size:17px">
+
+                    Lv.${oldLevel}
+                    →
+                    Lv.${newLevel}
+
+                  </div>
+
+                  ${
+                    monsterStats &&
+                    previousStats
+                      ? `
+
+                        <div class="level-stat-grid">
+
+                          <div class="level-stat">
+
+                            HP<br>
+
+                            <strong>
+                              ${previousStats.hp}
+                              →
+                              ${monsterStats.hp}
+                            </strong>
+
+                            <span class="stat-up">
+                              ＋${up.hp}
+                            </span>
+
+                          </div>
+
+                          <div class="level-stat">
+
+                            攻撃<br>
+
+                            <strong>
+                              ${previousStats.attack}
+                              →
+                              ${monsterStats.attack}
+                            </strong>
+
+                            <span class="stat-up">
+                              ＋${up.attack}
+                            </span>
+
+                          </div>
+
+                          <div class="level-stat">
+
+                            防御<br>
+
+                            <strong>
+                              ${previousStats.defense}
+                              →
+                              ${monsterStats.defense}
+                            </strong>
+
+                            <span class="stat-up">
+                              ＋${up.defense}
+                            </span>
+
+                          </div>
+
+                          <div class="level-stat">
+
+                            素早さ<br>
+
+                            <strong>
+                              ${previousStats.speed}
+                              →
+                              ${monsterStats.speed}
+                            </strong>
+
+                            <span class="stat-up">
+                              ＋${up.speed}
+                            </span>
+
+                          </div>
+
+                        </div>
+
+                      `
+                      : ""
+                  }
 
                 </div>
 
-              </div>
+              `;
 
-            `
+            }
           )
           .join("");
 
@@ -4981,25 +5295,43 @@ function showBattleResult(
         +${result.amount} EXP
       </div>
 
+      <div style="margin-top:15px">
+
+        ${renderMonsterExpBar(playerId)}
+
+      </div>
+
       <p>
 
         現在 Lv.${progress.level}
-
-        ／
-
-        EXP ${progress.exp}
-        /
-        ${getRequiredExp(
-          progress.level
-        )}
 
       </p>
 
       ${levelUpHtml}
 
-      <p class="detail-text">
-        今回のバトルで経験を積みました。
-      </p>
+      ${
+        result.levelUps.length > 0
+          ? `
+            <div class="notice" style="text-align:left">
+
+              ⭐
+              ${result.levelUps.length}回
+              レベルアップしました！
+
+              <br><br>
+
+              モンスターのステータスが
+              成長しています。
+
+            </div>
+          `
+          : `
+            <p class="detail-text">
+              次のレベルまで
+              ${getExpInfo(playerId).remaining} EXPです。
+            </p>
+          `
+      }
 
       <div style="margin-top:20px">
 
@@ -5008,6 +5340,14 @@ function showBattleResult(
           onclick="retryBattle()"
         >
           もう一度バトル
+        </button>
+
+        <button
+          class="btn secondary"
+          style="margin-top:10px"
+          onclick="showMonsterDetail(${playerId})"
+        >
+          モンスターの成長を見る
         </button>
 
         <button
@@ -5049,6 +5389,14 @@ function showBattleResult(
           onclick="retryBattle()"
         >
           もう一度バトル
+        </button>
+
+        <button
+          class="btn secondary"
+          style="margin-top:10px"
+          onclick="showMonsterDetail(${playerId})"
+        >
+          モンスターを見る
         </button>
 
         <button
@@ -5328,6 +5676,8 @@ document.addEventListener(
     battleSessionId++;
 
     lastBattlePlayerId = null;
+
+    currentMonsterDetailId = null;
 
     screenHistory = [];
 
