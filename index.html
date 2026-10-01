@@ -1078,7 +1078,7 @@ h3{
 
 
       <button
-        onclick="showScreen('battleScreen')">
+        onclick="showScreen('battleScreen',false)">
         もう一度バトル
       </button>
 
@@ -1609,18 +1609,6 @@ desc:"地域の風土や暮らしから生まれた食文化。"
    ATTRIBUTE DATA
 ===================================================== */
 
-/*
-  属性は4種類に整理。
-
-  月 → 火
-  火 → 自然
-  自然 → 水
-  水 → 月
-
-  弱点属性への攻撃は1.5倍。
-  逆に相性が悪い属性からの攻撃は0.75倍。
-*/
-
 const attributeData={
 
   "月":{
@@ -1675,33 +1663,6 @@ function getAttributeHTML(attribute){
 /* =====================================================
    MONSTERS
 ===================================================== */
-
-/*
-  第一段階では、
-
-  HP
-  攻撃
-  防御
-  素早さ
-
-  の4能力値を使用します。
-
-  skills：
-
-  type
-    attack = 攻撃
-    heal   = 回復
-    buff   = 強化
-
-  power
-    攻撃技の威力
-
-  amount
-    回復量・強化量
-
-  element
-    技の属性
-*/
 
 const monsters=[
 
@@ -2648,6 +2609,10 @@ function clearFusion(){
 
 function normalizeRecipe(recipe){
 
+  if(!Array.isArray(recipe)){
+    return [];
+  }
+
   return [
     ...recipe
   ].sort(
@@ -2658,6 +2623,14 @@ function normalizeRecipe(recipe){
 
 
 function sameRecipe(a,b){
+
+  if(
+    !Array.isArray(a) ||
+    !Array.isArray(b)
+  ){
+    return false;
+  }
+
 
   const aa =
     normalizeRecipe(a);
@@ -2697,9 +2670,15 @@ function doFusion(){
   }
 
 
+  /*
+    recipeが設定されている
+    モンスターだけを対象にする。
+  */
+
   const monster =
     monsters.find(
       m =>
+        Array.isArray(m.recipe) &&
         sameRecipe(
           m.recipe,
           fusionSelection
@@ -2751,6 +2730,38 @@ function doFusion(){
 
 
 function showBirth(monster){
+
+  const recipe =
+    Array.isArray(monster.recipe)
+    ? monster.recipe
+    : [];
+
+
+  const recipeHTML =
+    recipe.length>0
+
+    ?
+
+    recipe
+      .map(id=>{
+
+        const p =
+          properties.find(
+            x=>x.id===id
+          );
+
+        return p
+          ? p.name
+          : "";
+
+      })
+      .filter(name=>name)
+      .join(" ＋ ")
+
+    :
+
+    "融合素材の情報はありません。";
+
 
   document.getElementById(
     "birthResult"
@@ -2830,24 +2841,7 @@ function showBirth(monster){
       </strong>
 
       <p>
-
-        ${
-          monster.recipe
-            .map(id=>{
-
-              const p =
-                properties.find(
-                  x=>x.id===id
-                );
-
-              return p
-                ? p.name
-                : "";
-
-            })
-            .join(" ＋ ")
-        }
-
+        ${recipeHTML}
       </p>
 
     </div>
@@ -3018,6 +3012,11 @@ function renderMonsters(){
 }
 
 
+/* =====================================================
+   MONSTER DETAIL
+   ★ 修正ポイント
+===================================================== */
+
 function showMonsterDetail(id){
 
   const m =
@@ -3037,30 +3036,55 @@ function showMonsterDetail(id){
     m.name;
 
 
+  /*
+    recipeが存在しないモンスターにも
+    対応できるようにする。
+  */
+
+  const recipe =
+    Array.isArray(m.recipe)
+    ? m.recipe
+    : [];
+
+
   let sourceHTML="";
 
 
-  m.recipe.forEach(id=>{
+  if(recipe.length>0){
 
-    const p =
-      properties.find(
-        x=>x.id===id
-      );
+    recipe.forEach(propertyId=>{
+
+      const p =
+        properties.find(
+          x=>x.id===propertyId
+        );
 
 
-    if(p){
+      if(p){
 
-      sourceHTML += `
+        sourceHTML += `
 
-        <div class="tag">
-          ${p.name}
-        </div>
+          <div class="tag">
+            ${p.name}
+          </div>
 
-      `;
+        `;
 
-    }
+      }
 
-  });
+    });
+
+  }else{
+
+    sourceHTML = `
+
+      <div class="small">
+        融合素材の情報はありません。
+      </div>
+
+    `;
+
+  }
 
 
   let skillHTML="";
@@ -3179,18 +3203,10 @@ function showMonsterDetail(id){
 let battle={};
 
 
-/*
-  属性相性を計算。
+/* =====================================================
+   ATTRIBUTE BATTLE
+===================================================== */
 
-  攻撃属性が相手の強属性
-    → 1.5倍
-
-  攻撃属性が相手の弱属性
-    → 0.75倍
-
-  それ以外
-    → 1倍
-*/
 function getTypeMultiplier(
   attackAttribute,
   defenderAttribute
@@ -3232,16 +3248,33 @@ function getTypeMultiplier(
 }
 
 
-/*
-  ダメージ計算。
+/* =====================================================
+   DAMAGE CALCULATION
+   ★ 攻撃力の影響を緩やかに変更
+===================================================== */
 
-  基本ダメージ
+/*
+  変更前：
 
   技威力 × 攻撃力 ÷ 防御力
 
-  をベースにして、
-  最低ダメージは1とします。
+  これだと攻撃力と防御力の比率によって
+  ダメージが大きく変動します。
+
+  新方式：
+
+  技威力を基本ダメージとして、
+
+  ・攻撃力が40より高いほど少し加算
+  ・防御力が35より高いほど少し減算
+
+  する方式にしています。
+
+  そのため、攻撃力が45と55の場合でも、
+  攻撃力の差がそのまま大きなダメージ差には
+  なりません。
 */
+
 function calculateDamage(
   attacker,
   defender,
@@ -3260,12 +3293,25 @@ function calculateDamage(
     defenderDefenseBonus;
 
 
+  /*
+    技威力を中心にする。
+
+    攻撃力40を基準に、
+    1ポイントにつき0.3程度を加算。
+
+    防御力35を基準に、
+    1ポイントにつき0.2程度を減算。
+  */
+
   const base =
-    skill.power *
-    attack /
-    Math.max(
-      1,
-      defense
+    skill.power
+    +
+    Math.floor(
+      (attack - 40) * 0.3
+    )
+    -
+    Math.floor(
+      (defense - 35) * 0.2
     );
 
 
@@ -3293,6 +3339,10 @@ function calculateDamage(
 
 }
 
+
+/* =====================================================
+   BATTLE SELECT
+===================================================== */
 
 function renderBattleSelect(){
 
@@ -3388,6 +3438,10 @@ function renderBattleSelect(){
 }
 
 
+/* =====================================================
+   START BATTLE
+===================================================== */
+
 function startBattle(playerId){
 
   const player =
@@ -3415,6 +3469,7 @@ function startBattle(playerId){
     戦闘中だけ使用する
     攻撃・防御の強化値。
   */
+
   const playerAttackBonus=0;
   const playerDefenseBonus=0;
   const enemyAttackBonus=0;
@@ -3460,6 +3515,7 @@ function startBattle(playerId){
 
     同じ場合のみランダム。
   */
+
   if(
     player.speed >
     enemy.speed
@@ -3583,6 +3639,10 @@ function startBattle(playerId){
 }
 
 
+/* =====================================================
+   BATTLE SKILLS
+===================================================== */
+
 function renderBattleSkills(){
 
   const area =
@@ -3649,6 +3709,10 @@ function renderBattleSkills(){
 
 }
 
+
+/* =====================================================
+   BATTLE DISPLAY
+===================================================== */
 
 function updateBattleDisplay(){
 
@@ -3738,6 +3802,10 @@ function updateBattleDisplay(){
 }
 
 
+/* =====================================================
+   TURN MESSAGE
+===================================================== */
+
 function updateTurnMessage(){
 
   const area =
@@ -3772,6 +3840,10 @@ function updateTurnMessage(){
 
 }
 
+
+/* =====================================================
+   BATTLE LOG
+===================================================== */
 
 function battleLog(text){
 
