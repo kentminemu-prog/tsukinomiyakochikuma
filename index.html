@@ -10,779 +10,819 @@
   box-sizing:border-box;
 }
 
-html,body{
-  margin:0;
-  padding:0;
-  min-height:100%;
-}
-
 body{
+  margin:0;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
-    "Helvetica Neue",
-    "Yu Gothic",
-    YuGothic,
+    "Segoe UI",
     "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
     Meiryo,
     sans-serif;
-  background:#10182b;
-  color:#fff;
+  background:#07111f;
+  color:#f5f7fb;
+  min-height:100vh;
 }
 
 button{
   font-family:inherit;
 }
 
+.app{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#172a4d 0%,#07111f 48%,#030812 100%);
+}
+
 .screen{
   display:none;
   min-height:100vh;
+  padding:20px;
 }
 
 .screen.active{
   display:block;
 }
 
-/* =========================
-   共通
-========================= */
-
-.app{
-  max-width:1100px;
+.container{
+  width:min(980px,100%);
   margin:0 auto;
-  padding:20px;
-}
-
-.page-header{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:20px;
-}
-
-.page-header h2{
-  margin:0;
-  font-size:24px;
-}
-
-.back-btn{
-  border:0;
-  background:#263452;
-  color:#fff;
-  padding:10px 15px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.back-btn:hover{
-  background:#344565;
-}
-
-.primary-btn,
-.secondary-btn,
-.danger-btn{
-  border:0;
-  border-radius:12px;
-  padding:13px 20px;
-  font-weight:bold;
-  font-size:15px;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.primary-btn{
-  background:#ffd95a;
-  color:#20263b;
-}
-
-.primary-btn:hover{
-  transform:translateY(-2px);
-  background:#ffe680;
-}
-
-.secondary-btn{
-  background:#34496e;
-  color:#fff;
-}
-
-.secondary-btn:hover{
-  background:#42608d;
-}
-
-.danger-btn{
-  background:#8d4050;
-  color:#fff;
 }
 
 .card{
-  background:#1b2741;
-  border:1px solid #334363;
+  background:rgba(18,32,56,.94);
+  border:1px solid rgba(125,160,210,.2);
   border-radius:18px;
-  padding:20px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  padding:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.22);
 }
 
-.grid{
-  display:grid;
-  gap:16px;
-}
-
-.empty{
+.title-card{
+  min-height:calc(100vh - 40px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  padding:45px 20px;
-  color:#aebbd2;
 }
 
-.small{
+.title-inner{
+  width:min(720px,100%);
+}
+
+.game-logo{
+  font-size:clamp(34px,8vw,64px);
+  font-weight:900;
+  letter-spacing:.03em;
+  line-height:1.2;
+  margin-bottom:12px;
+  text-shadow:0 0 25px rgba(115,170,255,.4);
+}
+
+.subtitle{
+  color:#a9c4e8;
+  font-size:16px;
+  margin-bottom:40px;
+}
+
+.title-moon{
+  font-size:72px;
+  margin-bottom:10px;
+}
+
+.menu{
+  display:grid;
+  gap:12px;
+  max-width:420px;
+  margin:0 auto;
+}
+
+.btn{
+  border:none;
+  border-radius:13px;
+  padding:14px 18px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.18s;
+  color:#fff;
+  background:#24446e;
+  box-shadow:0 5px 14px rgba(0,0,0,.18);
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.1);
+}
+
+.btn:active{
+  transform:translateY(1px);
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,#3578c8,#5b58b7);
+}
+
+.btn.success{
+  background:linear-gradient(135deg,#247d67,#2b9a78);
+}
+
+.btn.warning{
+  background:linear-gradient(135deg,#a86e25,#cf8c32);
+}
+
+.btn.danger{
+  background:linear-gradient(135deg,#8d3445,#b94b58);
+}
+
+.btn.small{
+  padding:9px 12px;
   font-size:13px;
-  color:#aebbd2;
+}
+
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.header h1{
+  font-size:24px;
+  margin:0;
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+}
+
+.back-btn{
+  background:#1c3151;
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+  border-radius:10px;
+  padding:9px 12px;
+  cursor:pointer;
+}
+
+.home-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.home-main{
+  grid-column:1/-1;
+}
+
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.status-item{
+  background:#0d1d34;
+  border-radius:13px;
+  padding:13px;
+  text-align:center;
+}
+
+.status-item .number{
+  font-size:25px;
+  font-weight:900;
+}
+
+.status-item .label{
+  color:#9db4d4;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.progress-wrap{
+  margin-top:12px;
+}
+
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  color:#b9cbe4;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.progress{
+  height:10px;
+  background:#091426;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress > div{
+  height:100%;
+  background:linear-gradient(90deg,#4e91df,#9a75e8);
+  border-radius:99px;
+  transition:.3s;
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:800;
+  margin:0 0 12px;
 }
 
 .muted{
-  color:#aebbd2;
+  color:#9eb3d0;
+}
+
+.small-text{
+  font-size:12px;
+}
+
+.notice{
+  padding:12px 14px;
+  background:#0d2039;
+  border-left:4px solid #5b91d4;
+  border-radius:9px;
+  margin-bottom:12px;
+  color:#c9d9ef;
+}
+
+.warning-box{
+  padding:12px 14px;
+  background:#382916;
+  border-left:4px solid #d59a40;
+  border-radius:9px;
+  color:#f1d3a1;
+}
+
+.success-box{
+  padding:12px 14px;
+  background:#12352d;
+  border-left:4px solid #43b892;
+  border-radius:9px;
+  color:#b7efdf;
+}
+
+.property-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.property-card{
+  cursor:pointer;
+  transition:.18s;
+}
+
+.property-card:hover{
+  transform:translateY(-2px);
+}
+
+.property-card.locked{
+  opacity:.55;
+  cursor:default;
+}
+
+.property-number{
+  color:#7da9df;
+  font-size:12px;
+  font-weight:700;
+}
+
+.property-name{
+  font-size:17px;
+  font-weight:800;
+  margin:5px 0 8px;
+  line-height:1.45;
+}
+
+.property-category{
+  display:inline-block;
+  font-size:12px;
+  color:#b7c9e4;
+  background:#0b1a2e;
+  border-radius:99px;
+  padding:4px 8px;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:9px;
 }
 
 .tag{
   display:inline-block;
-  background:#2d3c5e;
-  padding:4px 9px;
-  border-radius:999px;
-  font-size:12px;
-  margin:2px;
+  background:#213b61;
+  color:#d8e7fb;
+  border-radius:99px;
+  padding:4px 8px;
+  font-size:11px;
 }
 
-.hidden{
-  display:none !important;
-}
-
-/* =========================
-   タイトル
-========================= */
-
-#titleScreen{
-  background:
-    radial-gradient(circle at 50% 30%,#394e86 0%,#1b2949 40%,#0b1120 100%);
-}
-
-.title-wrap{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:25px;
-}
-
-.title-box{
-  width:min(650px,100%);
-  text-align:center;
-}
-
-.moon{
-  font-size:80px;
-  margin-bottom:5px;
-  filter:drop-shadow(0 0 20px rgba(255,230,130,.45));
-}
-
-.game-title{
-  font-size:clamp(28px,6vw,52px);
-  line-height:1.3;
-  margin:0 0 12px;
-  letter-spacing:.04em;
-}
-
-.game-subtitle{
-  color:#c6d1e8;
-  margin-bottom:35px;
-}
-
-.title-buttons{
-  display:grid;
-  gap:14px;
-  max-width:360px;
-  margin:auto;
-}
-
-.title-buttons button{
-  font-size:18px;
-  padding:17px;
-}
-
-/* =========================
-   ホーム
-========================= */
-
-.home-hero{
-  background:
-    linear-gradient(135deg,#25375f,#18243c);
-  border-radius:22px;
-  padding:25px;
-  margin-bottom:20px;
-}
-
-.home-hero h1{
+.detail-title{
+  font-size:27px;
+  line-height:1.35;
   margin:0 0 8px;
-  font-size:28px;
 }
 
-.home-grid{
-  grid-template-columns:repeat(3,1fr);
-}
-
-.home-card{
-  cursor:pointer;
-  transition:.15s;
-}
-
-.home-card:hover{
-  transform:translateY(-3px);
-  border-color:#6075a4;
-}
-
-.home-icon{
-  font-size:36px;
-}
-
-.home-card h3{
-  margin:10px 0 5px;
-}
-
-.home-card p{
-  color:#aebbd2;
+.detail-number{
+  color:#72a6e4;
+  font-weight:700;
   font-size:13px;
-  margin:0;
 }
 
-.home-status{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
+.detail-section{
   margin-top:20px;
 }
-
-.status-box{
-  background:#111b30;
-  border-radius:12px;
-  padding:13px;
-  text-align:center;
-}
-
-.status-number{
-  font-size:25px;
-  font-weight:bold;
-  color:#ffe07a;
-}
-
-/* =========================
-   文化財
-========================= */
-
-.property-grid{
-  grid-template-columns:repeat(3,1fr);
-}
-
-.property-card{
-  position:relative;
-}
-
-.property-card.locked{
-  opacity:.48;
-}
-
-.property-number{
-  color:#91a6ce;
-  font-size:12px;
-}
-
-.property-card h3{
-  font-size:17px;
-  line-height:1.45;
-  margin:7px 0 12px;
-}
-
-.property-icon{
-  font-size:30px;
-}
-
-.property-actions{
-  margin-top:14px;
-}
-
-.property-detail-title{
-  font-size:28px;
-  line-height:1.4;
-}
-
-.detail-tags{
-  margin:15px 0;
-}
-
-.discovery-box{
-  background:#111b30;
-  border-radius:14px;
-  padding:20px;
-  margin-top:20px;
-}
-
-/* =========================
-   探索
-========================= */
-
-.explore-box{
-  text-align:center;
-  padding:35px 20px;
-}
-
-.explore-icon{
-  font-size:65px;
-}
-
-.explore-result{
-  margin-top:25px;
-  animation:pop .35s ease;
-}
-
-@keyframes pop{
-  0%{transform:scale(.8);opacity:0}
-  100%{transform:scale(1);opacity:1}
-}
-
-/* =========================
-   モンスター
-========================= */
 
 .monster-grid{
-  grid-template-columns:repeat(3,1fr);
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
 }
 
 .monster-card{
   cursor:pointer;
-  transition:.15s;
 }
 
-.monster-card:hover{
-  transform:translateY(-3px);
-  border-color:#657ba9;
+.monster-card.locked{
+  opacity:.55;
+  cursor:default;
 }
 
-.monster-card-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.monster-icon{
+  font-size:46px;
+  text-align:center;
+  margin-bottom:6px;
 }
 
-.monster-symbol{
-  font-size:44px;
+.monster-name{
+  font-size:16px;
+  font-weight:800;
+  text-align:center;
+  line-height:1.35;
 }
 
-.monster-card h3{
-  margin:8px 0;
+.monster-rarity{
+  text-align:center;
+  color:#f0c96b;
+  font-size:13px;
+  margin:4px 0;
 }
 
-.level-badge{
-  background:#715d28;
-  color:#ffe99a;
-  padding:5px 9px;
-  border-radius:999px;
+.attribute{
+  display:inline-block;
+  border-radius:99px;
+  padding:4px 9px;
   font-size:12px;
-  font-weight:bold;
+  font-weight:800;
 }
 
-.exp-bar{
-  height:8px;
-  background:#10192b;
-  border-radius:99px;
-  overflow:hidden;
-  margin:8px 0;
+.attr-月{
+  background:#34336b;
+  color:#d9d7ff;
 }
 
-.exp-fill{
-  height:100%;
-  background:#70d5a1;
-  border-radius:99px;
-  transition:width .3s;
+.attr-火{
+  background:#672e2e;
+  color:#ffd0c5;
+}
+
+.attr-水{
+  background:#234e72;
+  color:#c5e7ff;
+}
+
+.attr-自然{
+  background:#285238;
+  color:#c9f2ce;
 }
 
 .stat-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin:18px 0;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
 }
 
-.stat-box{
-  background:#111b30;
+.stat{
+  background:#0b1a2d;
   border-radius:10px;
-  padding:11px;
+  padding:9px 4px;
+  text-align:center;
 }
 
-.stat-label{
-  color:#9eabc2;
-  font-size:12px;
+.stat .value{
+  font-weight:900;
+  font-size:17px;
 }
 
-.stat-value{
-  font-size:20px;
-  font-weight:bold;
-  margin-top:3px;
+.stat .label{
+  color:#8ea6c6;
+  font-size:10px;
 }
 
 .skill-list{
   display:grid;
-  gap:10px;
-  margin-top:15px;
+  gap:8px;
 }
 
 .skill{
-  background:#111b30;
-  border-radius:12px;
-  padding:13px;
+  background:#0b1a2d;
+  border-radius:10px;
+  padding:10px;
 }
 
 .skill-name{
-  font-weight:bold;
+  font-weight:800;
 }
 
 .skill-info{
-  color:#b5c2d8;
+  color:#a9bdd7;
   font-size:12px;
   margin-top:4px;
 }
 
-.level-up-box{
-  background:#453a1b;
-  border:1px solid #a88a35;
-  border-radius:14px;
-  padding:18px;
-  margin-top:15px;
+.skill-badge{
+  display:inline-block;
+  font-size:10px;
+  padding:3px 6px;
+  border-radius:5px;
+  background:#253c5e;
+  margin-left:5px;
 }
 
-.level-up-box h3{
-  color:#ffe17a;
-  margin-top:0;
-}
-
-/* =========================
-   融合
-========================= */
-
-.fusion-select-grid{
+.fusion-select{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
 }
 
-.fusion-card{
+.fusion-material{
   cursor:pointer;
-  background:#111b30;
   border:2px solid transparent;
-  border-radius:14px;
-  padding:14px;
 }
 
-.fusion-card.selected{
-  border-color:#ffd95a;
-  background:#283451;
-}
-
-.fusion-selected{
-  margin:20px 0;
-  text-align:center;
-  padding:20px;
-  background:#111b30;
-  border-radius:14px;
+.fusion-material.selected{
+  border-color:#68a2e5;
+  background:#193456;
 }
 
 .fusion-result{
+  margin-top:15px;
+}
+
+.birth-box{
   text-align:center;
-  margin-top:25px;
-  padding:25px;
-  background:#283a59;
-  border-radius:18px;
+  padding:30px 15px;
 }
 
-/* =========================
-   誕生
-========================= */
-
-.birth-wrap{
-  min-height:70vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+.birth-icon{
+  font-size:90px;
+  animation:birthPulse 1.2s infinite alternate;
 }
 
-.birth-symbol{
-  font-size:100px;
-  animation:birthGlow 1.5s infinite alternate;
+@keyframes birthPulse{
+  from{transform:scale(1);}
+  to{transform:scale(1.08);}
 }
 
-@keyframes birthGlow{
-  from{filter:drop-shadow(0 0 5px rgba(255,220,100,.3))}
-  to{filter:drop-shadow(0 0 35px rgba(255,220,100,.8))}
+.quiz-question{
+  font-size:21px;
+  line-height:1.6;
+  font-weight:800;
+  margin:10px 0 20px;
 }
 
-.birth-wrap h1{
-  font-size:34px;
-}
-
-/* =========================
-   バトル
-========================= */
-
-.battle-select-grid{
+.quiz-choices{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  gap:10px;
 }
 
-.battle-choice{
-  background:#1b2741;
-  border:1px solid #334363;
-  border-radius:18px;
-  padding:18px;
-  text-align:center;
+.quiz-choice{
+  text-align:left;
+  background:#132b4a;
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+  padding:14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:15px;
 }
 
-.battle-choice .monster-symbol{
-  font-size:55px;
+.quiz-choice:hover{
+  background:#1d3d65;
+}
+
+.quiz-choice.correct{
+  border-color:#43c397;
+  background:#154534;
+}
+
+.quiz-choice.wrong{
+  border-color:#c65b67;
+  background:#4a222b;
+}
+
+.quiz-result{
+  margin-top:16px;
 }
 
 .battle-layout{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:16px;
+  gap:12px;
 }
 
 .battle-side{
-  background:#1b2741;
-  border:1px solid #334363;
-  border-radius:18px;
-  padding:18px;
+  padding:16px;
+  border-radius:16px;
+  background:#0c1b2f;
+  border:1px solid rgba(255,255,255,.07);
 }
 
-.battle-side h3{
-  margin-top:0;
+.battle-side.enemy{
+  border-color:rgba(213,90,101,.22);
+}
+
+.battle-side.player{
+  border-color:rgba(83,147,221,.22);
+}
+
+.battle-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.battle-monster-icon{
+  font-size:60px;
 }
 
 .hp-bar{
-  height:16px;
-  background:#10192b;
+  height:15px;
+  background:#050c16;
   border-radius:99px;
   overflow:hidden;
-  margin:10px 0;
+  margin:8px 0;
 }
 
-.hp-fill{
+.hp-bar > div{
   height:100%;
-  background:#62cf91;
-  transition:width .25s;
+  background:linear-gradient(90deg,#3cc18b,#78d77b);
+  transition:.3s;
 }
 
-.hp-fill.enemy{
-  background:#e47474;
+.hp-text{
+  font-size:12px;
+  color:#b4c7df;
 }
 
-.battle-hp-text{
-  font-weight:bold;
+.battle-center{
+  grid-column:1/-1;
 }
 
-.battle-skills{
-  display:grid;
-  gap:10px;
-  margin-top:15px;
-}
-
-.skill-btn{
-  border:1px solid #465b82;
-  background:#253552;
-  color:#fff;
+.type-chart{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  font-size:13px;
+  color:#c4d4ea;
+  background:#0b1a2d;
+  padding:11px;
   border-radius:12px;
-  padding:13px;
+}
+
+.battle-actions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:12px;
+}
+
+.attack-btn{
+  background:#1a3558;
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+  border-radius:11px;
+  padding:11px;
   cursor:pointer;
   text-align:left;
 }
 
-.skill-btn:hover:not(:disabled){
-  background:#354a70;
+.attack-btn:hover{
+  background:#244a76;
 }
 
-.skill-btn:disabled{
-  opacity:.45;
+.attack-btn:disabled{
+  opacity:.4;
   cursor:not-allowed;
 }
 
 .battle-log{
-  height:190px;
-  overflow-y:auto;
-  background:#0d1525;
-  border-radius:14px;
-  padding:14px;
-  margin-top:16px;
+  background:#050d18;
+  border-radius:12px;
+  padding:12px;
+  height:180px;
+  overflow:auto;
   font-size:13px;
-  line-height:1.7;
+  line-height:1.65;
 }
 
 .battle-log p{
-  margin:0 0 4px;
+  margin:0 0 5px;
 }
 
-.turn-indicator{
+.battle-log .important{
+  color:#f3c968;
+  font-weight:800;
+}
+
+.battle-log .critical{
+  color:#ff9b71;
+  font-weight:900;
+}
+
+.battle-log .weak{
+  color:#9eb4d1;
+}
+
+.battle-result{
   text-align:center;
-  background:#2b3c5e;
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:16px;
-  font-weight:bold;
+  padding:30px 10px;
 }
 
-.battle-result-box{
-  max-width:650px;
-  margin:40px auto;
-  text-align:center;
+.result-title{
+  font-size:38px;
+  font-weight:900;
+  margin-bottom:10px;
 }
 
-.result-icon{
-  font-size:80px;
+.result-title.win{
+  color:#ffd36a;
 }
 
-.result-actions{
+.result-title.lose{
+  color:#e38b96;
+}
+
+.mission-list{
   display:grid;
   gap:10px;
-  margin-top:25px;
 }
 
-/* =========================
-   図鑑
-========================= */
-
-.book-progress{
-  background:#111b30;
-  border-radius:14px;
-  padding:18px;
-  margin-bottom:20px;
-}
-
-.big-progress{
-  height:14px;
-  background:#0d1525;
-  border-radius:99px;
-  overflow:hidden;
-  margin-top:10px;
-}
-
-.big-progress-fill{
-  height:100%;
-  background:#70d5a1;
-}
-
-/* =========================
-   ミッション
-========================= */
-
-.mission-grid{
-  display:grid;
-  gap:14px;
-}
-
-.mission-card{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:15px;
+.mission{
+  display:flex;
   align-items:center;
+  gap:12px;
+  background:#0d1d32;
+  border-radius:12px;
+  padding:13px;
 }
 
-.mission-card.completed{
-  border-color:#6fc99c;
+.mission.done{
+  border:1px solid rgba(76,193,150,.4);
 }
 
-.mission-progress{
-  margin-top:10px;
+.mission-icon{
+  font-size:27px;
+}
+
+.mission-title{
+  font-weight:800;
 }
 
 .mission-reward{
+  color:#94acd0;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.book-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.book-item{
+  background:#0b1a2d;
+  border-radius:10px;
+  padding:10px;
   text-align:center;
-  min-width:100px;
+  min-height:85px;
 }
 
-.mission-check{
-  font-size:28px;
+.book-item.locked{
+  opacity:.4;
 }
 
-/* =========================
-   テーマ
-========================= */
+.book-number{
+  color:#729bd0;
+  font-size:11px;
+}
 
 .theme-box{
-  text-align:center;
-  padding:35px 20px;
+  padding:18px;
+  background:#0c1b30;
+  border-radius:15px;
+  line-height:1.8;
 }
 
-.theme-icon{
-  font-size:70px;
+.modal-message{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.68);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000;
 }
 
-/* =========================
-   フッター
-========================= */
-
-.home-footer{
-  margin-top:25px;
+.modal-message.show{
   display:flex;
-  justify-content:flex-end;
 }
 
-/* =========================
-   レスポンシブ
-========================= */
+.modal-inner{
+  width:min(520px,100%);
+  background:#132541;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
 
-@media(max-width:800px){
+.modal-inner h3{
+  margin-top:0;
+}
+
+@media(max-width:700px){
+  .screen{
+    padding:12px;
+  }
 
   .home-grid,
   .property-grid,
-  .monster-grid,
-  .battle-select-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
   .battle-layout{
     grid-template-columns:1fr;
   }
 
-  .home-status{
+  .home-main,
+  .battle-center{
+    grid-column:auto;
+  }
+
+  .status-grid{
     grid-template-columns:repeat(2,1fr);
   }
-}
 
-@media(max-width:560px){
-
-  .app{
-    padding:14px;
+  .monster-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
-  .page-header h2{
-    font-size:20px;
+  .book-grid{
+    grid-template-columns:repeat(3,1fr);
   }
 
-  .home-grid,
-  .property-grid,
-  .monster-grid,
-  .battle-select-grid,
-  .fusion-select-grid{
+  .menu-grid{
     grid-template-columns:1fr;
   }
 
-  .game-title{
-    font-size:30px;
+  .header h1{
+    font-size:20px;
+  }
+}
+
+@media(max-width:420px){
+  .monster-grid{
+    grid-template-columns:1fr;
   }
 
-  .moon{
-    font-size:65px;
-  }
-
-  .stat-grid{
+  .book-grid{
     grid-template-columns:repeat(2,1fr);
+  }
+
+  .battle-actions{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -790,178 +830,207 @@ button{
 
 <body>
 
-<!-- =========================
-     タイトル
-========================= -->
+<div class="app">
 
+<!-- =========================
+     TITLE
+========================= -->
 <section id="titleScreen" class="screen active">
-  <div class="title-wrap">
-    <div class="title-box">
-      <div class="moon">🌕</div>
-      <h1 class="game-title">ツキモン!</h1>
-      <div style="font-size:18px;margin-bottom:10px;">
+  <div class="container title-card">
+    <div class="title-inner">
+      <div class="title-moon">🌙</div>
+      <div class="game-logo">
+        ツキモン!
+      </div>
+      <div class="subtitle">
         〜月と歴史が紡ぐモンスターバトル〜
       </div>
-      <p class="game-subtitle">
-        千曲市の文化財を集めて、<br>
-        不思議なツキモンを発見しよう。
-      </p>
 
-      <div class="title-buttons">
-        <button class="primary-btn" onclick="startGame()">
+      <div class="menu">
+        <button class="btn primary" onclick="startNewGame()">
           はじめる
         </button>
 
-        <button class="secondary-btn" onclick="continueGame()">
+        <button class="btn" onclick="continueGame()">
           つづきから
         </button>
       </div>
+
+      <div class="muted small-text" style="margin-top:25px;">
+        千曲市の文化財をめぐり、ツキモンを集めよう！
+      </div>
     </div>
   </div>
 </section>
 
 
 <!-- =========================
-     ホーム
+     HOME
 ========================= -->
-
 <section id="homeScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="home-hero">
-      <h1>🌕 ツキモン! 冒険の拠点</h1>
-      <p>
-        千曲市に残る文化財を集めて、
-        個性豊かなツキモンを発見・育成しよう！
-      </p>
-
-      <div class="home-status">
-        <div class="status-box">
-          <div class="status-number" id="homePropertyCount">0</div>
-          <div class="small">文化財</div>
-        </div>
-
-        <div class="status-box">
-          <div class="status-number" id="homeMonsterCount">0</div>
-          <div class="small">ツキモン</div>
-        </div>
-
-        <div class="status-box">
-          <div class="status-number" id="homeMissionCount">0</div>
-          <div class="small">ミッション</div>
-        </div>
-
-        <div class="status-box">
-          <div class="status-number" id="homeBattleCount">0</div>
-          <div class="small">勝利数</div>
-        </div>
-      </div>
+    <div class="header">
+      <h1>🌙 ツキモン！</h1>
+      <button class="back-btn" onclick="returnToTitle()">タイトルへ</button>
     </div>
 
-    <div class="grid home-grid">
+    <div class="home-grid">
 
-      <div class="card home-card" onclick="showScreen('propertyScreen')">
-        <div class="home-icon">🏯</div>
-        <h3>文化財を探す</h3>
-        <p>千曲市の文化財カードを集めよう。</p>
+      <div class="card home-main">
+        <div class="section-title">千曲市探索状況</div>
+
+        <div class="status-grid">
+          <div class="status-item">
+            <div class="number" id="homePropertyCount">0/29</div>
+            <div class="label">文化財</div>
+          </div>
+
+          <div class="status-item">
+            <div class="number" id="homeMonsterCount">0/20</div>
+            <div class="label">ツキモン</div>
+          </div>
+
+          <div class="status-item">
+            <div class="number" id="homeMissionCount">0</div>
+            <div class="label">ミッション</div>
+          </div>
+
+          <div class="status-item">
+            <div class="number" id="homeBattleWins">0</div>
+            <div class="label">バトル勝利</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>ゲーム内探索率</span>
+            <strong id="homeExplorationRate">0%</strong>
+          </div>
+          <div class="progress">
+            <div id="homeExplorationBar" style="width:0%"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="card home-card" onclick="showScreen('fusionScreen')">
-        <div class="home-icon">✨</div>
-        <h3>ツキモンを生み出す</h3>
-        <p>文化財の組み合わせからツキモンを発見。</p>
+      <div class="card">
+        <div class="section-title">🏯 文化財をめぐる</div>
+        <p class="muted">
+          文化財を調べたり、クイズに挑戦して新しい文化財を発見しよう。
+        </p>
+        <button class="btn primary" onclick="showScreen('propertyScreen')">
+          文化財を探索
+        </button>
       </div>
 
-      <div class="card home-card" onclick="showScreen('monsterScreen')">
-        <div class="home-icon">🐉</div>
-        <h3>ツキモン図鑑</h3>
-        <p>発見したツキモンを育成・確認しよう。</p>
+      <div class="card">
+        <div class="section-title">🧬 ツキモン誕生</div>
+        <p class="muted">
+          発見した文化財を組み合わせて、新しいツキモンを誕生させよう。
+        </p>
+        <button class="btn success" onclick="showScreen('fusionScreen')">
+          融合する
+        </button>
       </div>
 
-      <div class="card home-card" onclick="showScreen('battleScreen')">
-        <div class="home-icon">⚔️</div>
-        <h3>バトル</h3>
-        <p>育てたツキモンで勝負しよう。</p>
+      <div class="card">
+        <div class="section-title">📖 ツキモン図鑑</div>
+        <p class="muted">
+          発見したツキモンの能力やスキルを確認できます。
+        </p>
+        <button class="btn" onclick="showScreen('monsterScreen')">
+          図鑑を見る
+        </button>
       </div>
 
-      <div class="card home-card" onclick="showScreen('propertyBookScreen')">
-        <div class="home-icon">📚</div>
-        <h3>文化財図鑑</h3>
-        <p>発見した文化財を振り返ろう。</p>
+      <div class="card">
+        <div class="section-title">⚔️ モンスターバトル</div>
+        <p class="muted">
+          育てたツキモンでバトルに挑戦しよう。
+        </p>
+        <button class="btn warning" onclick="showScreen('battleScreen')">
+          バトルする
+        </button>
       </div>
 
-      <div class="card home-card" onclick="showScreen('missionScreen')">
-        <div class="home-icon">🎯</div>
-        <h3>ミッション</h3>
-        <p>目標を達成して冒険を進めよう。</p>
+      <div class="card">
+        <div class="section-title">📚 文化財図録</div>
+        <p class="muted">
+          発見した文化財を一覧で確認できます。
+        </p>
+        <button class="btn" onclick="showScreen('propertyBookScreen')">
+          図録を見る
+        </button>
       </div>
 
-      <div class="card home-card" onclick="showScreen('themeScreen')">
-        <div class="home-icon">🌙</div>
-        <h3>ツキモンの世界</h3>
-        <p>月と歴史が紡ぐ物語を楽しもう。</p>
+      <div class="card">
+        <div class="section-title">🎯 ミッション</div>
+        <p class="muted">
+          条件を達成してゲームを進めよう。
+        </p>
+        <button class="btn" onclick="showScreen('missionScreen')">
+          ミッションを見る
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="section-title">🌙 ゲームのテーマ</div>
+        <p class="muted">
+          このゲームに込められた千曲市の物語。
+        </p>
+        <button class="btn" onclick="showScreen('themeScreen')">
+          テーマを見る
+        </button>
       </div>
 
     </div>
-
-    <div class="home-footer">
-      <button class="danger-btn" onclick="resetGame()">
-        データをリセット
-      </button>
-    </div>
-
   </div>
 </section>
 
 
 <!-- =========================
-     文化財探索
+     PROPERTY
 ========================= -->
-
 <section id="propertyScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>🏯 文化財を探す</h2>
+    <div class="header">
+      <h1>🏯 文化財探索</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
     </div>
 
-    <div class="card explore-box">
+    <div class="card" style="margin-bottom:14px;">
+      <div class="notice">
+        文化財を知るほど、ツキモン誕生の可能性が広がります。
+        「探索する」では文化財クイズに挑戦できます。
+      </div>
 
-      <div class="explore-icon">🔎</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn primary" onclick="startPropertyQuiz()">
+          🔎 文化財を探索する
+        </button>
 
-      <h2>千曲市を探索しよう</h2>
-
-      <p class="muted">
-        探索すると、まだ見つけていない文化財カードを発見できます。
-      </p>
-
-      <button class="primary-btn" onclick="exploreProperty()">
-        文化財を探索する
-      </button>
-
-      <div id="exploreResult"></div>
-
+        <button class="btn" onclick="showScreen('propertyBookScreen')">
+          📚 文化財図録
+        </button>
+      </div>
     </div>
 
-    <h3 style="margin-top:25px;">発見済みの文化財</h3>
-
-    <div id="propertyGrid" class="grid property-grid"></div>
+    <div id="propertyList" class="property-grid"></div>
 
   </div>
 </section>
 
 
 <!-- =========================
-     文化財詳細
+     PROPERTY DETAIL
 ========================= -->
-
 <section id="propertyDetailScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>文化財詳細</h2>
+    <div class="header">
+      <h1>文化財詳細</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
     </div>
 
     <div id="propertyDetail"></div>
@@ -971,41 +1040,56 @@ button{
 
 
 <!-- =========================
-     融合
+     QUIZ
 ========================= -->
+<section id="quizScreen" class="screen">
+  <div class="container">
 
-<section id="fusionScreen" class="screen">
-  <div class="app">
-
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>✨ ツキモンを生み出す</h2>
+    <div class="header">
+      <h1>🔎 文化財クイズ</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
     </div>
 
     <div class="card">
 
-      <h3>2枚の文化財カードを選ぼう</h3>
+      <div id="quizContent"></div>
 
-      <p class="small">
-        特定の文化財の組み合わせから、ツキモンが生まれます。
-      </p>
+    </div>
+  </div>
+</section>
 
-      <div id="fusionCards" class="fusion-select-grid"></div>
 
-      <div class="fusion-selected">
-        <div id="fusionSelectedText">
-          文化財を2枚選択してください
-        </div>
+<!-- =========================
+     FUSION
+========================= -->
+<section id="fusionScreen" class="screen">
+  <div class="container">
+
+    <div class="header">
+      <h1>🧬 ツキモン融合</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
+    </div>
+
+    <div class="card">
+      <div class="notice">
+        発見した文化財を2つ選択してください。
+        組み合わせによって誕生するツキモンが変わります。
       </div>
 
-      <div style="text-align:center;">
-        <button class="primary-btn" onclick="tryFusion()">
-          ツキモンを生み出す
-        </button>
-      </div>
+      <div id="fusionMaterials" class="fusion-select"></div>
 
-      <div id="fusionResult"></div>
+      <div id="fusionSelected" style="margin-top:15px;"></div>
 
+      <div id="fusionCandidates" class="fusion-result"></div>
+
+      <button
+        id="fusionButton"
+        class="btn success"
+        style="width:100%;margin-top:15px;"
+        onclick="tryFusion()"
+        disabled>
+        ツキモンを誕生させる
+      </button>
     </div>
 
   </div>
@@ -1013,71 +1097,52 @@ button{
 
 
 <!-- =========================
-     誕生
+     BIRTH
 ========================= -->
-
 <section id="birthScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="birth-wrap">
-      <div>
-        <div class="birth-symbol" id="birthSymbol">🌕</div>
-
-        <p>文化財の記憶が集まり……</p>
-
-        <h1 id="birthMonsterName">？？？</h1>
-
-        <p id="birthMessage">
-          新しいツキモンが誕生した！
-        </p>
-
-        <button
-          class="primary-btn"
-          onclick="exitToMonsterDetail()">
-          ツキモンを見る
-        </button>
-
-        <button
-          class="secondary-btn"
-          style="margin-left:8px;"
-          onclick="goHome()">
-          ホームへ
-        </button>
-      </div>
+    <div class="header">
+      <h1>✨ ツキモン誕生</h1>
+      <button class="back-btn" onclick="exitBirth()">戻る</button>
     </div>
+
+    <div class="card birth-box" id="birthContent"></div>
 
   </div>
 </section>
 
 
 <!-- =========================
-     モンスター図鑑
+     MONSTER LIST
 ========================= -->
-
 <section id="monsterScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>🐉 ツキモン図鑑</h2>
+    <div class="header">
+      <h1>📖 ツキモン図鑑</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
     </div>
 
-    <div id="monsterGrid" class="grid monster-grid"></div>
+    <div class="card" style="margin-bottom:14px;">
+      <div id="monsterBookSummary"></div>
+    </div>
+
+    <div id="monsterList" class="monster-grid"></div>
 
   </div>
 </section>
 
 
 <!-- =========================
-     モンスター詳細
+     MONSTER DETAIL
 ========================= -->
-
 <section id="monsterDetailScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>🐉 ツキモン詳細</h2>
+    <div class="header">
+      <h1>ツキモン詳細</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
     </div>
 
     <div id="monsterDetail"></div>
@@ -1087,60 +1152,100 @@ button{
 
 
 <!-- =========================
-     バトル
+     BATTLE
 ========================= -->
-
 <section id="battleScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>⚔️ ツキモンバトル</h2>
+    <div class="header">
+      <h1>⚔️ モンスターバトル</h1>
+      <button class="back-btn" onclick="exitBattleToScreen('homeScreen')">終了</button>
     </div>
 
-    <div id="battleSelectArea">
+    <div id="battleContent"></div>
 
-      <div class="card">
-        <h3>出場するツキモンを選ぼう</h3>
-        <p class="small">
-          育てたツキモンの能力値がバトルに反映されます。
+  </div>
+</section>
+
+
+<!-- =========================
+     BATTLE RESULT
+========================= -->
+<section id="battleResultScreen" class="screen">
+  <div class="container">
+
+    <div class="header">
+      <h1>バトル結果</h1>
+    </div>
+
+    <div id="battleResultContent"></div>
+
+  </div>
+</section>
+
+
+<!-- =========================
+     PROPERTY BOOK
+========================= -->
+<section id="propertyBookScreen" class="screen">
+  <div class="container">
+
+    <div class="header">
+      <h1>📚 文化財図録</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div id="propertyBookSummary"></div>
+    </div>
+
+    <div id="propertyBookList" class="book-grid"></div>
+
+  </div>
+</section>
+
+
+<!-- =========================
+     THEME
+========================= -->
+<section id="themeScreen" class="screen">
+  <div class="container">
+
+    <div class="header">
+      <h1>🌙 ゲームのテーマ</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
+    </div>
+
+    <div class="card">
+      <div class="theme-box">
+
+        <h2>月と歴史が紡ぐ物語</h2>
+
+        <p>
+          千曲市には、古くから月と深く関わってきた文化や歴史があります。
         </p>
 
-        <div id="battleSelectGrid" class="battle-select-grid"></div>
-      </div>
+        <p>
+          姨捨の棚田、田毎の月、月待ち行事、街道、祭り、農業や水の利用。
+          そこには、自然と人々の暮らしが長い時間をかけて積み重なっています。
+        </p>
 
-    </div>
+        <p>
+          「ツキモン！」では、こうした文化財を「発見」し、
+          その組み合わせからモンスターを誕生させます。
+        </p>
 
-    <div id="battleActiveArea" class="hidden">
+        <p>
+          バトルを楽しみながら、千曲市の文化や歴史にも触れてみてください。
+        </p>
 
-      <div id="battleTurn" class="turn-indicator"></div>
-
-      <div class="battle-layout">
-
-        <div class="battle-side">
-          <h3 id="battlePlayerName">プレイヤー</h3>
-          <div id="battlePlayerInfo"></div>
-          <div class="hp-bar">
-            <div id="battlePlayerHp" class="hp-fill"></div>
-          </div>
-          <div id="battlePlayerHpText" class="battle-hp-text"></div>
-
-          <div id="battleSkills" class="battle-skills"></div>
-        </div>
-
-        <div class="battle-side">
-          <h3 id="battleEnemyName">相手</h3>
-          <div id="battleEnemyInfo"></div>
-          <div class="hp-bar">
-            <div id="battleEnemyHp" class="hp-fill enemy"></div>
-          </div>
-          <div id="battleEnemyHpText" class="battle-hp-text"></div>
-        </div>
+        <p>
+          <strong>
+            月を見ることから、千曲市を知る旅が始まります。
+          </strong>
+        </p>
 
       </div>
-
-      <div id="battleLog" class="battle-log"></div>
-
     </div>
 
   </div>
@@ -1148,188 +1253,256 @@ button{
 
 
 <!-- =========================
-     バトル結果
+     MISSION
 ========================= -->
-
-<section id="battleResultScreen" class="screen">
-  <div class="app">
-
-    <div class="battle-result-box card">
-
-      <div id="battleResultIcon" class="result-icon">🏆</div>
-
-      <h1 id="battleResultTitle">バトル結果</h1>
-
-      <div id="battleResultMessage"></div>
-
-      <div id="battleExpResult"></div>
-
-      <div class="result-actions">
-
-        <button
-          class="primary-btn"
-          onclick="retryBattle()">
-          もう一度バトルする
-        </button>
-
-        <button
-          class="secondary-btn"
-          onclick="exitBattleToMonsterDetail(lastBattlePlayerId)">
-          今回のツキモンを見る
-        </button>
-
-        <button
-          class="secondary-btn"
-          onclick="exitBattleToScreen('monsterScreen')">
-          ツキモン図鑑へ
-        </button>
-
-        <button
-          class="secondary-btn"
-          onclick="exitBattleToScreen('missionScreen')">
-          ミッションを見る
-        </button>
-
-        <button
-          class="secondary-btn"
-          onclick="goHome()">
-          ホームへ
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-
-<!-- =========================
-     文化財図鑑
-========================= -->
-
-<section id="propertyBookScreen" class="screen">
-  <div class="app">
-
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>📚 文化財図鑑</h2>
-    </div>
-
-    <div id="propertyBookProgress" class="book-progress"></div>
-
-    <div id="propertyBookGrid" class="grid property-grid"></div>
-
-  </div>
-</section>
-
-
-<!-- =========================
-     世界観
-========================= -->
-
-<section id="themeScreen" class="screen">
-  <div class="app">
-
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>🌙 ツキモンの世界</h2>
-    </div>
-
-    <div class="card theme-box">
-
-      <div class="theme-icon">🌕</div>
-
-      <h1>月と歴史が紡ぐ物語</h1>
-
-      <p>
-        千曲市には、古くから月と人々の暮らしにまつわる
-        さまざまな物語が残されています。
-      </p>
-
-      <p>
-        姨捨の棚田、田毎の月、街道、祭り、温泉、千曲川。
-        それぞれの文化や風景に宿る記憶が、
-        不思議な存在「ツキモン」として姿を現します。
-      </p>
-
-      <p>
-        文化財を知れば知るほど、新しいツキモンに出会える。
-      </p>
-
-      <h2 style="margin-top:30px;">
-        千曲市を探して、<br>
-        ツキモンを集めよう！
-      </h2>
-
-    </div>
-
-  </div>
-</section>
-
-
-<!-- =========================
-     ミッション
-========================= -->
-
 <section id="missionScreen" class="screen">
-  <div class="app">
+  <div class="container">
 
-    <div class="page-header">
-      <button class="back-btn" onclick="goBack()">← 戻る</button>
-      <h2>🎯 ミッション</h2>
+    <div class="header">
+      <h1>🎯 ミッション</h1>
+      <button class="back-btn" onclick="goBack()">戻る</button>
     </div>
 
-    <div id="missionGrid" class="mission-grid"></div>
+    <div class="card">
+      <div id="missionList" class="mission-list"></div>
+    </div>
 
   </div>
 </section>
+
+
+<!-- MESSAGE MODAL -->
+<div id="messageModal" class="modal-message">
+  <div class="modal-inner">
+    <h3 id="messageTitle"></h3>
+    <div id="messageBody"></div>
+    <button
+      class="btn primary"
+      style="width:100%;margin-top:16px;"
+      onclick="closeMessage()">
+      OK
+    </button>
+  </div>
+</div>
+
+</div>
 
 
 <script>
 
 /* =========================================================
-   文化財データ
+   DATA
 ========================================================= */
+
+const SAVE_KEY = "chikumaMonsterSave";
 
 const properties = [
 
-  {id:1,name:"長楽寺境内と歌碑群",theme:"遊び心",tags:["📖文学","🌙月"]},
-  {id:2,name:"歌川広重作 浮世絵「信濃更科田毎月鏡台山」",theme:"遊び心",tags:["🎨絵画","🌙月"]},
-  {id:3,name:"揚州周延作 錦絵「更科田毎の月」",theme:"遊び心",tags:["🎨絵画","🌙月"]},
-  {id:4,name:"藤原信一作 教訓画譜「姨捨山之図」",theme:"遊び心",tags:["🎨絵画","📖物語"]},
-  {id:5,name:"姨捨の棚田",theme:"暮らしの知恵",tags:["🌾農","🌙月","💧水"]},
-  {id:6,name:"大池",theme:"暮らしの知恵",tags:["💧水","🌾農"]},
-  {id:7,name:"更級川・分水工・用水路",theme:"暮らしの知恵",tags:["💧水","🌾農"]},
-  {id:8,name:"武水別神社 高良社本殿",theme:"遊び心",tags:["⛩️神","🏯建築"]},
-  {id:9,name:"武水別神社 神主松田家館跡",theme:"遊び心",tags:["🏯歴史","⛩️神"]},
-  {id:10,name:"武水別神社 神宮寺跡",theme:"遊び心",tags:["⛩️神","🏯歴史"]},
-  {id:11,name:"武水別神社の仲秋祭",theme:"遊び心",tags:["🎭祭","🌙月"]},
-  {id:12,name:"武水別神社の頭人行事（大頭祭）",theme:"暮らしの知恵",tags:["🎭祭","⛩️神"]},
-  {id:13,name:"大池の百八灯",theme:"遊び心",tags:["🔥火","🎭祭"]},
-  {id:14,name:"稲荷山の街なみと祇園祭",theme:"遊び心",tags:["🏘️街","🎭祭"]},
-  {id:15,name:"月待ち行事 二十三夜塔",theme:"遊び心",tags:["🌙月","⛩️信仰"]},
-  {id:16,name:"冠着神社と遥拝所",theme:"月見の地",tags:["⛩️神","⛰️山"]},
-  {id:17,name:"冠着山（姨捨山）",theme:"月見の地",tags:["⛰️山","🌙月"]},
-  {id:18,name:"鏡台山",theme:"月見の地",tags:["⛰️山","🌙月"]},
-  {id:19,name:"東山道の支道",theme:"暮らしの知恵",tags:["🚶道","🏯歴史"]},
-  {id:20,name:"八幡遺跡群（更級郡衙推定地）",theme:"暮らしの知恵",tags:["🏯歴史","📖遺跡"]},
-  {id:21,name:"北国街道脇往還 善光寺道",theme:"暮らしの知恵",tags:["🚶道","🏘️街"]},
-  {id:22,name:"姨捨十三景",theme:"月見の地",tags:["🌙月","🏞️景観"]},
-  {id:23,name:"姨捨駅 駅舎",theme:"月見の地",tags:["🚂旅","🌙月"]},
-  {id:24,name:"冠着山のヒメボタル生息地",theme:"月見の地",tags:["✨自然","⛰️山"]},
-  {id:25,name:"戸倉上山田温泉 笹屋ホテル別荘（豊年蟲）",theme:"月見の地",tags:["♨️温泉","🏯建築"]},
-  {id:26,name:"長野銘醸酒蔵",theme:"暮らしの知恵",tags:["🍶酒","🏯建築"]},
-  {id:27,name:"坂井銘醸酒蔵",theme:"暮らしの知恵",tags:["🍶酒","🏯建築"]},
-  {id:28,name:"千曲川のハヤのつけ場漁",theme:"暮らしの知恵",tags:["🌊川","🐟漁"]},
-  {id:29,name:"蕎麦・おしぼりうどん・おやき",theme:"暮らしの知恵",tags:["🍜食","🌾農"]}
+  {
+    id:1,
+    name:"長楽寺境内と歌碑群",
+    category:"遊び心",
+    tags:["📖文学","🌙月"]
+  },
+
+  {
+    id:2,
+    name:"歌川広重作 浮世絵「信濃更科田毎月鏡台山」",
+    category:"遊び心",
+    tags:["🎨絵画","🌙月"]
+  },
+
+  {
+    id:3,
+    name:"揚州周延作 錦絵「更科田毎の月」",
+    category:"遊び心",
+    tags:["🎨絵画","🌙月"]
+  },
+
+  {
+    id:4,
+    name:"藤原信一作 教訓画譜「姨捨山之図」",
+    category:"遊び心",
+    tags:["🎨絵画","📖物語"]
+  },
+
+  {
+    id:5,
+    name:"姨捨の棚田",
+    category:"暮らしの知恵",
+    tags:["🌾農","🌙月","💧水"]
+  },
+
+  {
+    id:6,
+    name:"大池",
+    category:"暮らしの知恵",
+    tags:["💧水","🌾農"]
+  },
+
+  {
+    id:7,
+    name:"更級川・分水工・用水路",
+    category:"暮らしの知恵",
+    tags:["💧水","🌾農"]
+  },
+
+  {
+    id:8,
+    name:"武水別神社 高良社本殿",
+    category:"遊び心",
+    tags:["⛩️神","🏯建築"]
+  },
+
+  {
+    id:9,
+    name:"武水別神社 神主松田家館跡",
+    category:"遊び心",
+    tags:["🏯歴史","⛩️神"]
+  },
+
+  {
+    id:10,
+    name:"武水別神社 神宮寺跡",
+    category:"遊び心",
+    tags:["⛩️神","🏯歴史"]
+  },
+
+  {
+    id:11,
+    name:"武水別神社の仲秋祭",
+    category:"遊び心",
+    tags:["🎭祭","🌙月"]
+  },
+
+  {
+    id:12,
+    name:"武水別神社の頭人行事（大頭祭）",
+    category:"暮らしの知恵",
+    tags:["🎭祭","⛩️神"]
+  },
+
+  {
+    id:13,
+    name:"大池の百八灯",
+    category:"遊び心",
+    tags:["🔥火","🎭祭"]
+  },
+
+  {
+    id:14,
+    name:"稲荷山の街なみと祇園祭",
+    category:"遊び心",
+    tags:["🏘️街","🎭祭"]
+  },
+
+  {
+    id:15,
+    name:"月待ち行事 二十三夜塔",
+    category:"遊び心",
+    tags:["🌙月","⛩️信仰"]
+  },
+
+  {
+    id:16,
+    name:"冠着神社と遥拝所",
+    category:"月見の地",
+    tags:["⛩️神","⛰️山"]
+  },
+
+  {
+    id:17,
+    name:"冠着山（姨捨山）",
+    category:"月見の地",
+    tags:["⛰️山","🌙月"]
+  },
+
+  {
+    id:18,
+    name:"鏡台山",
+    category:"月見の地",
+    tags:["⛰️山","🌙月"]
+  },
+
+  {
+    id:19,
+    name:"東山道の支道",
+    category:"暮らしの知恵",
+    tags:["🚶道","🏯歴史"]
+  },
+
+  {
+    id:20,
+    name:"八幡遺跡群（更級郡衙推定地）",
+    category:"暮らしの知恵",
+    tags:["🏯歴史","📖遺跡"]
+  },
+
+  {
+    id:21,
+    name:"北国街道脇往還 善光寺道",
+    category:"暮らしの知恵",
+    tags:["🚶道","🏘️街"]
+  },
+
+  {
+    id:22,
+    name:"姨捨十三景",
+    category:"月見の地",
+    tags:["🌙月","🏞️景観"]
+  },
+
+  {
+    id:23,
+    name:"姨捨駅 駅舎",
+    category:"月見の地",
+    tags:["🚂旅","🌙月"]
+  },
+
+  {
+    id:24,
+    name:"冠着山のヒメボタル生息地",
+    category:"月見の地",
+    tags:["✨自然","⛰️山"]
+  },
+
+  {
+    id:25,
+    name:"戸倉上山田温泉 笹屋ホテル別荘（豊年蟲）",
+    category:"月見の地",
+    tags:["♨️温泉","🏯建築"]
+  },
+
+  {
+    id:26,
+    name:"長野銘醸酒蔵",
+    category:"暮らしの知恵",
+    tags:["🍶酒","🏯建築"]
+  },
+
+  {
+    id:27,
+    name:"坂井銘醸酒蔵",
+    category:"暮らしの知恵",
+    tags:["🍶酒","🏯建築"]
+  },
+
+  {
+    id:28,
+    name:"千曲川のハヤのつけ場漁",
+    category:"暮らしの知恵",
+    tags:["🌊川","🐟漁"]
+  },
+
+  {
+    id:29,
+    name:"蕎麦・おしぼりうどん・おやき",
+    category:"暮らしの知恵",
+    tags:["🍜食","🌾農"]
+  }
 
 ];
 
-
-/* =========================================================
-   ツキモンデータ
-========================================================= */
 
 const monsters = [
 
@@ -1337,9 +1510,12 @@ const monsters = [
     id:1,
     name:"月影龍・タゴト",
     attr:"月",
+    rarity:2,
     icon:"🐉",
-    rarity:"★★",
-    hp:100,attack:45,defense:38,speed:42,
+    hp:100,
+    attack:45,
+    defense:38,
+    speed:42,
     recipe:[1,5],
     skills:[
       {name:"月光斬",type:"attack",power:22,attr:"月"},
@@ -1352,9 +1528,12 @@ const monsters = [
     id:2,
     name:"タゴトミズチ",
     attr:"水",
+    rarity:2,
     icon:"🐍",
-    rarity:"★★",
-    hp:110,attack:42,defense:42,speed:35,
+    hp:110,
+    attack:42,
+    defense:42,
+    speed:35,
     recipe:[5,7],
     skills:[
       {name:"水流撃",type:"attack",power:21,attr:"水"},
@@ -1367,9 +1546,12 @@ const monsters = [
     id:3,
     name:"ミズワケ",
     attr:"水",
+    rarity:2,
     icon:"💧",
-    rarity:"★★",
-    hp:115,attack:40,defense:45,speed:32,
+    hp:115,
+    attack:40,
+    defense:45,
+    speed:32,
     recipe:[6,7],
     skills:[
       {name:"分水撃",type:"attack",power:20,attr:"水"},
@@ -1382,13 +1564,16 @@ const monsters = [
     id:4,
     name:"オバステヤマノヌシ",
     attr:"自然",
+    rarity:2,
     icon:"⛰️",
-    rarity:"★★",
-    hp:120,attack:48,defense:50,speed:25,
+    hp:120,
+    attack:48,
+    defense:50,
+    speed:25,
     recipe:[5,17],
     skills:[
       {name:"山砕き",type:"attack",power:25,attr:"自然"},
-      {name:"大地の息吹",type:"buffDef",power:10,attr:"自然"},
+      {name:"大地の息吹",type:"buffDefense",power:10,attr:"自然"},
       {name:"山神撃",type:"attack",power:42,attr:"自然"}
     ]
   },
@@ -1397,9 +1582,12 @@ const monsters = [
     id:5,
     name:"ツクヨミノカムイ",
     attr:"月",
+    rarity:2,
     icon:"🌙",
-    rarity:"★★",
-    hp:100,attack:47,defense:35,speed:48,
+    hp:100,
+    attack:47,
+    defense:35,
+    speed:48,
     recipe:[15,17],
     skills:[
       {name:"神撃",type:"attack",power:24,attr:"月"},
@@ -1412,9 +1600,12 @@ const monsters = [
     id:6,
     name:"ムーンライナー",
     attr:"月",
+    rarity:2,
     icon:"🚂",
-    rarity:"★★",
-    hp:90,attack:42,defense:30,speed:65,
+    hp:90,
+    attack:42,
+    defense:30,
+    speed:65,
     recipe:[22,23],
     skills:[
       {name:"月走り",type:"attack",power:22,attr:"月"},
@@ -1427,13 +1618,16 @@ const monsters = [
     id:7,
     name:"ツキヨミコトノハ",
     attr:"月",
+    rarity:2,
     icon:"📖",
-    rarity:"★★",
-    hp:95,attack:40,defense:34,speed:52,
+    hp:95,
+    attack:40,
+    defense:34,
+    speed:52,
     recipe:[1,15],
     skills:[
       {name:"月詠",type:"attack",power:20,attr:"月"},
-      {name:"歌の力",type:"buffAtk",power:10,attr:"月"},
+      {name:"歌の力",type:"buffAttack",power:10,attr:"月"},
       {name:"名月詠唱",type:"attack",power:38,attr:"月"}
     ]
   },
@@ -1442,13 +1636,16 @@ const monsters = [
     id:8,
     name:"マツリビ",
     attr:"火",
+    rarity:2,
     icon:"🔥",
-    rarity:"★★",
-    hp:90,attack:55,defense:28,speed:50,
+    hp:90,
+    attack:55,
+    defense:28,
+    speed:50,
     recipe:[11,13],
     skills:[
       {name:"火祭",type:"attack",power:26,attr:"火"},
-      {name:"灯火",type:"buffAtk",power:10,attr:"火"},
+      {name:"灯火",type:"buffAttack",power:10,attr:"火"},
       {name:"百八炎",type:"attack",power:42,attr:"火"}
     ]
   },
@@ -1457,13 +1654,16 @@ const monsters = [
     id:9,
     name:"シシガミ",
     attr:"自然",
+    rarity:2,
     icon:"🦁",
-    rarity:"★★",
-    hp:105,attack:43,defense:44,speed:34,
+    hp:105,
+    attack:43,
+    defense:44,
+    speed:34,
     recipe:[8,12],
     skills:[
       {name:"神楽撃",type:"attack",power:21,attr:"自然"},
-      {name:"祭神の守り",type:"buffDef",power:15,attr:"自然"},
+      {name:"祭神の守り",type:"buffDefense",power:15,attr:"自然"},
       {name:"神威",type:"attack",power:37,attr:"自然"}
     ]
   },
@@ -1472,9 +1672,12 @@ const monsters = [
     id:10,
     name:"月水神・オバステ",
     attr:"月",
+    rarity:3,
     icon:"🌕",
-    rarity:"★★★",
-    hp:130,attack:52,defense:48,speed:38,
+    hp:130,
+    attack:52,
+    defense:48,
+    speed:38,
     recipe:[5,17],
     skills:[
       {name:"月水撃",type:"attack",power:26,attr:"月"},
@@ -1487,13 +1690,16 @@ const monsters = [
     id:11,
     name:"ウキヨエガミ",
     attr:"月",
+    rarity:2,
     icon:"🎨",
-    rarity:"★★",
-    hp:95,attack:44,defense:32,speed:55,
+    hp:95,
+    attack:44,
+    defense:32,
+    speed:55,
     recipe:[2,3],
     skills:[
       {name:"墨流し",type:"attack",power:22,attr:"月"},
-      {name:"月描き",type:"buffAtk",power:10,attr:"月"},
+      {name:"月描き",type:"buffAttack",power:10,attr:"月"},
       {name:"浮世月光",type:"attack",power:40,attr:"月"}
     ]
   },
@@ -1502,13 +1708,16 @@ const monsters = [
     id:12,
     name:"オバステモノガタリ",
     attr:"月",
+    rarity:2,
     icon:"📜",
-    rarity:"★★",
-    hp:100,attack:45,defense:39,speed:37,
+    hp:100,
+    attack:45,
+    defense:39,
+    speed:37,
     recipe:[4,17],
     skills:[
       {name:"物語撃",type:"attack",power:21,attr:"月"},
-      {name:"古の教え",type:"buffDef",power:12,attr:"月"},
+      {name:"古の教え",type:"buffDefense",power:12,attr:"月"},
       {name:"姨捨伝承",type:"attack",power:40,attr:"月"}
     ]
   },
@@ -1517,13 +1726,16 @@ const monsters = [
     id:13,
     name:"マツダノカミ",
     attr:"自然",
+    rarity:2,
     icon:"⛩️",
-    rarity:"★★",
-    hp:110,attack:46,defense:46,speed:30,
+    hp:110,
+    attack:46,
+    defense:46,
+    speed:30,
     recipe:[8,9],
     skills:[
       {name:"館守り",type:"attack",power:23,attr:"自然"},
-      {name:"神守",type:"buffDef",power:15,attr:"自然"},
+      {name:"神守",type:"buffDefense",power:15,attr:"自然"},
       {name:"松田神威",type:"attack",power:41,attr:"自然"}
     ]
   },
@@ -1532,13 +1744,16 @@ const monsters = [
     id:14,
     name:"イナリヤマツカサ",
     attr:"火",
-    icon:"🦊",
-    rarity:"★★",
-    hp:100,attack:50,defense:35,speed:47,
+    rarity:2,
+    icon:"🏮",
+    hp:100,
+    attack:50,
+    defense:35,
+    speed:47,
     recipe:[14,21],
     skills:[
       {name:"街道撃",type:"attack",power:23,attr:"火"},
-      {name:"祭囃子",type:"buffAtk",power:10,attr:"火"},
+      {name:"祭囃子",type:"buffAttack",power:10,attr:"火"},
       {name:"祇園大祭",type:"attack",power:40,attr:"火"}
     ]
   },
@@ -1547,13 +1762,16 @@ const monsters = [
     id:15,
     name:"サンヤヨイノツキ",
     attr:"月",
+    rarity:2,
     icon:"🌙",
-    rarity:"★★",
-    hp:90,attack:43,defense:31,speed:58,
+    hp:90,
+    attack:43,
+    defense:31,
+    speed:58,
     recipe:[15,22],
     skills:[
       {name:"月待ち",type:"attack",power:21,attr:"月"},
-      {name:"月影守",type:"buffDef",power:18,attr:"月"},
+      {name:"月影守",type:"buffDefense",power:18,attr:"月"},
       {name:"十三夜光",type:"attack",power:42,attr:"月"}
     ]
   },
@@ -1562,9 +1780,12 @@ const monsters = [
     id:16,
     name:"コウザンホタル",
     attr:"自然",
+    rarity:2,
     icon:"✨",
-    rarity:"★★",
-    hp:85,attack:39,defense:30,speed:68,
+    hp:85,
+    attack:39,
+    defense:30,
+    speed:68,
     recipe:[17,24],
     skills:[
       {name:"蛍火",type:"attack",power:23,attr:"自然"},
@@ -1577,9 +1798,12 @@ const monsters = [
     id:17,
     name:"ユノカミ",
     attr:"火",
+    rarity:2,
     icon:"♨️",
-    rarity:"★★",
-    hp:115,attack:48,defense:43,speed:29,
+    hp:115,
+    attack:48,
+    defense:43,
+    speed:29,
     recipe:[11,25],
     skills:[
       {name:"湯けむり",type:"attack",power:23,attr:"火"},
@@ -1592,9 +1816,12 @@ const monsters = [
     id:18,
     name:"サカイノカメ",
     attr:"水",
-    icon:"🏺",
-    rarity:"★★",
-    hp:105,attack:45,defense:47,speed:31,
+    rarity:2,
+    icon:"🍶",
+    hp:105,
+    attack:45,
+    defense:47,
+    speed:31,
     recipe:[26,27],
     skills:[
       {name:"銘醸撃",type:"attack",power:23,attr:"水"},
@@ -1607,9 +1834,12 @@ const monsters = [
     id:19,
     name:"チクマガワオウ",
     attr:"水",
+    rarity:2,
     icon:"🌊",
-    rarity:"★★",
-    hp:110,attack:49,defense:40,speed:43,
+    hp:110,
+    attack:49,
+    defense:40,
+    speed:43,
     recipe:[7,28],
     skills:[
       {name:"川流撃",type:"attack",power:25,attr:"水"},
@@ -1622,9 +1852,12 @@ const monsters = [
     id:20,
     name:"ツキノミヤコ",
     attr:"月",
-    icon:"👑",
-    rarity:"★★★★",
-    hp:145,attack:58,defense:52,speed:45,
+    rarity:4,
+    icon:"🌌",
+    hp:145,
+    attack:58,
+    defense:52,
+    speed:45,
     recipe:[22,23],
     skills:[
       {name:"月都斬",type:"attack",power:30,attr:"月"},
@@ -1637,90 +1870,207 @@ const monsters = [
 
 
 /* =========================================================
-   セーブデータ
+   QUIZ DATA
 ========================================================= */
 
-const SAVE_KEY = "chikumaMonsterSave";
+const quizQuestions = [
 
-function createDefaultSave(){
+  {
+    question:"「🌾農」「🌙月」「💧水」の3つのタグを持つ文化財はどれ？",
+    choices:[5,6,23],
+    answer:5,
+    explanation:"「姨捨の棚田」は、農・月・水に関わる文化財として設定されています。"
+  },
 
-  return {
-    foundCards:[1,5],
-    discoveredMonsters:[],
-    viewedCards:[],
-    monsterProgress:{},
-    battleWins:0,
-    missionCompleted:[]
-  };
+  {
+    question:"「🌙月」と「🚂旅」のタグを持つ文化財はどれ？",
+    choices:[23,13,29],
+    answer:23,
+    explanation:"「姨捨駅 駅舎」は、旅と月に関わる文化財として設定されています。"
+  },
 
-}
+  {
+    question:"「🍶酒」と「🏯建築」のタグを持つ文化財はどれ？",
+    choices:[26,15,28],
+    answer:26,
+    explanation:"「長野銘醸酒蔵」は、酒と建築に関わる文化財として設定されています。"
+  },
 
-let saveData = createDefaultSave();
+  {
+    question:"「🔥火」と「🎭祭」のタグを持つ文化財はどれ？",
+    choices:[13,8,28],
+    answer:13,
+    explanation:"「大池の百八灯」は、火と祭に関わる文化財として設定されています。"
+  },
 
+  {
+    question:"「🌊川」と「🐟漁」のタグを持つ文化財はどれ？",
+    choices:[28,7,25],
+    answer:28,
+    explanation:"「千曲川のハヤのつけ場漁」は、川と漁に関わる文化財として設定されています。"
+  },
+
+  {
+    question:"「✨自然」と「⛰️山」のタグを持つ文化財はどれ？",
+    choices:[24,17,23],
+    answer:24,
+    explanation:"「冠着山のヒメボタル生息地」は、自然と山に関わる文化財として設定されています。"
+  },
+
+  {
+    question:"「🌙月」と「⛩️信仰」のタグを持つ文化財はどれ？",
+    choices:[15,8,28],
+    answer:15,
+    explanation:"「月待ち行事 二十三夜塔」は、月と信仰に関わる文化財として設定されています。"
+  },
+
+  {
+    question:"「🏘️街」と「🚶道」のタグを持つ文化財はどれ？",
+    choices:[21,17,5],
+    answer:21,
+    explanation:"「北国街道脇往還 善光寺道」は、街と道に関わる文化財として設定されています。"
+  }
+
+];
+
+
+/* =========================================================
+   MISSION DATA
+========================================================= */
+
+const missions = [
+
+  {
+    id:"property5",
+    title:"文化財を5件発見する",
+    reward:"探索者の第一歩",
+    check:()=>saveData.foundCards.length>=5
+  },
+
+  {
+    id:"property15",
+    title:"文化財を15件発見する",
+    reward:"千曲市文化財ハンター",
+    check:()=>saveData.foundCards.length>=15
+  },
+
+  {
+    id:"monster3",
+    title:"ツキモンを3体発見する",
+    reward:"新人ツキモントレーナー",
+    check:()=>saveData.discoveredMonsters.length>=3
+  },
+
+  {
+    id:"monster10",
+    title:"ツキモンを10体発見する",
+    reward:"ツキモン研究家",
+    check:()=>saveData.discoveredMonsters.length>=10
+  },
+
+  {
+    id:"battle3",
+    title:"バトルに3回勝利する",
+    reward:"バトルマスター",
+    check:()=>saveData.battleWins>=3
+  },
+
+  {
+    id:"quiz3",
+    title:"文化財クイズに3問正解する",
+    reward:"文化財クイズマスター",
+    check:()=>saveData.quizCorrect>=3
+  },
+
+  {
+    id:"propertyAll",
+    title:"29件すべての文化財を発見する",
+    reward:"千曲市完全探索",
+    check:()=>saveData.foundCards.length>=properties.length
+  },
+
+  {
+    id:"monsterAll",
+    title:"20体すべてのツキモンを発見する",
+    reward:"ツキモン図鑑コンプリート",
+    check:()=>saveData.discoveredMonsters.length>=monsters.length
+  }
+
+];
+
+
+/* =========================================================
+   SAVE DATA
+========================================================= */
+
+let saveData = {
+  foundCards:[1,5],
+  discoveredMonsters:[],
+  viewedCards:[],
+  monsterProgress:{},
+  battleWins:0,
+  missionCompleted:[],
+  quizCorrect:0,
+  quizTotal:0
+};
 
 function normalizeSave(data){
 
-  const base = createDefaultSave();
-
-  if(!data || typeof data !== "object"){
-    return base;
+  if(!data || typeof data!=="object"){
+    return;
   }
 
-  return {
-    foundCards:Array.isArray(data.foundCards)
-      ? data.foundCards
-      : base.foundCards,
+  if(!Array.isArray(data.foundCards)){
+    data.foundCards=[1,5];
+  }
 
-    discoveredMonsters:Array.isArray(data.discoveredMonsters)
-      ? data.discoveredMonsters
-      : [],
+  if(!Array.isArray(data.discoveredMonsters)){
+    data.discoveredMonsters=[];
+  }
 
-    viewedCards:Array.isArray(data.viewedCards)
-      ? data.viewedCards
-      : [],
+  if(!Array.isArray(data.viewedCards)){
+    data.viewedCards=[];
+  }
 
-    monsterProgress:
-      data.monsterProgress &&
-      typeof data.monsterProgress === "object"
-        ? data.monsterProgress
-        : {},
+  if(!data.monsterProgress || typeof data.monsterProgress!=="object"){
+    data.monsterProgress={};
+  }
 
-    battleWins:
-      Number.isFinite(data.battleWins)
-        ? data.battleWins
-        : 0,
+  if(typeof data.battleWins!=="number"){
+    data.battleWins=0;
+  }
 
-    missionCompleted:
-      Array.isArray(data.missionCompleted)
-        ? data.missionCompleted
-        : []
-  };
+  if(!Array.isArray(data.missionCompleted)){
+    data.missionCompleted=[];
+  }
+
+  if(typeof data.quizCorrect!=="number"){
+    data.quizCorrect=0;
+  }
+
+  if(typeof data.quizTotal!=="number"){
+    data.quizTotal=0;
+  }
 
 }
-
 
 function loadSave(){
 
+  const raw=localStorage.getItem(SAVE_KEY);
+
+  if(!raw){
+    return;
+  }
+
   try{
-
-    const raw = localStorage.getItem(SAVE_KEY);
-
-    if(!raw){
-      saveData = createDefaultSave();
-      return;
-    }
-
-    saveData = normalizeSave(JSON.parse(raw));
-
+    const parsed=JSON.parse(raw);
+    normalizeSave(parsed);
+    saveData=parsed;
   }catch(e){
-
-    console.warn("セーブデータ読み込み失敗",e);
-    saveData = createDefaultSave();
-
+    console.warn("save load error",e);
   }
 
 }
-
 
 function saveGame(){
 
@@ -1733,83 +2083,61 @@ function saveGame(){
 
 
 /* =========================================================
-   ゲーム状態
+   SCREEN MANAGEMENT
 ========================================================= */
 
-let screenHistory = [];
-
-let selectedPropertyId = null;
-let selectedMonsterId = null;
-
-let fusionSelection = [];
-
-let battle = null;
-let lastBattlePlayerId = null;
-
-let battleSessionId = 0;
-let battleTimerIds = [];
-
-
-/* =========================================================
-   画面管理
-========================================================= */
-
-function getCurrentScreen(){
-
-  const active =
-    document.querySelector(".screen.active");
-
-  return active ? active.id : null;
-
-}
-
+let screenHistory=[];
 
 function showScreen(id,addHistory=true){
 
-  const current = getCurrentScreen();
-
-  if(current === id){
-
-    if(id === "battleScreen"){
-      if(!battle || battle.finished){
-        renderBattleSelect();
-      }else{
-        renderBattleActive();
-      }
-    }
-
-    return;
-  }
-
+  const current=document.querySelector(".screen.active");
 
   if(
     addHistory &&
     current &&
-    current !== "titleScreen"
+    current.id!==id &&
+    current.id!=="titleScreen"
   ){
-
-    screenHistory.push(current);
-
+    screenHistory.push(current.id);
   }
 
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
 
-  document
-    .querySelectorAll(".screen")
-    .forEach(screen=>{
-      screen.classList.remove("active");
-    });
+  const target=document.getElementById(id);
 
+  if(target){
+    target.classList.add("active");
+  }
 
-  const target =
-    document.getElementById(id);
+  renderCurrentScreen(id);
 
-  if(!target){
+}
+
+function goBack(){
+
+  if(
+    document.getElementById("battleScreen").classList.contains("active") ||
+    document.getElementById("battleResultScreen").classList.contains("active")
+  ){
+    exitBattleToScreen("homeScreen");
     return;
   }
 
+  const previous=screenHistory.pop();
 
-  target.classList.add("active");
+  if(previous){
+    showScreen(previous,false);
+  }else{
+    showScreen("homeScreen",false);
+  }
 
+}
+
+function renderCurrentScreen(id){
+
+  checkMissions();
 
   switch(id){
 
@@ -1818,11 +2146,15 @@ function showScreen(id,addHistory=true){
       break;
 
     case "propertyScreen":
-      renderPropertyScreen();
+      renderProperties();
       break;
 
     case "propertyDetailScreen":
       renderPropertyDetail();
+      break;
+
+    case "quizScreen":
+      renderQuiz();
       break;
 
     case "fusionScreen":
@@ -1830,19 +2162,11 @@ function showScreen(id,addHistory=true){
       break;
 
     case "monsterScreen":
-      renderMonsterScreen();
+      renderMonsterList();
       break;
 
     case "monsterDetailScreen":
       renderMonsterDetail();
-      break;
-
-    case "battleScreen":
-      if(!battle || battle.finished){
-        renderBattleSelect();
-      }else{
-        renderBattleActive();
-      }
       break;
 
     case "propertyBookScreen":
@@ -1853,756 +2177,924 @@ function showScreen(id,addHistory=true){
       renderMissions();
       break;
 
-  }
-
-}
-
-
-function goBack(){
-
-  const current = getCurrentScreen();
-
-
-  /*
-   * バトル画面は通常の履歴に戻さず、
-   * バトルを終了してホームへ。
-   */
-  if(current === "battleScreen"){
-
-    stopBattleTimers();
-
-    battle = null;
-
-    battleSessionId++;
-
-    screenHistory = [];
-
-    showScreen(
-      "homeScreen",
-      false
-    );
-
-    return;
+    case "battleScreen":
+      renderBattleScreen();
+      break;
 
   }
-
-
-  /*
-   * バトル結果画面から戻る場合もホーム。
-   */
-  if(current === "battleResultScreen"){
-
-    screenHistory = [];
-
-    showScreen(
-      "homeScreen",
-      false
-    );
-
-    return;
-
-  }
-
-
-  if(screenHistory.length > 0){
-
-    const previous =
-      screenHistory.pop();
-
-    showScreen(
-      previous,
-      false
-    );
-
-  }else{
-
-    showScreen(
-      "homeScreen",
-      false
-    );
-
-  }
-
-}
-
-
-/*
- * バトル終了後に別画面へ移動する場合の専用処理。
- *
- * これが今回の重要ポイント。
- *
- * 例えば
- * バトル結果
- *   ↓
- * ツキモン詳細
- *   ↓
- * 戻る
- *
- * とした場合、
- * 「バトル結果」へ戻らずホームへ戻る。
- */
-function exitBattleToScreen(targetId){
-
-  stopBattleTimers();
-
-  battle = null;
-
-  battleSessionId++;
-
-  screenHistory = [];
-
-  showScreen(
-    targetId,
-    false
-  );
-
-}
-
-
-function exitBattleToMonsterDetail(id){
-
-  if(!id){
-    return;
-  }
-
-  selectedMonsterId = Number(id);
-
-  exitBattleToScreen(
-    "monsterDetailScreen"
-  );
-
-}
-
-
-function goHome(){
-
-  stopBattleTimers();
-
-  battle = null;
-
-  battleSessionId++;
-
-  screenHistory = [];
-
-  selectedMonsterId = null;
-  selectedPropertyId = null;
-
-  showScreen(
-    "homeScreen",
-    false
-  );
 
 }
 
 
 /* =========================================================
-   ゲーム開始
+   TITLE / GAME START
 ========================================================= */
 
-function startGame(){
+function startNewGame(){
 
-  saveData = createDefaultSave();
+  const confirmed=confirm(
+    "現在のゲームデータを消去して、最初から始めますか？"
+  );
+
+  if(!confirmed){
+    return;
+  }
+
+  saveData={
+    foundCards:[1,5],
+    discoveredMonsters:[],
+    viewedCards:[],
+    monsterProgress:{},
+    battleWins:0,
+    missionCompleted:[],
+    quizCorrect:0,
+    quizTotal:0
+  };
 
   saveGame();
 
-  battle = null;
-  lastBattlePlayerId = null;
-  battleSessionId++;
+  screenHistory=[];
 
-  screenHistory = [];
-
-  showScreen(
-    "homeScreen",
-    false
-  );
+  showScreen("homeScreen",false);
 
 }
-
 
 function continueGame(){
 
   loadSave();
 
-  battle = null;
-  lastBattlePlayerId = null;
-  battleSessionId++;
+  screenHistory=[];
 
-  screenHistory = [];
-
-  showScreen(
-    "homeScreen",
-    false
-  );
+  showScreen("homeScreen",false);
 
 }
 
+function returnToTitle(){
 
-function resetGame(){
+  stopBattleTimers();
 
-  if(
-    !confirm(
-      "セーブデータをすべてリセットしますか？"
-    )
-  ){
-    return;
-  }
+  battle=null;
 
-  localStorage.removeItem(
-    SAVE_KEY
-  );
+  screenHistory=[];
 
-  saveData = createDefaultSave();
-
-  battle = null;
-  lastBattlePlayerId = null;
-
-  screenHistory = [];
-
-  showScreen(
-    "titleScreen",
-    false
-  );
+  showScreen("titleScreen",false);
 
 }
 
 
 /* =========================================================
-   ホーム
+   HOME
 ========================================================= */
+
+function getExplorationRate(){
+
+  const propertyRate=
+    saveData.foundCards.length/properties.length;
+
+  const monsterRate=
+    saveData.discoveredMonsters.length/monsters.length;
+
+  const missionRate=
+    saveData.missionCompleted.length/missions.length;
+
+  return Math.round(
+    (
+      propertyRate+
+      monsterRate+
+      missionRate
+    )/3*100
+  );
+
+}
 
 function renderHome(){
 
-  document.getElementById(
-    "homePropertyCount"
-  ).textContent =
-    saveData.foundCards.length +
-    "/" +
-    properties.length;
+  checkMissions();
 
+  const propertyCount=document.getElementById("homePropertyCount");
+  const monsterCount=document.getElementById("homeMonsterCount");
+  const missionCount=document.getElementById("homeMissionCount");
+  const battleWins=document.getElementById("homeBattleWins");
 
-  document.getElementById(
-    "homeMonsterCount"
-  ).textContent =
-    saveData.discoveredMonsters.length +
-    "/" +
-    monsters.length;
+  propertyCount.textContent=
+    `${saveData.foundCards.length}/${properties.length}`;
 
+  monsterCount.textContent=
+    `${saveData.discoveredMonsters.length}/${monsters.length}`;
 
-  document.getElementById(
-    "homeMissionCount"
-  ).textContent =
-    getCompletedMissionCount();
+  missionCount.textContent=
+    saveData.missionCompleted.length;
 
-
-  document.getElementById(
-    "homeBattleCount"
-  ).textContent =
+  battleWins.textContent=
     saveData.battleWins;
+
+  const rate=getExplorationRate();
+
+  document.getElementById("homeExplorationRate").textContent=
+    rate+"%";
+
+  document.getElementById("homeExplorationBar").style.width=
+    rate+"%";
 
 }
 
 
 /* =========================================================
-   文化財
+   PROPERTY
 ========================================================= */
 
-function getProperty(id){
-
-  return properties.find(
-    p=>p.id === Number(id)
-  );
-
+function isPropertyFound(id){
+  return saveData.foundCards.includes(id);
 }
 
+function isPropertyViewed(id){
+  return saveData.viewedCards.includes(id);
+}
 
-function renderPropertyScreen(){
+function getProperty(id){
+  return properties.find(p=>p.id===id);
+}
 
-  const grid =
-    document.getElementById(
-      "propertyGrid"
-    );
+function renderProperties(){
 
-  const found =
-    properties.filter(
-      p=>saveData.foundCards.includes(p.id)
-    );
+  const list=document.getElementById("propertyList");
 
+  list.innerHTML="";
 
-  if(found.length === 0){
+  properties.forEach(property=>{
 
-    grid.innerHTML =
-      '<div class="empty">まだ文化財がありません。</div>';
+    const found=isPropertyFound(property.id);
 
-    return;
+    const card=document.createElement("div");
 
-  }
+    card.className=
+      "card property-card"+(found?"":" locked");
 
+    if(found){
+      card.onclick=()=>openPropertyDetail(property.id);
+    }
 
-  grid.innerHTML =
-    found.map(p=>`
+    card.innerHTML=`
 
-      <div class="card property-card">
-
-        <div class="property-number">
-          No.${p.id}
-        </div>
-
-        <div class="property-icon">
-          ${p.tags[0] || "🏯"}
-        </div>
-
-        <h3>${escapeHtml(p.name)}</h3>
-
-        <span class="tag">
-          ${escapeHtml(p.theme)}
-        </span>
-
-        <div class="detail-tags">
-          ${p.tags.map(
-            tag=>`<span class="tag">${escapeHtml(tag)}</span>`
-          ).join("")}
-        </div>
-
-        <div class="property-actions">
-          <button
-            class="secondary-btn"
-            onclick="openPropertyDetail(${p.id})">
-            詳細を見る
-          </button>
-        </div>
-
+      <div class="property-number">
+        No.${property.id}
       </div>
 
-    `).join("");
+      <div class="property-name">
+        ${found ? property.name : "？？？？？？"}
+      </div>
+
+      ${
+        found
+        ? `
+          <span class="property-category">
+            ${property.category}
+          </span>
+
+          <div class="tags">
+            ${property.tags.map(tag=>`
+              <span class="tag">${tag}</span>
+            `).join("")}
+          </div>
+        `
+        : `
+          <span class="property-category">
+            未発見
+          </span>
+        `
+      }
+
+    `;
+
+    list.appendChild(card);
+
+  });
 
 }
 
+let selectedPropertyId=null;
 
 function openPropertyDetail(id){
 
-  selectedPropertyId = Number(id);
+  if(!isPropertyFound(id)){
+    return;
+  }
 
-  showScreen(
-    "propertyDetailScreen"
-  );
+  selectedPropertyId=id;
+
+  if(!isPropertyViewed(id)){
+    saveData.viewedCards.push(id);
+    saveGame();
+  }
+
+  showScreen("propertyDetailScreen");
 
 }
-
 
 function renderPropertyDetail(){
 
-  const box =
-    document.getElementById(
-      "propertyDetail"
-    );
+  const container=document.getElementById("propertyDetail");
 
-  const p =
-    getProperty(selectedPropertyId);
+  const property=getProperty(selectedPropertyId);
 
-
-  if(!p){
-
-    box.innerHTML =
-      '<div class="empty">文化財が見つかりません。</div>';
-
+  if(!property){
+    container.innerHTML=`
+      <div class="card">
+        データがありません。
+      </div>
+    `;
     return;
-
   }
 
-
-  if(!saveData.viewedCards.includes(p.id)){
-
-    saveData.viewedCards.push(p.id);
-
-    saveGame();
-
-  }
-
-
-  const related =
-    monsters.filter(
-      m=>m.recipe.includes(p.id)
-    );
-
-
-  box.innerHTML = `
+  container.innerHTML=`
 
     <div class="card">
 
-      <div class="property-number">
-        No.${p.id}
+      <div class="detail-number">
+        文化財 No.${property.id}
       </div>
 
-      <h1 class="property-detail-title">
-        ${escapeHtml(p.name)}
-      </h1>
+      <h2 class="detail-title">
+        ${property.name}
+      </h2>
 
-      <div class="detail-tags">
-        <span class="tag">
-          ${escapeHtml(p.theme)}
-        </span>
+      <span class="property-category">
+        ${property.category}
+      </span>
 
-        ${p.tags.map(
-          tag=>`<span class="tag">${escapeHtml(tag)}</span>`
-        ).join("")}
+      <div class="tags" style="margin-top:15px;">
+        ${property.tags.map(tag=>`
+          <span class="tag">${tag}</span>
+        `).join("")}
       </div>
 
-      <div class="discovery-box">
+      <div class="detail-section">
 
-        <h3>🌙 ツキモンとのつながり</h3>
+        <div class="section-title">
+          ツキモンとの関係
+        </div>
 
-        ${
-          related.length
-          ? `
-            <p class="small">
-              この文化財を組み合わせることで、
-              次のツキモンを発見できる可能性があります。
-            </p>
-
-            <div>
-              ${related.map(m=>`
-                <span class="tag">
-                  ${m.icon} ${escapeHtml(m.name)}
-                </span>
-              `).join("")}
-            </div>
-          `
-          : `
-            <p class="muted">
-              この文化財には、まだ発見されていない
-              特別なつながりがあるかもしれません。
-            </p>
-          `
-        }
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   探索
-========================================================= */
-
-function exploreProperty(){
-
-  const undiscovered =
-    properties.filter(
-      p=>!saveData.foundCards.includes(p.id)
-    );
-
-
-  const result =
-    document.getElementById(
-      "exploreResult"
-    );
-
-
-  if(undiscovered.length === 0){
-
-    result.innerHTML = `
-      <div class="explore-result">
-        <h3>🎉 すべて発見しました！</h3>
         <p class="muted">
-          千曲市の文化財をコンプリートしました。
+          この文化財は、ツキモンを誕生させるための
+          大切な素材として使われます。
         </p>
+
       </div>
-    `;
-
-    checkMissions();
-
-    return;
-
-  }
-
-
-  const discovered =
-    undiscovered[
-      Math.floor(
-        Math.random()*undiscovered.length
-      )
-    ];
-
-
-  saveData.foundCards.push(
-    discovered.id
-  );
-
-  saveGame();
-
-
-  result.innerHTML = `
-
-    <div class="explore-result">
-
-      <h3>✨ 新しい文化財を発見！</h3>
-
-      <div style="font-size:45px;">
-        ${discovered.tags[0] || "🏯"}
-      </div>
-
-      <h3>
-        No.${discovered.id}
-        ${escapeHtml(discovered.name)}
-      </h3>
-
-      <p>
-        ${escapeHtml(discovered.theme)}
-      </p>
-
-      <button
-        class="secondary-btn"
-        onclick="openPropertyDetail(${discovered.id})">
-        詳細を見る
-      </button>
 
     </div>
-
   `;
-
-
-  renderPropertyScreen();
-
-  checkMissions();
 
 }
 
 
 /* =========================================================
-   融合
+   PROPERTY QUIZ
 ========================================================= */
 
-function renderFusion(){
+let currentQuiz=null;
+let currentQuizAnswered=false;
 
-  const box =
-    document.getElementById(
-      "fusionCards"
+function startPropertyQuiz(){
+
+  if(saveData.foundCards.length>=properties.length){
+
+    showMessage(
+      "探索コンプリート！",
+      `
+        すべての文化財を発見しました。<br><br>
+        ここからはツキモンの育成やバトル、
+        図鑑コンプリートを目指しましょう！
+      `
     );
 
-  const result =
-    document.getElementById(
-      "fusionResult"
+    return;
+  }
+
+  const candidates=
+    quizQuestions.filter(q=>
+      !isPropertyFound(q.answer)
     );
 
-  result.innerHTML = "";
+  let pool=
+    candidates.length
+    ? candidates
+    : quizQuestions;
 
+  currentQuiz=
+    pool[Math.floor(Math.random()*pool.length)];
 
-  const found =
-    properties.filter(
-      p=>saveData.foundCards.includes(p.id)
-    );
+  currentQuizAnswered=false;
 
+  showScreen("quizScreen");
 
-  if(found.length < 2){
+}
 
-    box.innerHTML = `
-      <div class="empty">
-        文化財カードを2枚以上集めてください。
+function renderQuiz(){
+
+  const container=document.getElementById("quizContent");
+
+  if(!currentQuiz){
+
+    container.innerHTML=`
+      <div class="notice">
+        まだ探索するクイズがありません。
       </div>
     `;
 
     return;
-
   }
 
+  const choices=
+    currentQuiz.choices
+      .map(id=>getProperty(id))
+      .filter(Boolean);
 
-  box.innerHTML =
-    found.map(p=>`
+  container.innerHTML=`
 
-      <div
-        class="fusion-card ${
-          fusionSelection.includes(p.id)
-            ? "selected"
-            : ""
-        }"
-        onclick="toggleFusionCard(${p.id})">
+    <div class="muted small-text">
+      文化財クイズ
+    </div>
 
-        <div class="property-number">
-          No.${p.id}
+    <div class="quiz-question">
+      ${currentQuiz.question}
+    </div>
+
+    <div class="quiz-choices">
+
+      ${choices.map(property=>`
+
+        <button
+          class="quiz-choice"
+          onclick="answerQuiz(${property.id})"
+          ${currentQuizAnswered?"disabled":""}>
+          ${property.name}
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    ${
+      currentQuizAnswered
+      ? `
+        <div class="quiz-result">
+
+          <div class="success-box">
+            ${currentQuiz.explanation}
+          </div>
+
+          <button
+            class="btn primary"
+            style="width:100%;margin-top:12px;"
+            onclick="startPropertyQuiz()">
+            🔎 次の文化財を探索する
+          </button>
+
         </div>
+      `
+      :""
+    }
 
-        <div style="font-size:30px;">
-          ${p.tags[0] || "🏯"}
-        </div>
-
-        <strong>
-          ${escapeHtml(p.name)}
-        </strong>
-
-      </div>
-
-    `).join("");
-
-
-  const names =
-    fusionSelection.map(
-      id=>getProperty(id)?.name
-    );
-
-
-  document.getElementById(
-    "fusionSelectedText"
-  ).textContent =
-    names.length
-      ? names.join(" ＋ ")
-      : "文化財を2枚選択してください";
+  `;
 
 }
 
+function answerQuiz(id){
 
-function toggleFusionCard(id){
+  if(currentQuizAnswered || !currentQuiz){
+    return;
+  }
 
-  id = Number(id);
+  currentQuizAnswered=true;
 
+  saveData.quizTotal++;
 
-  if(fusionSelection.includes(id)){
+  const correct=id===currentQuiz.answer;
 
-    fusionSelection =
-      fusionSelection.filter(
-        x=>x!==id
+  if(correct){
+
+    saveData.quizCorrect++;
+
+    if(!isPropertyFound(id)){
+      saveData.foundCards.push(id);
+    }
+
+    saveGame();
+
+    renderQuiz();
+
+    setTimeout(()=>{
+      showMessage(
+        "正解！🎉",
+        `
+          <strong>${getProperty(id).name}</strong>を発見しました！<br><br>
+          ${currentQuiz.explanation}
+        `
       );
+    },50);
 
   }else{
 
-    if(fusionSelection.length >= 2){
+    saveGame();
 
-      fusionSelection.shift();
+    renderQuiz();
 
-    }
-
-    fusionSelection.push(id);
+    setTimeout(()=>{
+      showMessage(
+        "惜しい！",
+        `
+          正解は
+          <strong>${getProperty(currentQuiz.answer).name}</strong>
+          でした。<br><br>
+          ${currentQuiz.explanation}
+        `
+      );
+    },50);
 
   }
 
+}
+
+
+/* =========================================================
+   FUSION
+========================================================= */
+
+let selectedFusionIds=[];
+
+function renderFusion(){
+
+  const container=document.getElementById("fusionMaterials");
+
+  const foundProperties=
+    properties.filter(p=>isPropertyFound(p.id));
+
+  if(foundProperties.length<2){
+
+    container.innerHTML=`
+      <div class="warning-box" style="grid-column:1/-1;">
+        融合には、少なくとも2件の文化財発見が必要です。
+      </div>
+    `;
+
+    document.getElementById("fusionButton").disabled=true;
+
+    return;
+  }
+
+  container.innerHTML="";
+
+  foundProperties.forEach(property=>{
+
+    const selected=
+      selectedFusionIds.includes(property.id);
+
+    const card=document.createElement("div");
+
+    card.className=
+      "card fusion-material"+(selected?" selected":"");
+
+    card.onclick=()=>selectFusionMaterial(property.id);
+
+    card.innerHTML=`
+
+      <div class="property-number">
+        No.${property.id}
+      </div>
+
+      <div class="property-name">
+        ${property.name}
+      </div>
+
+      <div class="tags">
+        ${property.tags.map(tag=>`
+          <span class="tag">${tag}</span>
+        `).join("")}
+      </div>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+  renderFusionSelection();
+
+}
+
+function selectFusionMaterial(id){
+
+  if(selectedFusionIds.includes(id)){
+
+    selectedFusionIds=
+      selectedFusionIds.filter(x=>x!==id);
+
+  }else{
+
+    if(selectedFusionIds.length>=2){
+      selectedFusionIds.shift();
+    }
+
+    selectedFusionIds.push(id);
+
+  }
 
   renderFusion();
 
 }
 
+function renderFusionSelection(){
+
+  const selected=document.getElementById("fusionSelected");
+  const candidates=document.getElementById("fusionCandidates");
+  const button=document.getElementById("fusionButton");
+
+  if(selectedFusionIds.length===0){
+
+    selected.innerHTML=`
+      <div class="muted">
+        文化財を2つ選択してください。
+      </div>
+    `;
+
+    candidates.innerHTML="";
+    button.disabled=true;
+
+    return;
+  }
+
+  selected.innerHTML=`
+    <div class="notice">
+      選択中：
+      ${selectedFusionIds.map(id=>getProperty(id).name).join(" ＋ ")}
+    </div>
+  `;
+
+  if(selectedFusionIds.length<2){
+
+    candidates.innerHTML=`
+      <div class="muted">
+        もう1つ選択してください。
+      </div>
+    `;
+
+    button.disabled=true;
+
+    return;
+  }
+
+  const matches=
+    monsters.filter(monster=>
+      sameRecipe(monster.recipe,selectedFusionIds)
+    );
+
+  if(matches.length===0){
+
+    candidates.innerHTML=`
+      <div class="warning-box">
+        この組み合わせからは、まだツキモンは誕生しません。
+      </div>
+    `;
+
+    button.disabled=false;
+
+    return;
+  }
+
+  candidates.innerHTML=`
+
+    <div class="section-title">
+      この組み合わせから生まれる可能性
+    </div>
+
+    ${matches.map(monster=>{
+
+      const unlocked=
+        canBirthMonster(monster.id);
+
+      const discovered=
+        saveData.discoveredMonsters.includes(monster.id);
+
+      const condition=
+        getFusionCondition(monster.id);
+
+      return `
+
+        <div class="card" style="margin-bottom:9px;">
+
+          <div style="display:flex;align-items:center;gap:12px;">
+
+            <div style="font-size:42px;">
+              ${discovered || unlocked ? monster.icon : "❓"}
+            </div>
+
+            <div style="flex:1;">
+
+              <div style="font-weight:800;">
+                ${
+                  discovered || unlocked
+                  ? monster.name
+                  : "？？？？？？"
+                }
+              </div>
+
+              <div style="margin-top:4px;">
+                ${
+                  discovered
+                  ? `<span class="attribute attr-${monster.attr}">
+                      ${monster.attr}
+                    </span>`
+                  : ""
+                }
+
+                <span style="color:#f0c96b;font-size:12px;">
+                  ${"★".repeat(monster.rarity)}
+                </span>
+              </div>
+
+              ${
+                condition
+                ? `
+                  <div class="${
+                    unlocked
+                    ? "success-box"
+                    : "warning-box"
+                  }" style="margin-top:8px;font-size:12px;">
+                    ${
+                      unlocked
+                      ? "🔓 条件達成"
+                      : "🔒 "+condition.label
+                    }
+                  </div>
+                `
+                :""
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("")}
+
+  `;
+
+  button.disabled=false;
+
+}
+
+function sameRecipe(a,b){
+
+  if(!Array.isArray(a)||!Array.isArray(b)){
+    return false;
+  }
+
+  if(a.length!==b.length){
+    return false;
+  }
+
+  const aa=[...a].sort((x,y)=>x-y);
+  const bb=[...b].sort((x,y)=>x-y);
+
+  return aa.every((v,i)=>v===bb[i]);
+
+}
+
+
+/* =========================================================
+   FUSION CONDITIONS
+========================================================= */
+
+const fusionConditions={
+
+  10:{
+    label:"文化財クイズを3問正解し、姨捨の棚田と冠着山を詳しく調べる",
+    check:()=>{
+      return (
+        saveData.quizCorrect>=3 &&
+        isPropertyViewed(5) &&
+        isPropertyViewed(17)
+      );
+    }
+  },
+
+  20:{
+    label:"バトルに3回勝利し、姨捨十三景と姨捨駅 駅舎を詳しく調べる",
+    check:()=>{
+      return (
+        saveData.battleWins>=3 &&
+        isPropertyViewed(22) &&
+        isPropertyViewed(23)
+      );
+    }
+  }
+
+};
+
+function getFusionCondition(id){
+
+  return fusionConditions[id]||null;
+
+}
+
+function canBirthMonster(id){
+
+  const condition=getFusionCondition(id);
+
+  if(!condition){
+    return true;
+  }
+
+  return condition.check();
+
+}
+
+
+/* =========================================================
+   TRY FUSION
+========================================================= */
 
 function tryFusion(){
 
-  const result =
-    document.getElementById(
-      "fusionResult"
+  if(selectedFusionIds.length!==2){
+
+    showMessage(
+      "素材不足",
+      "文化財を2つ選択してください。"
     );
 
+    return;
+  }
 
-  if(fusionSelection.length !== 2){
+  const matches=
+    monsters.filter(monster=>
+      sameRecipe(monster.recipe,selectedFusionIds)
+    );
 
-    result.innerHTML = `
-      <div class="fusion-result">
-        <h3>⚠️ 文化財を2枚選んでください</h3>
-      </div>
-    `;
+  if(matches.length===0){
+
+    showMessage(
+      "融合失敗",
+      "この組み合わせからはツキモンが誕生しませんでした。"
+    );
+
+    return;
+  }
+
+  /*
+   * 条件を満たしたレア種を優先
+   */
+  const available=
+    matches
+      .filter(monster=>canBirthMonster(monster.id))
+      .sort((a,b)=>{
+
+        /*
+         * 未発見を優先
+         */
+        const ad=
+          saveData.discoveredMonsters.includes(a.id);
+
+        const bd=
+          saveData.discoveredMonsters.includes(b.id);
+
+        if(ad!==bd){
+          return ad?1:-1;
+        }
+
+        /*
+         * レアリティの高いものを優先
+         */
+        return b.rarity-a.rarity;
+
+      });
+
+  const undiscovered=
+    available.find(monster=>
+      !saveData.discoveredMonsters.includes(monster.id)
+    );
+
+  if(undiscovered){
+
+    discoverMonster(undiscovered.id);
+
+    selectedFusionIds=[];
+
+    showBirth(undiscovered.id);
 
     return;
 
   }
 
-
-  const sortedSelection =
-    [...fusionSelection].sort(
-      (a,b)=>a-b
+  /*
+   * まだ条件を満たしていないレア種がある場合
+   */
+  const locked=
+    matches.find(monster=>
+      !canBirthMonster(monster.id)
     );
 
+  if(locked){
 
-  const found =
-    monsters.find(m=>{
+    const condition=
+      getFusionCondition(locked.id);
 
-      const recipe =
-        [...m.recipe].sort(
-          (a,b)=>a-b
-        );
-
-      return (
-        recipe[0] === sortedSelection[0] &&
-        recipe[1] === sortedSelection[1]
-      );
-
-    });
-
-
-  if(!found){
-
-    result.innerHTML = `
-      <div class="fusion-result">
-
-        <h3>💨 何も起こらなかった……</h3>
-
-        <p class="muted">
-          この組み合わせからは、
-          まだツキモンを生み出せないようです。
-        </p>
-
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  if(
-    !saveData.discoveredMonsters.includes(
-      found.id
-    )
-  ){
-
-    saveData.discoveredMonsters.push(
-      found.id
-    );
-
-    getMonsterProgress(found.id);
-
-    saveGame();
-
-    selectedMonsterId = found.id;
-
-    document.getElementById(
-      "birthSymbol"
-    ).textContent = found.icon;
-
-    document.getElementById(
-      "birthMonsterName"
-    ).textContent = found.name;
-
-    document.getElementById(
-      "birthMessage"
-    ).textContent =
-      `${found.icon} ${found.name} が誕生しました！`;
-
-    fusionSelection = [];
-
-    checkMissions();
-
-    showScreen(
-      "birthScreen",
-      false
+    showMessage(
+      "もう一歩！",
+      `
+        この組み合わせには、
+        まだ特別なツキモンが眠っています。<br><br>
+        🔒 条件<br>
+        ${condition.label}
+      `
     );
 
     return;
 
   }
 
+  showMessage(
+    "融合完了済み",
+    "この組み合わせから生まれるツキモンは、すべて発見済みです。"
+  );
 
-  result.innerHTML = `
-    <div class="fusion-result">
+}
 
-      <h3>✨ ${escapeHtml(found.name)}</h3>
+function discoverMonster(id){
 
-      <p>
-        このツキモンはすでに発見済みです。
-      </p>
+  if(!saveData.discoveredMonsters.includes(id)){
+
+    saveData.discoveredMonsters.push(id);
+
+  }
+
+  if(!saveData.monsterProgress[id]){
+
+    saveData.monsterProgress[id]={
+      level:1,
+      exp:0
+    };
+
+  }
+
+  saveGame();
+
+}
+
+
+/* =========================================================
+   BIRTH
+========================================================= */
+
+let birthMonsterId=null;
+
+function showBirth(id){
+
+  birthMonsterId=id;
+
+  showScreen("birthScreen",false);
+
+  const monster=getMonster(id);
+
+  document.getElementById("birthContent").innerHTML=`
+
+    <div class="birth-icon">
+      ${monster.icon}
+    </div>
+
+    <div class="muted">
+      新しいツキモンが誕生しました！
+    </div>
+
+    <h2>
+      ${monster.name}
+    </h2>
+
+    <div>
+      <span class="attribute attr-${monster.attr}">
+        ${monster.attr}
+      </span>
+    </div>
+
+    <div style="margin-top:8px;color:#f0c96b;">
+      ${"★".repeat(monster.rarity)}
+    </div>
+
+    <div style="margin-top:22px;display:grid;gap:9px;">
 
       <button
-        class="secondary-btn"
-        onclick="openMonsterDetail(${found.id})">
+        class="btn primary"
+        onclick="openBornMonster()">
         ツキモンを見る
+      </button>
+
+      <button
+        class="btn"
+        onclick="exitBirth()">
+        融合画面へ戻る
       </button>
 
     </div>
@@ -2610,133 +3102,125 @@ function tryFusion(){
 
 }
 
+function openBornMonster(){
 
-/* =========================================================
-   モンスター育成
-========================================================= */
+  selectedMonsterId=birthMonsterId;
 
-function getMonster(id){
+  screenHistory=[];
 
-  return monsters.find(
-    m=>m.id === Number(id)
-  );
+  showScreen("monsterDetailScreen",false);
+
+}
+
+function exitBirth(){
+
+  screenHistory=[];
+
+  showScreen("fusionScreen",false);
 
 }
 
 
+/* =========================================================
+   MONSTER DATA / LEVEL
+========================================================= */
+
+function getMonster(id){
+
+  return monsters.find(m=>m.id===id);
+
+}
+
 function getMonsterProgress(id){
 
-  id = Number(id);
+  if(!saveData.monsterProgress[id]){
 
-
-  if(
-    !saveData.monsterProgress[id] ||
-    typeof saveData.monsterProgress[id] !== "object"
-  ){
-
-    saveData.monsterProgress[id] = {
+    saveData.monsterProgress[id]={
       level:1,
       exp:0
     };
 
-    saveGame();
-
   }
-
 
   return saveData.monsterProgress[id];
 
 }
 
-
 function getRequiredExp(level){
 
-  return level * 50 + 50;
+  return level*50+50;
 
 }
 
+function getMonsterStats(id,levelOverride=null){
 
-function getMonsterStats(id){
-
-  const monster =
-    getMonster(id);
+  const monster=getMonster(id);
 
   if(!monster){
     return null;
   }
 
-
-  const progress =
+  const progress=
     getMonsterProgress(id);
 
-  const level =
-    progress.level;
+  const level=
+    levelOverride===null
+    ? progress.level
+    : levelOverride;
 
-
-  const growth =
-    level - 1;
-
+  const growth=
+    Math.max(0,level-1);
 
   return {
 
     hp:
-      monster.hp +
-      growth * 5,
+      monster.hp+
+      growth*5,
 
     attack:
-      monster.attack +
-      growth * 2,
+      monster.attack+
+      growth*2,
 
     defense:
-      monster.defense +
-      growth * 2,
+      monster.defense+
+      growth*2,
 
     speed:
-      monster.speed +
-      growth * 1
+      monster.speed+
+      growth
 
   };
 
 }
 
-
 function gainMonsterExp(id,amount){
 
-  const progress =
-    getMonsterProgress(id);
+  const progress=getMonsterProgress(id);
 
+  const oldLevel=progress.level;
 
-  const oldLevel =
-    progress.level;
+  progress.exp+=amount;
 
-
-  progress.exp += amount;
-
-
-  const levelUps = [];
-
+  let levelUps=0;
 
   while(
-    progress.exp >=
-    getRequiredExp(progress.level)
+    progress.exp>=getRequiredExp(progress.level)
   ){
 
-    const required =
-      getRequiredExp(progress.level);
-
-    progress.exp -= required;
+    progress.exp-=getRequiredExp(progress.level);
 
     progress.level++;
 
-    levelUps.push(
-      progress.level
-    );
+    levelUps++;
+
+    if(progress.level>=99){
+      progress.exp=0;
+      break;
+    }
 
   }
 
-
   saveGame();
-
 
   return {
 
@@ -2757,350 +3241,295 @@ function gainMonsterExp(id,amount){
 }
 
 
-function getExpPercent(id){
+/* =========================================================
+   MONSTER LIST
+========================================================= */
 
-  const p =
-    getMonsterProgress(id);
+let selectedMonsterId=null;
 
-  const required =
-    getRequiredExp(p.level);
+function renderMonsterList(){
 
-  return Math.min(
-    100,
-    Math.round(
-      p.exp / required * 100
-    )
-  );
+  const summary=document.getElementById("monsterBookSummary");
+
+  summary.innerHTML=`
+    <strong>
+      ツキモン図鑑
+      ${saveData.discoveredMonsters.length}/${monsters.length}
+    </strong>
+
+    <span class="muted">
+      発見したツキモンをタップすると詳細を確認できます。
+    </span>
+  `;
+
+  const list=document.getElementById("monsterList");
+
+  list.innerHTML="";
+
+  monsters.forEach(monster=>{
+
+    const discovered=
+      saveData.discoveredMonsters.includes(monster.id);
+
+    const card=document.createElement("div");
+
+    card.className=
+      "card monster-card"+(discovered?"":" locked");
+
+    if(discovered){
+      card.onclick=()=>{
+        selectedMonsterId=monster.id;
+        showScreen("monsterDetailScreen");
+      };
+    }
+
+    const progress=
+      discovered
+      ? getMonsterProgress(monster.id)
+      : null;
+
+    card.innerHTML=`
+
+      <div class="monster-icon">
+        ${discovered?monster.icon:"❓"}
+      </div>
+
+      <div class="monster-name">
+        ${discovered?monster.name:"？？？？？？"}
+      </div>
+
+      <div class="monster-rarity">
+        ${
+          discovered
+          ? "★".repeat(monster.rarity)
+          : "？？？"
+        }
+      </div>
+
+      ${
+        discovered
+        ? `
+          <div style="text-align:center;">
+            <span class="attribute attr-${monster.attr}">
+              ${monster.attr}
+            </span>
+          </div>
+
+          <div class="small-text muted" style="text-align:center;margin-top:7px;">
+            Lv.${progress.level}
+          </div>
+        `
+        :""
+      }
+
+    `;
+
+    list.appendChild(card);
+
+  });
+
+}
+
+function exitBattleToMonsterDetail(id){
+
+  selectedMonsterId=id;
+
+  exitBattleToScreen("monsterDetailScreen");
 
 }
 
 
-function renderMonsterScreen(){
+/* =========================================================
+   MONSTER DETAIL
+========================================================= */
 
-  const grid =
-    document.getElementById(
-      "monsterGrid"
-    );
+function renderMonsterDetail(){
 
+  const container=document.getElementById("monsterDetail");
 
-  const discovered =
-    monsters.filter(
-      m=>saveData.discoveredMonsters.includes(m.id)
-    );
+  const monster=getMonster(selectedMonsterId);
 
+  if(!monster){
 
-  if(discovered.length === 0){
-
-    grid.innerHTML = `
-      <div class="empty">
-        <div style="font-size:50px;">🐣</div>
-        <h3>まだツキモンを発見していません</h3>
-        <p>
-          文化財を集めて、
-          ツキモンを生み出してみよう！
-        </p>
+    container.innerHTML=`
+      <div class="card">
+        データがありません。
       </div>
     `;
 
     return;
-
   }
 
+  if(!saveData.discoveredMonsters.includes(monster.id)){
 
-  grid.innerHTML =
-    discovered.map(m=>{
-
-      const p =
-        getMonsterProgress(m.id);
-
-      const percent =
-        getExpPercent(m.id);
-
-
-      return `
-
-        <div
-          class="card monster-card"
-          onclick="openMonsterDetail(${m.id})">
-
-          <div class="monster-card-top">
-
-            <div class="monster-symbol">
-              ${m.icon}
-            </div>
-
-            <div class="level-badge">
-              Lv.${p.level}
-            </div>
-
-          </div>
-
-          <h3>
-            ${escapeHtml(m.name)}
-          </h3>
-
-          <div>
-            <span class="tag">
-              ${escapeHtml(m.attr)}
-            </span>
-
-            <span class="tag">
-              ${m.rarity}
-            </span>
-          </div>
-
-          <div class="exp-bar">
-            <div
-              class="exp-fill"
-              style="width:${percent}%">
-            </div>
-          </div>
-
-          <div class="small">
-            EXP ${p.exp} / ${getRequiredExp(p.level)}
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-function openMonsterDetail(id){
-
-  selectedMonsterId =
-    Number(id);
-
-  showScreen(
-    "monsterDetailScreen"
-  );
-
-}
-
-
-function renderMonsterDetail(){
-
-  const box =
-    document.getElementById(
-      "monsterDetail"
-    );
-
-
-  const monster =
-    getMonster(selectedMonsterId);
-
-
-  if(!monster){
-
-    box.innerHTML =
-      '<div class="empty">ツキモンが見つかりません。</div>';
+    container.innerHTML=`
+      <div class="card">
+        このツキモンはまだ発見されていません。
+      </div>
+    `;
 
     return;
-
   }
 
+  const progress=getMonsterProgress(monster.id);
 
-  if(
-    !saveData.discoveredMonsters.includes(
-      monster.id
-    )
-  ){
+  const stats=getMonsterStats(monster.id);
 
-    box.innerHTML =
-      '<div class="empty">まだ発見していません。</div>';
+  const required=getRequiredExp(progress.level);
 
-    return;
-
-  }
-
-
-  const progress =
-    getMonsterProgress(
-      monster.id
+  const percentage=
+    Math.min(
+      100,
+      Math.round(progress.exp/required*100)
     );
 
-
-  const stats =
-    getMonsterStats(
-      monster.id
-    );
-
-
-  const percent =
-    getExpPercent(
-      monster.id
-    );
-
-
-  const required =
-    getRequiredExp(
-      progress.level
-    );
-
-
-  const remain =
-    required -
-    progress.exp;
-
-
-  box.innerHTML = `
+  container.innerHTML=`
 
     <div class="card">
 
       <div style="text-align:center;">
 
-        <div class="monster-symbol">
+        <div class="monster-icon">
           ${monster.icon}
         </div>
 
-        <h1>
-          ${escapeHtml(monster.name)}
-        </h1>
+        <h2 class="detail-title">
+          ${monster.name}
+        </h2>
 
-        <span class="tag">
-          属性：${escapeHtml(monster.attr)}
-        </span>
-
-        <span class="tag">
-          ${monster.rarity}
-        </span>
-
-      </div>
-
-
-      <div style="margin-top:25px;">
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          font-weight:bold;
-        ">
-          <span>Lv.${progress.level}</span>
-          <span>
-            EXP ${progress.exp} / ${required}
+        <div>
+          <span class="attribute attr-${monster.attr}">
+            ${monster.attr}
           </span>
         </div>
 
-        <div class="exp-bar" style="height:14px;">
-          <div
-            class="exp-fill"
-            style="width:${percent}%">
-          </div>
-        </div>
-
-        <div class="small">
-          次のレベルまであと ${remain} EXP
+        <div style="color:#f0c96b;margin-top:7px;">
+          ${"★".repeat(monster.rarity)}
         </div>
 
       </div>
 
+      <div class="detail-section">
 
-      <h3 style="margin-top:28px;">
-        📊 能力値
-      </h3>
-
-      <div class="stat-grid">
-
-        <div class="stat-box">
-          <div class="stat-label">HP</div>
-          <div class="stat-value">
-            ${stats.hp}
-          </div>
+        <div class="section-title">
+          育成状況
         </div>
 
-        <div class="stat-box">
-          <div class="stat-label">攻撃</div>
-          <div class="stat-value">
-            ${stats.attack}
-          </div>
+        <div class="progress-label">
+          <span>Lv.${progress.level}</span>
+          <span>
+            ${progress.exp}/${required} EXP
+          </span>
         </div>
 
-        <div class="stat-box">
-          <div class="stat-label">防御</div>
-          <div class="stat-value">
-            ${stats.defense}
-          </div>
+        <div class="progress">
+          <div style="width:${percentage}%"></div>
         </div>
 
-        <div class="stat-box">
-          <div class="stat-label">素早さ</div>
-          <div class="stat-value">
-            ${stats.speed}
-          </div>
+        <div class="small-text muted" style="margin-top:8px;">
+          レベルアップするとHP・攻撃・防御・素早さが上昇します。
         </div>
 
       </div>
 
+      <div class="detail-section">
 
-      <div class="level-up-box">
+        <div class="section-title">
+          能力値
+        </div>
 
-        <h3>⬆️ レベルアップ成長</h3>
+        <div class="stat-grid">
 
-        <p>
-          レベルが1上がるごとに
-        </p>
+          <div class="stat">
+            <div class="value">${stats.hp}</div>
+            <div class="label">HP</div>
+          </div>
 
-        <div>
-          <span class="tag">HP +5</span>
-          <span class="tag">攻撃 +2</span>
-          <span class="tag">防御 +2</span>
-          <span class="tag">素早さ +1</span>
+          <div class="stat">
+            <div class="value">${stats.attack}</div>
+            <div class="label">攻撃</div>
+          </div>
+
+          <div class="stat">
+            <div class="value">${stats.defense}</div>
+            <div class="label">防御</div>
+          </div>
+
+          <div class="stat">
+            <div class="value">${stats.speed}</div>
+            <div class="label">素早さ</div>
+          </div>
+
         </div>
 
       </div>
 
+      <div class="detail-section">
 
-      <h3 style="margin-top:28px;">
-        ⚔️ スキル
-      </h3>
+        <div class="section-title">
+          スキル
+        </div>
 
-      <div class="skill-list">
+        <div class="skill-list">
 
-        ${monster.skills.map((skill,index)=>`
+          ${monster.skills.map(skill=>`
 
-          <div class="skill">
+            <div class="skill">
 
-            <div class="skill-name">
-              ${index+1}. ${escapeHtml(skill.name)}
+              <div class="skill-name">
+
+                ${skill.name}
+
+                <span class="skill-badge">
+                  ${getSkillTypeName(skill.type)}
+                </span>
+
+                ${
+                  skill.attr
+                  ? `
+                    <span class="skill-badge">
+                      ${skill.attr}
+                    </span>
+                  `
+                  :""
+                }
+
+              </div>
+
+              <div class="skill-info">
+                ${getSkillDescription(skill)}
+              </div>
+
             </div>
 
-            <div class="skill-info">
+          `).join("")}
 
-              ${
-                skill.type === "attack"
-                  ? `攻撃技 / 威力 ${skill.power}`
-                  : skill.type === "heal"
-                    ? `回復技 / 回復 ${skill.power}`
-                    : skill.type === "buffAtk"
-                      ? `攻撃アップ / +${skill.power}`
-                      : `防御アップ / +${skill.power}`
-              }
-
-              ／ 属性 ${escapeHtml(skill.attr)}
-
-            </div>
-
-          </div>
-
-        `).join("")}
+        </div>
 
       </div>
 
+      <div class="detail-section">
 
-      <div style="
-        display:flex;
-        gap:10px;
-        justify-content:center;
-        margin-top:25px;
-        flex-wrap:wrap;
-      ">
+        <div class="section-title">
+          融合素材
+        </div>
+
+        <div class="notice">
+          ${
+            monster.recipe
+              .map(id=>getProperty(id).name)
+              .join(" ＋ ")
+          }
+        </div>
+
+      </div>
+
+      <div style="margin-top:18px;">
 
         <button
-          class="primary-btn"
-          onclick="startBattle(${monster.id})">
+          class="btn warning"
+          style="width:100%;"
+          onclick="startBattleWithMonster(${monster.id})">
           ⚔️ このツキモンでバトル
         </button>
 
@@ -3112,1008 +3541,955 @@ function renderMonsterDetail(){
 
 }
 
+function getSkillTypeName(type){
+
+  switch(type){
+
+    case "attack":
+      return "攻撃";
+
+    case "heal":
+      return "回復";
+
+    case "buffAttack":
+      return "攻撃強化";
+
+    case "buffDefense":
+      return "防御強化";
+
+    default:
+      return type;
+
+  }
+
+}
+
+function getSkillDescription(skill){
+
+  switch(skill.type){
+
+    case "attack":
+      return `威力 ${skill.power} の攻撃。`;
+
+    case "heal":
+      return `HPを ${skill.power} 回復。`;
+
+    case "buffAttack":
+      return `攻撃力を ${skill.power} 上昇。`;
+
+    case "buffDefense":
+      return `防御力を ${skill.power} 上昇。`;
+
+    default:
+      return "";
+
+  }
+
+}
+
 
 /* =========================================================
-   バトル
+   BATTLE
 ========================================================= */
+
+let battle=null;
+let lastBattlePlayerId=null;
+let battleSessionId=0;
+let battleTimerIds=[];
 
 function stopBattleTimers(){
 
-  battleTimerIds.forEach(
-    timerId=>clearTimeout(timerId)
-  );
+  battleTimerIds.forEach(id=>{
+    clearTimeout(id);
+    clearInterval(id);
+  });
 
-  battleTimerIds = [];
-
-}
-
-
-function chooseEnemy(playerId){
-
-  const candidates =
-    monsters.filter(
-      m=>m.id !== Number(playerId)
-    );
-
-
-  return candidates[
-    Math.floor(
-      Math.random()*candidates.length
-    )
-  ];
+  battleTimerIds=[];
 
 }
 
+function startBattleWithMonster(id){
 
-function getAttributeMultiplier(
-  attackAttr,
-  defendAttr
-){
-
-  if(
-    attackAttr === "火" &&
-    defendAttr === "自然"
-  ){
-    return 1.5;
-  }
-
-  if(
-    attackAttr === "自然" &&
-    defendAttr === "水"
-  ){
-    return 1.5;
-  }
-
-  if(
-    attackAttr === "水" &&
-    defendAttr === "月"
-  ){
-    return 1.5;
-  }
-
-  if(
-    attackAttr === "月" &&
-    defendAttr === "火"
-  ){
-    return 1.5;
-  }
-
-
-  if(
-    attackAttr === "火" &&
-    defendAttr === "月"
-  ){
-    return .75;
-  }
-
-  if(
-    attackAttr === "自然" &&
-    defendAttr === "火"
-  ){
-    return .75;
-  }
-
-  if(
-    attackAttr === "水" &&
-    defendAttr === "自然"
-  ){
-    return .75;
-  }
-
-  if(
-    attackAttr === "月" &&
-    defendAttr === "水"
-  ){
-    return .75;
-  }
-
-
-  return 1;
-
-}
-
-
-function getBattleDamage(
-  attackerStats,
-  defenderStats,
-  attackAttr,
-  skillPower=0,
-  attackBonus=0,
-  defenseBonus=0
-){
-
-  const attack =
-    attackerStats.attack +
-    attackBonus +
-    skillPower;
-
-
-  const defense =
-    defenderStats.defense +
-    defenseBonus;
-
-
-  const reducedDamage =
-    attack *
-    100 /
-    (100 + defense);
-
-
-  const multiplier =
-    getAttributeMultiplier(
-      attackAttr,
-      defenderStats.attr
-    );
-
-
-  return Math.max(
-    1,
-    Math.round(
-      reducedDamage *
-      multiplier
-    )
-  );
-
-}
-
-
-/*
- * 敵・プレイヤーとも、
- * 属性を取得するための補助。
- */
-function getBattleStats(id){
-
-  const stats =
-    getMonsterStats(id);
-
-  const monster =
-    getMonster(id);
-
-  return {
-    ...stats,
-    attr:monster.attr
-  };
-
-}
-
-
-function startBattle(playerId){
-
-  playerId =
-    Number(playerId);
-
-
-  if(
-    !saveData.discoveredMonsters.includes(
-      playerId
-    )
-  ){
+  if(!saveData.discoveredMonsters.includes(id)){
     return;
   }
 
+  lastBattlePlayerId=id;
 
-  stopBattleTimers();
+  screenHistory=[];
 
-  lastBattlePlayerId =
-    playerId;
+  showScreen("battleScreen",false);
 
-
-  battleSessionId++;
-
-  const session =
-    battleSessionId;
-
-
-  const player =
-    getMonster(playerId);
-
-  const enemy =
-    chooseEnemy(playerId);
-
-
-  const playerStats =
-    getBattleStats(player.id);
-
-  const enemyStats =
-    getBattleStats(enemy.id);
-
-
-  battle = {
-
-    playerId:player.id,
-    enemyId:enemy.id,
-
-    playerHP:playerStats.hp,
-    enemyHP:enemyStats.hp,
-
-    playerAttackBonus:0,
-    playerDefenseBonus:0,
-
-    enemyAttackBonus:0,
-    enemyDefenseBonus:0,
-
-    skillUses:{},
-
-    turn:
-      playerStats.speed >= enemyStats.speed
-        ? "player"
-        : "enemy",
-
-    finished:false,
-
-    expAwarded:false,
-
-    sessionId:session
-
-  };
-
-
-  showScreen(
-    "battleScreen",
-    false
-  );
-
-
-  renderBattleActive();
-
-
-  addBattleLog(
-    `⚔️ ${player.name} VS ${enemy.name}！`
-  );
-
-
-  addBattleLog(
-    battle.turn === "player"
-      ? "あなたのターンです。"
-      : "相手のターンです。"
-  );
-
-
-  if(
-    battle.turn === "enemy"
-  ){
-
-    scheduleEnemyTurn(
-      session
-    );
-
-  }
+  startBattle(id);
 
 }
-
 
 function renderBattleSelect(){
 
   stopBattleTimers();
 
+  const container=document.getElementById("battleContent");
 
-  /*
-   * 現在進行中のバトルがある場合、
-   * セレクト画面で初期化しない。
-   */
-  if(
-    battle &&
-    !battle.finished
-  ){
-    return;
-  }
-
-
-  battle = null;
-
-
-  document
-    .getElementById(
-      "battleSelectArea"
-    )
-    .classList.remove("hidden");
-
-
-  document
-    .getElementById(
-      "battleActiveArea"
-    )
-    .classList.add("hidden");
-
-
-  const grid =
-    document.getElementById(
-      "battleSelectGrid"
+  const discovered=
+    monsters.filter(m=>
+      saveData.discoveredMonsters.includes(m.id)
     );
 
+  if(discovered.length===0){
 
-  const discovered =
-    monsters.filter(
-      m=>saveData.discoveredMonsters.includes(
-        m.id
-      )
-    );
-
-
-  if(discovered.length === 0){
-
-    grid.innerHTML = `
-      <div class="empty">
-        バトルに参加できるツキモンがいません。
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    discovered.map(m=>{
-
-      const p =
-        getMonsterProgress(m.id);
-
-      const stats =
-        getMonsterStats(m.id);
-
-
-      return `
-
-        <div class="battle-choice">
-
-          <div class="monster-symbol">
-            ${m.icon}
-          </div>
-
-          <h3>
-            ${escapeHtml(m.name)}
-          </h3>
-
-          <div>
-            <span class="tag">
-              Lv.${p.level}
-            </span>
-
-            <span class="tag">
-              ${escapeHtml(m.attr)}
-            </span>
-          </div>
-
-          <p class="small">
-            HP ${stats.hp}
-            ／ 攻撃 ${stats.attack}
-            ／ 防御 ${stats.defense}
-          </p>
-
-          <button
-            class="primary-btn"
-            onclick="startBattle(${m.id})">
-            このツキモンで戦う
-          </button>
-
+    container.innerHTML=`
+      <div class="card">
+        <div class="warning-box">
+          まずツキモンを1体発見してください。
         </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-function renderBattleActive(){
-
-  if(
-    !battle ||
-    battle.finished
-  ){
-    return;
-  }
-
-
-  document
-    .getElementById(
-      "battleSelectArea"
-    )
-    .classList.add("hidden");
-
-
-  document
-    .getElementById(
-      "battleActiveArea"
-    )
-    .classList.remove("hidden");
-
-
-  const player =
-    getMonster(
-      battle.playerId
-    );
-
-  const enemy =
-    getMonster(
-      battle.enemyId
-    );
-
-
-  const playerStats =
-    getBattleStats(
-      battle.playerId
-    );
-
-  const enemyStats =
-    getBattleStats(
-      battle.enemyId
-    );
-
-
-  document.getElementById(
-    "battlePlayerName"
-  ).textContent =
-    `${player.icon} ${player.name} Lv.${getMonsterProgress(player.id).level}`;
-
-
-  document.getElementById(
-    "battleEnemyName"
-  ).textContent =
-    `${enemy.icon} ${enemy.name} Lv.1`;
-
-
-  document.getElementById(
-    "battlePlayerInfo"
-  ).innerHTML = `
-    <span class="tag">
-      ${escapeHtml(player.attr)}
-    </span>
-  `;
-
-
-  document.getElementById(
-    "battleEnemyInfo"
-  ).innerHTML = `
-    <span class="tag">
-      ${escapeHtml(enemy.attr)}
-    </span>
-  `;
-
-
-  const playerPercent =
-    Math.max(
-      0,
-      battle.playerHP /
-      playerStats.hp *
-      100
-    );
-
-
-  const enemyPercent =
-    Math.max(
-      0,
-      battle.enemyHP /
-      enemyStats.hp *
-      100
-    );
-
-
-  document.getElementById(
-    "battlePlayerHp"
-  ).style.width =
-    playerPercent + "%";
-
-
-  document.getElementById(
-    "battleEnemyHp"
-  ).style.width =
-    enemyPercent + "%";
-
-
-  document.getElementById(
-    "battlePlayerHpText"
-  ).textContent =
-    `HP ${Math.max(0,Math.round(battle.playerHP))} / ${playerStats.hp}`;
-
-
-  document.getElementById(
-    "battleEnemyHpText"
-  ).textContent =
-    `HP ${Math.max(0,Math.round(battle.enemyHP))} / ${enemyStats.hp}`;
-
-
-  document.getElementById(
-    "battleTurn"
-  ).textContent =
-    battle.turn === "player"
-      ? "🟢 あなたのターン"
-      : "🔴 相手のターン";
-
-
-  renderSkillButtons();
-
-}
-
-
-function renderSkillButtons(){
-
-  const box =
-    document.getElementById(
-      "battleSkills"
-    );
-
-
-  if(
-    !battle ||
-    battle.finished
-  ){
-
-    box.innerHTML = "";
-
-    return;
-
-  }
-
-
-  if(battle.turn !== "player"){
-
-    box.innerHTML = `
-      <div class="small" style="text-align:center;">
-        相手の攻撃を待っています……
       </div>
     `;
 
     return;
-
   }
 
+  container.innerHTML=`
 
-  const player =
-    getMonster(
-      battle.playerId
-    );
+    <div class="card">
 
-
-  box.innerHTML = `
-
-    <button
-      class="skill-btn"
-      onclick="useNormalAttack()">
-
-      ⚔️ 通常攻撃
-
-      <div class="skill-info">
-        ${escapeHtml(player.attr)}属性
+      <div class="section-title">
+        出撃するツキモンを選択
       </div>
 
-    </button>
+      <div class="monster-grid">
 
-    ${
-      player.skills.map(
-        (skill,index)=>{
+        ${discovered.map(monster=>{
 
-          const used =
-            battle.skillUses[index] || 0;
-
-          const disabled =
-            used >= 3;
-
+          const progress=
+            getMonsterProgress(monster.id);
 
           return `
 
-            <button
-              class="skill-btn"
-              ${disabled ? "disabled" : ""}
-              onclick="usePlayerSkill(${index})">
+            <div
+              class="card monster-card"
+              onclick="startBattle(${monster.id})">
 
-              ${escapeHtml(skill.name)}
-
-              <div class="skill-info">
-
-                ${
-                  skill.type === "attack"
-                    ? `攻撃 / 威力 ${skill.power}`
-                    : skill.type === "heal"
-                      ? `回復 / ${skill.power}`
-                      : skill.type === "buffAtk"
-                        ? `攻撃力 +${skill.power}`
-                        : `防御力 +${skill.power}`
-                }
-
-                ／ 使用 ${used}/3
-
+              <div class="monster-icon">
+                ${monster.icon}
               </div>
 
-            </button>
+              <div class="monster-name">
+                ${monster.name}
+              </div>
+
+              <div style="text-align:center;margin-top:5px;">
+                <span class="attribute attr-${monster.attr}">
+                  ${monster.attr}
+                </span>
+              </div>
+
+              <div class="small-text muted" style="text-align:center;margin-top:5px;">
+                Lv.${progress.level}
+              </div>
+
+            </div>
 
           `;
 
-        }
-      ).join("")
-    }
+        }).join("")}
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+function startBattle(playerId){
+
+  stopBattleTimers();
+
+  battleSessionId++;
+
+  const session=battleSessionId;
+
+  const player=getMonster(playerId);
+
+  if(!player){
+    return;
+  }
+
+  const enemies=
+    monsters.filter(m=>
+      m.id!==playerId
+    );
+
+  const enemy=
+    enemies[
+      Math.floor(
+        Math.random()*enemies.length
+      )
+    ];
+
+  const playerProgress=
+    getMonsterProgress(playerId);
+
+  /*
+   * プレイヤーレベルを基準に敵レベルを変動
+   * 最大Lv3に抑えて、極端な難易度にならないようにする
+   */
+  const maxEnemyLevel=
+    Math.min(
+      3,
+      Math.max(
+        1,
+        playerProgress.level+1
+      )
+    );
+
+  const enemyLevel=
+    Math.max(
+      1,
+      Math.min(
+        maxEnemyLevel,
+        1+Math.floor(Math.random()*3)
+      )
+    );
+
+  const playerStats=
+    getMonsterStats(playerId);
+
+  const enemyStats=
+    getMonsterStats(enemy.id,enemyLevel);
+
+  battle={
+    session,
+
+    player:{
+      id:playerId,
+      hp:playerStats.hp,
+      maxHp:playerStats.hp,
+      attack:playerStats.attack,
+      defense:playerStats.defense,
+      speed:playerStats.speed,
+      attackBonus:0,
+      defenseBonus:0,
+      skillUses:[0,0,0]
+    },
+
+    enemy:{
+      id:enemy.id,
+      level:enemyLevel,
+      hp:enemyStats.hp,
+      maxHp:enemyStats.hp,
+      attack:enemyStats.attack,
+      defense:enemyStats.defense,
+      speed:enemyStats.speed,
+      attackBonus:0,
+      defenseBonus:0,
+      skillUses:[0,0,0]
+    },
+
+    turn:"player",
+
+    log:[
+      `${player.name} が出撃した！`,
+      `相手は ${enemy.name} Lv.${enemyLevel}！`
+    ],
+
+    ended:false
+  };
+
+  renderBattleScreen();
+
+  /*
+   * プレイヤーと敵の素早さで先攻を決める
+   */
+  if(
+    battle.enemy.speed >
+    battle.player.speed
+  ){
+
+    battle.turn="enemy";
+
+    const timer=setTimeout(()=>{
+
+      if(
+        !battle ||
+        battle.session!==session ||
+        battle.ended
+      ){
+        return;
+      }
+
+      enemyTurn();
+
+    },800);
+
+    battleTimerIds.push(timer);
+
+  }
+
+}
+
+function renderBattleScreen(){
+
+  const container=document.getElementById("battleContent");
+
+  if(!battle){
+
+    renderBattleSelect();
+
+    return;
+  }
+
+  const player=getMonster(battle.player.id);
+  const enemy=getMonster(battle.enemy.id);
+
+  const playerHpPercent=
+    Math.max(
+      0,
+      Math.round(
+        battle.player.hp/
+        battle.player.maxHp*
+        100
+      )
+    );
+
+  const enemyHpPercent=
+    Math.max(
+      0,
+      Math.round(
+        battle.enemy.hp/
+        battle.enemy.maxHp*
+        100
+      )
+    );
+
+  container.innerHTML=`
+
+    <div class="battle-layout">
+
+      <div class="battle-side enemy">
+
+        <div class="battle-top">
+
+          <div>
+
+            <div class="small-text muted">
+              ENEMY Lv.${battle.enemy.level}
+            </div>
+
+            <h2 style="margin:4px 0;">
+              ${enemy.name}
+            </h2>
+
+            <span class="attribute attr-${enemy.attr}">
+              ${enemy.attr}
+            </span>
+
+          </div>
+
+          <div class="battle-monster-icon">
+            ${enemy.icon}
+          </div>
+
+        </div>
+
+        <div class="hp-bar">
+          <div style="width:${enemyHpPercent}%"></div>
+        </div>
+
+        <div class="hp-text">
+          HP ${battle.enemy.hp}/${battle.enemy.maxHp}
+        </div>
+
+      </div>
+
+
+      <div class="battle-side player">
+
+        <div class="battle-top">
+
+          <div>
+
+            <div class="small-text muted">
+              PLAYER
+            </div>
+
+            <h2 style="margin:4px 0;">
+              ${player.name}
+            </h2>
+
+            <span class="attribute attr-${player.attr}">
+              ${player.attr}
+            </span>
+
+          </div>
+
+          <div class="battle-monster-icon">
+            ${player.icon}
+          </div>
+
+        </div>
+
+        <div class="hp-bar">
+          <div style="width:${playerHpPercent}%"></div>
+        </div>
+
+        <div class="hp-text">
+          HP ${battle.player.hp}/${battle.player.maxHp}
+        </div>
+
+      </div>
+
+
+      <div class="battle-center">
+
+        <div class="type-chart">
+
+          <strong>属性相性</strong>
+
+          <span>🔥 火</span>
+          <span>→</span>
+          <span>🌿 自然</span>
+          <span>→</span>
+          <span>💧 水</span>
+          <span>→</span>
+          <span>🌙 月</span>
+          <span>→</span>
+          <span>🔥 火</span>
+
+        </div>
+
+      </div>
+
+
+      <div class="battle-center">
+
+        <div class="card">
+
+          <div class="section-title">
+            バトルログ
+          </div>
+
+          <div class="battle-log" id="battleLog">
+
+            ${battle.log.map(line=>`
+              <p>${line}</p>
+            `).join("")}
+
+          </div>
+
+          ${
+            battle.turn==="player" && !battle.ended
+            ? renderBattleActions(player)
+            : `
+              <div class="notice" style="margin-top:12px;">
+                ${
+                  battle.ended
+                  ? "バトル終了"
+                  : "相手のターンです……"
+                }
+              </div>
+            `
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+  const log=
+    document.getElementById("battleLog");
+
+  if(log){
+    log.scrollTop=log.scrollHeight;
+  }
+
+}
+
+function renderBattleActions(player){
+
+  return `
+
+    <div class="battle-actions">
+
+      ${player.skills.map((skill,index)=>{
+
+        const uses=
+          battle.player.skillUses[index];
+
+        const disabled=
+          uses>=3;
+
+        return `
+
+          <button
+            class="attack-btn"
+            onclick="playerUseSkill(${index})"
+            ${disabled?"disabled":""}>
+
+            <strong>
+              ${skill.name}
+            </strong>
+
+            <div class="small-text muted">
+              ${getSkillTypeName(skill.type)}
+              /
+              ${skill.attr}
+              ${
+                skill.type==="attack"
+                ? ` / 威力 ${skill.power}`
+                : ` / 効果 ${skill.power}`
+              }
+            </div>
+
+            <div class="small-text">
+              使用 ${uses}/3
+            </div>
+
+          </button>
+
+        `;
+
+      }).join("")}
+
+      <button
+        class="attack-btn"
+        onclick="playerNormalAttack()">
+
+        <strong>通常攻撃</strong>
+
+        <div class="small-text muted">
+          安定した通常攻撃
+        </div>
+
+      </button>
+
+    </div>
 
   `;
 
 }
 
 
-function addBattleLog(message){
+/* =========================================================
+   ATTRIBUTE
+========================================================= */
 
-  const log =
-    document.getElementById(
-      "battleLog"
-    );
+const attributeStrong={
+  "月":"火",
+  "火":"自然",
+  "自然":"水",
+  "水":"月"
+};
 
+const attributeWeak={
+  "月":"水",
+  "火":"月",
+  "自然":"火",
+  "水":"自然"
+};
 
-  if(!log){
-    return;
+function getAttributeMultiplier(attackAttr,defenseAttr){
+
+  if(
+    attributeStrong[attackAttr]===
+    defenseAttr
+  ){
+    return 1.5;
   }
 
+  if(
+    attributeWeak[attackAttr]===
+    defenseAttr
+  ){
+    return 0.75;
+  }
 
-  const p =
-    document.createElement("p");
+  return 1;
 
-  p.textContent =
-    message;
+}
 
+function getAttributeText(multiplier){
 
-  log.appendChild(p);
+  if(multiplier>=1.5){
+    return "🔥 効果ばつぐん！";
+  }
 
-  log.scrollTop =
-    log.scrollHeight;
+  if(multiplier<=0.75){
+    return "💨 効果はいまひとつ……";
+  }
+
+  return "";
 
 }
 
 
-function useNormalAttack(){
+/* =========================================================
+   BATTLE DAMAGE
+========================================================= */
+
+function calculateBattleHit(
+  attacker,
+  defender,
+  attackAttr,
+  skillPower=0
+){
+
+  const attack=
+    attacker.attack+
+    attacker.attackBonus+
+    skillPower;
+
+  const defense=
+    defender.defense+
+    defender.defenseBonus;
+
+  const base=
+    attack*100/
+    (100+defense);
+
+  const multiplier=
+    getAttributeMultiplier(
+      attackAttr,
+      getMonster(defender.id).attr
+    );
+
+  const critical=
+    Math.random()<0.10;
+
+  const criticalMultiplier=
+    critical?1.5:1;
+
+  const damage=
+    Math.max(
+      1,
+      Math.round(
+        base*
+        multiplier*
+        criticalMultiplier
+      )
+    );
+
+  return{
+    damage,
+    multiplier,
+    critical
+  };
+
+}
+
+
+/* =========================================================
+   PLAYER ATTACK
+========================================================= */
+
+function playerNormalAttack(){
 
   if(
     !battle ||
-    battle.finished ||
-    battle.turn !== "player"
+    battle.ended ||
+    battle.turn!=="player"
   ){
     return;
   }
 
+  const playerMonster=
+    getMonster(battle.player.id);
 
-  const player =
-    getMonster(
-      battle.playerId
+  const result=
+    calculateBattleHit(
+      battle.player,
+      battle.enemy,
+      playerMonster.attr,
+      0
     );
 
-  const enemy =
-    getMonster(
-      battle.enemyId
-    );
-
-
-  const playerStats =
-    getBattleStats(
-      battle.playerId
-    );
-
-  const enemyStats =
-    getBattleStats(
-      battle.enemyId
-    );
-
-
-  const damage =
-    getBattleDamage(
-      playerStats,
-      enemyStats,
-      player.attr,
+  battle.enemy.hp=
+    Math.max(
       0,
-      battle.playerAttackBonus,
-      battle.enemyDefenseBonus
+      battle.enemy.hp-result.damage
     );
 
+  let text=
+    `${playerMonster.name} の通常攻撃！ ${result.damage}ダメージ！`;
 
-  battle.enemyHP -= damage;
+  const attrText=
+    getAttributeText(result.multiplier);
 
-
-  addBattleLog(
-    `⚔️ ${player.name}の通常攻撃！ ${damage}ダメージ！`
-  );
-
-
-  renderBattleActive();
-
-
-  if(
-    battle.enemyHP <= 0
-  ){
-
-    finishBattle(true);
-
-    return;
-
+  if(attrText){
+    text+=" "+attrText;
   }
 
+  if(result.critical){
+    text+=" 💥 クリティカル！";
+  }
 
-  endPlayerTurn();
+  battle.log.push(text);
+
+  if(battle.enemy.hp<=0){
+
+    endBattle(true);
+
+    return;
+  }
+
+  battle.turn="enemy";
+
+  renderBattleScreen();
+
+  const session=battle.session;
+
+  const timer=setTimeout(()=>{
+
+    if(
+      !battle ||
+      battle.session!==session ||
+      battle.ended
+    ){
+      return;
+    }
+
+    enemyTurn();
+
+  },800);
+
+  battleTimerIds.push(timer);
 
 }
 
-
-function usePlayerSkill(index){
+function playerUseSkill(index){
 
   if(
     !battle ||
-    battle.finished ||
-    battle.turn !== "player"
+    battle.ended ||
+    battle.turn!=="player"
   ){
     return;
   }
 
+  const monster=
+    getMonster(battle.player.id);
 
-  const player =
-    getMonster(
-      battle.playerId
-    );
-
-  const enemy =
-    getMonster(
-      battle.enemyId
-    );
-
-
-  const skill =
-    player.skills[index];
-
+  const skill=
+    monster.skills[index];
 
   if(!skill){
     return;
   }
 
-
-  const used =
-    battle.skillUses[index] || 0;
-
-
-  if(used >= 3){
+  if(
+    battle.player.skillUses[index]>=3
+  ){
 
     return;
-
   }
 
+  battle.player.skillUses[index]++;
 
-  battle.skillUses[index] =
-    used + 1;
+  executeSkill(
+    "player",
+    index
+  );
 
+  if(battle.ended){
+    return;
+  }
 
-  const playerStats =
-    getBattleStats(
-      battle.playerId
-    );
+  battle.turn="enemy";
 
-  const enemyStats =
-    getBattleStats(
-      battle.enemyId
-    );
+  renderBattleScreen();
 
+  const session=battle.session;
 
-  if(skill.type === "attack"){
+  const timer=setTimeout(()=>{
 
-    const damage =
-      getBattleDamage(
-        playerStats,
-        enemyStats,
-        skill.attr,
-        skill.power,
-        battle.playerAttackBonus,
-        battle.enemyDefenseBonus
-      );
-
-
-    battle.enemyHP -= damage;
-
-
-    const multiplier =
-      getAttributeMultiplier(
-        skill.attr,
-        enemy.attr
-      );
-
-
-    let relation = "";
-
-    if(multiplier >= 1.5){
-      relation = " 🔥 効果ばつぐん！";
-    }else if(multiplier <= .75){
-      relation = " 💨 効果はいまひとつ……";
+    if(
+      !battle ||
+      battle.session!==session ||
+      battle.ended
+    ){
+      return;
     }
 
+    enemyTurn();
 
-    addBattleLog(
-      `✨ ${player.name}の「${skill.name}」！ ${damage}ダメージ！${relation}`
-    );
+  },800);
+
+  battleTimerIds.push(timer);
+
+}
+
+
+/* =========================================================
+   SKILL EXECUTION
+========================================================= */
+
+function executeSkill(side,index){
+
+  const actor=
+    side==="player"
+    ? battle.player
+    : battle.enemy;
+
+  const target=
+    side==="player"
+    ? battle.enemy
+    : battle.player;
+
+  const actorMonster=
+    getMonster(actor.id);
+
+  const skill=
+    actorMonster.skills[index];
+
+  if(skill.type==="attack"){
+
+    const result=
+      calculateBattleHit(
+        actor,
+        target,
+        skill.attr,
+        skill.power
+      );
+
+    target.hp=
+      Math.max(
+        0,
+        target.hp-result.damage
+      );
+
+    let text=
+      `${actorMonster.name} の「${skill.name}」！ ${result.damage}ダメージ！`;
+
+    const attrText=
+      getAttributeText(result.multiplier);
+
+    if(attrText){
+      text+=" "+attrText;
+    }
+
+    if(result.critical){
+      text+=" 💥 クリティカル！";
+    }
+
+    battle.log.push(text);
 
   }
 
+  else if(skill.type==="heal"){
 
-  if(skill.type === "heal"){
+    const before=actor.hp;
 
-    const maxHP =
-      playerStats.hp;
-
-
-    const before =
-      battle.playerHP;
-
-
-    battle.playerHP =
+    actor.hp=
       Math.min(
-        maxHP,
-        battle.playerHP + skill.power
+        actor.maxHp,
+        actor.hp+skill.power
       );
 
+    const healed=
+      actor.hp-before;
 
-    const healed =
-      battle.playerHP - before;
-
-
-    addBattleLog(
-      `💚 ${player.name}の「${skill.name}」！ ${healed}回復！`
+    battle.log.push(
+      `${actorMonster.name} の「${skill.name}」！ HPが ${healed} 回復！`
     );
 
   }
 
+  else if(skill.type==="buffAttack"){
 
-  if(skill.type === "buffAtk"){
+    actor.attackBonus+=skill.power;
 
-    battle.playerAttackBonus +=
-      skill.power;
-
-
-    addBattleLog(
-      `⬆️ ${player.name}の「${skill.name}」！ 攻撃力が${skill.power}上昇！`
+    battle.log.push(
+      `${actorMonster.name} の「${skill.name}」！ 攻撃力が ${skill.power} 上昇！`
     );
 
   }
 
+  else if(skill.type==="buffDefense"){
 
-  if(skill.type === "buffDef"){
+    actor.defenseBonus+=skill.power;
 
-    battle.playerDefenseBonus +=
-      skill.power;
-
-
-    addBattleLog(
-      `🛡️ ${player.name}の「${skill.name}」！ 防御力が${skill.power}上昇！`
+    battle.log.push(
+      `${actorMonster.name} の「${skill.name}」！ 防御力が ${skill.power} 上昇！`
     );
 
   }
 
+  if(target.hp<=0){
 
-  renderBattleActive();
-
-
-  if(
-    battle.enemyHP <= 0
-  ){
-
-    finishBattle(true);
+    if(side==="player"){
+      endBattle(true);
+    }else{
+      endBattle(false);
+    }
 
     return;
-
   }
 
-
-  endPlayerTurn();
+  renderBattleScreen();
 
 }
 
 
-function endPlayerTurn(){
+/* =========================================================
+   ENEMY TURN
+========================================================= */
+
+function enemyTurn(){
 
   if(
     !battle ||
-    battle.finished
+    battle.ended
   ){
     return;
   }
 
+  battle.turn="enemy";
 
-  battle.turn =
-    "enemy";
+  const enemyMonster=
+    getMonster(battle.enemy.id);
 
-
-  renderBattleActive();
-
-
-  const session =
-    battle.sessionId;
-
-
-  scheduleEnemyTurn(
-    session
-  );
-
-}
-
-
-function scheduleEnemyTurn(session){
-
-  stopBattleTimers();
-
-
-  const timer =
-    setTimeout(
-      ()=>enemyTurn(session),
-      750
-    );
-
-
-  battleTimerIds.push(
-    timer
-  );
-
-}
-
-
-function enemyTurn(session){
-
-  if(
-    session !== battleSessionId
-  ){
-    return;
-  }
-
-
-  if(
-    !battle ||
-    battle.finished ||
-    battle.sessionId !== session
-  ){
-    return;
-  }
-
-
-  const enemy =
-    getMonster(
-      battle.enemyId
-    );
-
-  const player =
-    getMonster(
-      battle.playerId
-    );
-
-
-  const enemyStats =
-    getBattleStats(
-      battle.enemyId
-    );
-
-  const playerStats =
-    getBattleStats(
-      battle.playerId
-    );
-
-
-  const availableSkills =
-    enemy.skills
-      .map((skill,index)=>({
-        skill,
-        index,
-        used:
-          battle.skillUses[
-            "enemy_"+index
-          ] || 0
-      }))
-      .filter(
-        x=>x.used < 3
+  const available=
+    enemyMonster.skills
+      .map((skill,index)=>({skill,index}))
+      .filter(item=>
+        battle.enemy.skillUses[item.index]<3
       );
 
+  let selected=null;
 
-  let chosen;
-
-
-  if(availableSkills.length){
+  if(available.length>0){
 
     /*
-     * 敵は一定確率でスキルを使う。
+     * ある程度ランダムだが、HPが減っていれば
+     * 回復スキルを選びやすくする
      */
-    if(Math.random() < .72){
+    const healSkills=
+      available.filter(item=>
+        item.skill.type==="heal"
+      );
 
-      chosen =
-        availableSkills[
+    if(
+      battle.enemy.hp<
+      battle.enemy.maxHp*0.45 &&
+      healSkills.length>0 &&
+      Math.random()<0.7
+    ){
+
+      selected=
+        healSkills[
           Math.floor(
-            Math.random() *
-            availableSkills.length
+            Math.random()*healSkills.length
+          )
+        ];
+
+    }else{
+
+      selected=
+        available[
+          Math.floor(
+            Math.random()*available.length
           )
         ];
 
@@ -4121,853 +4497,470 @@ function enemyTurn(session){
 
   }
 
+  if(selected){
 
-  if(!chosen){
+    battle.enemy.skillUses[selected.index]++;
 
-    enemyNormalAttack();
+    executeSkill(
+      "enemy",
+      selected.index
+    );
 
-    return;
+  }else{
 
-  }
-
-
-  battle.skillUses[
-    "enemy_"+chosen.index
-  ] =
-    chosen.used + 1;
-
-
-  const skill =
-    chosen.skill;
-
-
-  if(skill.type === "attack"){
-
-    const damage =
-      getBattleDamage(
-        enemyStats,
-        playerStats,
-        skill.attr,
-        skill.power,
-        battle.enemyAttackBonus,
-        battle.playerDefenseBonus
+    const result=
+      calculateBattleHit(
+        battle.enemy,
+        battle.player,
+        enemyMonster.attr,
+        0
       );
 
-
-    battle.playerHP -=
-      damage;
-
-
-    const multiplier =
-      getAttributeMultiplier(
-        skill.attr,
-        player.attr
+    battle.player.hp=
+      Math.max(
+        0,
+        battle.player.hp-result.damage
       );
 
+    let text=
+      `${enemyMonster.name} の通常攻撃！ ${result.damage}ダメージ！`;
 
-    let relation = "";
+    const attrText=
+      getAttributeText(result.multiplier);
 
-    if(multiplier >= 1.5){
-      relation = " 🔥 効果ばつぐん！";
-    }else if(multiplier <= .75){
-      relation = " 💨 効果はいまひとつ……";
+    if(attrText){
+      text+=" "+attrText;
     }
 
+    if(result.critical){
+      text+=" 💥 クリティカル！";
+    }
 
-    addBattleLog(
-      `🔴 ${enemy.name}の「${skill.name}」！ ${damage}ダメージ！${relation}`
-    );
+    battle.log.push(text);
 
-  }
+    if(battle.player.hp<=0){
 
+      endBattle(false);
 
-  if(skill.type === "heal"){
+      return;
+    }
 
-    const maxHP =
-      enemyStats.hp;
+    battle.turn="player";
 
-
-    const before =
-      battle.enemyHP;
-
-
-    battle.enemyHP =
-      Math.min(
-        maxHP,
-        battle.enemyHP + skill.power
-      );
-
-
-    const healed =
-      battle.enemyHP - before;
-
-
-    addBattleLog(
-      `🔴 ${enemy.name}の「${skill.name}」！ ${healed}回復！`
-    );
+    renderBattleScreen();
 
   }
-
-
-  if(skill.type === "buffAtk"){
-
-    battle.enemyAttackBonus +=
-      skill.power;
-
-
-    addBattleLog(
-      `🔴 ${enemy.name}の「${skill.name}」！ 攻撃力が上昇！`
-    );
-
-  }
-
-
-  if(skill.type === "buffDef"){
-
-    battle.enemyDefenseBonus +=
-      skill.power;
-
-
-    addBattleLog(
-      `🔴 ${enemy.name}の「${skill.name}」！ 防御力が上昇！`
-    );
-
-  }
-
-
-  renderBattleActive();
-
-
-  if(
-    battle.playerHP <= 0
-  ){
-
-    finishBattle(false);
-
-    return;
-
-  }
-
-
-  battle.turn =
-    "player";
-
-
-  renderBattleActive();
 
 }
 
 
-function enemyNormalAttack(){
+/* =========================================================
+   BATTLE END
+========================================================= */
+
+function endBattle(win){
 
   if(
     !battle ||
-    battle.finished
+    battle.ended
   ){
     return;
   }
 
-
-  const enemy =
-    getMonster(
-      battle.enemyId
-    );
-
-  const player =
-    getMonster(
-      battle.playerId
-    );
-
-
-  const enemyStats =
-    getBattleStats(
-      battle.enemyId
-    );
-
-  const playerStats =
-    getBattleStats(
-      battle.playerId
-    );
-
-
-  const damage =
-    getBattleDamage(
-      enemyStats,
-      playerStats,
-      enemy.attr,
-      0,
-      battle.enemyAttackBonus,
-      battle.playerDefenseBonus
-    );
-
-
-  battle.playerHP -=
-    damage;
-
-
-  addBattleLog(
-    `🔴 ${enemy.name}の通常攻撃！ ${damage}ダメージ！`
-  );
-
-
-  renderBattleActive();
-
-
-  if(
-    battle.playerHP <= 0
-  ){
-
-    finishBattle(false);
-
-    return;
-
-  }
-
-
-  battle.turn =
-    "player";
-
-
-  renderBattleActive();
-
-}
-
-
-function getBattleExpReward(monster){
-
-  switch(monster.rarity){
-
-    case "★★★★":
-      return 120;
-
-    case "★★★":
-      return 80;
-
-    default:
-      return 50;
-
-  }
-
-}
-
-
-function finishBattle(win){
-
-  if(
-    !battle ||
-    battle.finished
-  ){
-    return;
-  }
-
-
-  battle.finished = true;
-
+  battle.ended=true;
 
   stopBattleTimers();
 
+  const playerId=battle.player.id;
 
-  battleSessionId++;
+  const enemyId=battle.enemy.id;
 
-
-  let expResult = null;
-
+  let exp=0;
 
   if(win){
 
-    const player =
-      getMonster(
-        battle.playerId
+    const rarity=
+      getMonster(enemyId).rarity;
+
+    if(rarity===2){
+      exp=50;
+    }else if(rarity===3){
+      exp=80;
+    }else{
+      exp=120;
+    }
+
+    saveData.battleWins++;
+
+  }
+
+  let expResult=null;
+
+  if(win){
+
+    expResult=
+      gainMonsterExp(
+        playerId,
+        exp
       );
 
+  }
 
-    const reward =
-      getBattleExpReward(
-        player
+  saveGame();
+
+  battle.result={
+    win,
+    exp,
+    expResult
+  };
+
+  showBattleResult();
+
+}
+
+function showBattleResult(){
+
+  const container=
+    document.getElementById("battleResultContent");
+
+  const player=
+    getMonster(battle.player.id);
+
+  const enemy=
+    getMonster(battle.enemy.id);
+
+  const result=
+    battle.result;
+
+  if(result.win){
+
+    const levelUpText=
+      result.expResult.levelUps>0
+      ? `
+        <div class="success-box" style="margin-top:15px;">
+          🎉 レベルアップ！<br>
+          Lv.${result.expResult.oldLevel}
+          →
+          Lv.${result.expResult.newLevel}
+        </div>
+      `
+      : "";
+
+    container.innerHTML=`
+
+      <div class="card battle-result">
+
+        <div class="result-title win">
+          🎉 WIN!
+        </div>
+
+        <p>
+          ${player.name} は
+          ${enemy.name} に勝利した！
+        </p>
+
+        <div class="notice">
+          獲得EXP：
+          <strong>${result.exp}</strong>
+        </div>
+
+        ${levelUpText}
+
+        <div class="menu" style="margin-top:18px;">
+
+          <button
+            class="btn primary"
+            onclick="retryBattle()">
+            もう一度バトル
+          </button>
+
+          <button
+            class="btn"
+            onclick="exitBattleToMonsterDetail(${player.id})">
+            ${player.name} の詳細を見る
+          </button>
+
+          <button
+            class="btn"
+            onclick="exitBattleToScreen('homeScreen')">
+            ホームへ戻る
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }else{
+
+    container.innerHTML=`
+
+      <div class="card battle-result">
+
+        <div class="result-title lose">
+          💥 LOSE
+        </div>
+
+        <p>
+          ${player.name} は
+          ${enemy.name} に敗北した……
+        </p>
+
+        <div class="notice">
+          経験値は獲得できません。
+        </div>
+
+        <div class="menu" style="margin-top:18px;">
+
+          <button
+            class="btn primary"
+            onclick="retryBattle()">
+            もう一度挑戦
+          </button>
+
+          <button
+            class="btn"
+            onclick="exitBattleToMonsterDetail(${player.id})">
+            ツキモン詳細を見る
+          </button>
+
+          <button
+            class="btn"
+            onclick="exitBattleToScreen('homeScreen')">
+            ホームへ戻る
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  screenHistory=[];
+
+  showScreen("battleResultScreen",false);
+
+}
+
+function retryBattle(){
+
+  if(!lastBattlePlayerId){
+    exitBattleToScreen("homeScreen");
+    return;
+  }
+
+  startBattle(lastBattlePlayerId);
+
+}
+
+function exitBattleToScreen(targetId){
+
+  stopBattleTimers();
+
+  battle=null;
+
+  battleSessionId++;
+
+  screenHistory=[];
+
+  showScreen(
+    targetId,
+    false
+  );
+
+}
+
+
+/* =========================================================
+   PROPERTY BOOK
+========================================================= */
+
+function renderPropertyBook(){
+
+  const found=
+    saveData.foundCards.length;
+
+  document.getElementById(
+    "propertyBookSummary"
+  ).innerHTML=`
+
+    <strong>
+      文化財図録 ${found}/${properties.length}
+    </strong>
+
+    <div class="progress-wrap">
+
+      <div class="progress-label">
+        <span>発見率</span>
+        <span>
+          ${Math.round(found/properties.length*100)}%
+        </span>
+      </div>
+
+      <div class="progress">
+        <div style="width:${found/properties.length*100}%"></div>
+      </div>
+
+    </div>
+
+  `;
+
+  const list=
+    document.getElementById(
+      "propertyBookList"
+    );
+
+  list.innerHTML="";
+
+  properties.forEach(property=>{
+
+    const found=
+      isPropertyFound(property.id);
+
+    const div=document.createElement("div");
+
+    div.className=
+      "book-item"+(found?"":" locked");
+
+    if(found){
+      div.style.cursor="pointer";
+      div.onclick=()=>{
+        openPropertyDetail(property.id);
+      };
+    }
+
+    div.innerHTML=`
+
+      <div class="book-number">
+        No.${property.id}
+      </div>
+
+      <div style="font-size:14px;font-weight:700;margin-top:6px;line-height:1.4;">
+        ${found?property.name:"？？？？？？"}
+      </div>
+
+    `;
+
+    list.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================================================
+   MISSIONS
+========================================================= */
+
+function checkMissions(){
+
+  missions.forEach(mission=>{
+
+    if(
+      mission.check() &&
+      !saveData.missionCompleted.includes(mission.id)
+    ){
+
+      saveData.missionCompleted.push(
+        mission.id
       );
-
-
-    if(!battle.expAwarded){
-
-      battle.expAwarded = true;
-
-      expResult =
-        gainMonsterExp(
-          player.id,
-          reward
-        );
-
-
-      saveData.battleWins++;
 
       saveGame();
 
     }
 
-  }
-
-
-  showBattleResult(
-    win,
-    expResult
-  );
-
-}
-
-
-function showBattleResult(
-  win,
-  expResult
-){
-
-  const icon =
-    document.getElementById(
-      "battleResultIcon"
-    );
-
-  const title =
-    document.getElementById(
-      "battleResultTitle"
-    );
-
-  const message =
-    document.getElementById(
-      "battleResultMessage"
-    );
-
-  const expBox =
-    document.getElementById(
-      "battleExpResult"
-    );
-
-
-  if(win){
-
-    icon.textContent = "🏆";
-
-    title.textContent =
-      "バトル勝利！";
-
-    message.innerHTML = `
-      <p>
-        見事な勝利です！
-      </p>
-    `;
-
-
-    if(expResult){
-
-      const player =
-        getMonster(
-          lastBattlePlayerId
-        );
-
-
-      let levelUpHtml = "";
-
-
-      if(
-        expResult.levelUps.length
-      ){
-
-        levelUpHtml = `
-
-          <div class="level-up-box">
-
-            <h3>
-              🎉 レベルアップ！
-            </h3>
-
-            <p>
-              ${escapeHtml(player.name)}
-              が
-              Lv.${expResult.oldLevel}
-              →
-              Lv.${expResult.newLevel}
-              になりました！
-            </p>
-
-            <div>
-              <span class="tag">HP +5</span>
-              <span class="tag">攻撃 +2</span>
-              <span class="tag">防御 +2</span>
-              <span class="tag">素早さ +1</span>
-            </div>
-
-          </div>
-
-        `;
-
-      }
-
-
-      expBox.innerHTML = `
-
-        <div class="card" style="margin-top:20px;">
-
-          <h3>✨ 育成EXP獲得</h3>
-
-          <p>
-            ${escapeHtml(player.name)}
-            に
-            <strong>${expResult.gained} EXP</strong>
-            を獲得！
-          </p>
-
-          ${levelUpHtml}
-
-        </div>
-
-      `;
-
-    }
-
-  }else{
-
-    icon.textContent = "💦";
-
-    title.textContent =
-      "バトル敗北……";
-
-    message.innerHTML = `
-      <p>
-        今回は敗れてしまいました。
-      </p>
-      <p class="muted">
-        ツキモンを育てて、もう一度挑戦しましょう！
-      </p>
-    `;
-
-    expBox.innerHTML = "";
-
-  }
-
-
-  showScreen(
-    "battleResultScreen",
-    false
-  );
-
-}
-
-
-function retryBattle(){
-
-  stopBattleTimers();
-
-
-  const playerId =
-    lastBattlePlayerId;
-
-
-  battle = null;
-
-  battleSessionId++;
-
-
-  if(
-    !playerId ||
-    !saveData.discoveredMonsters.includes(
-      playerId
-    )
-  ){
-
-    showScreen(
-      "battleScreen",
-      false
-    );
-
-    return;
-
-  }
-
-
-  showScreen(
-    "battleScreen",
-    false
-  );
-
-
-  startBattle(
-    playerId
-  );
-
-}
-
-
-/* =========================================================
-   文化財図鑑
-========================================================= */
-
-function renderPropertyBook(){
-
-  const found =
-    saveData.foundCards.length;
-
-  const total =
-    properties.length;
-
-  const percent =
-    Math.round(
-      found / total * 100
-    );
-
-
-  document.getElementById(
-    "propertyBookProgress"
-  ).innerHTML = `
-
-    <strong>
-      文化財コンプリート率
-      ${percent}%
-    </strong>
-
-    <div class="big-progress">
-      <div
-        class="big-progress-fill"
-        style="width:${percent}%">
-      </div>
-    </div>
-
-    <div class="small" style="margin-top:7px;">
-      ${found} / ${total} 枚発見
-    </div>
-
-  `;
-
-
-  const grid =
-    document.getElementById(
-      "propertyBookGrid"
-    );
-
-
-  grid.innerHTML =
-    properties.map(p=>{
-
-      const found =
-        saveData.foundCards.includes(
-          p.id
-        );
-
-
-      if(!found){
-
-        return `
-
-          <div class="card property-card locked">
-
-            <div class="property-number">
-              No.${p.id}
-            </div>
-
-            <div style="font-size:35px;">
-              ❓
-            </div>
-
-            <h3>
-              ？？？？？？？
-            </h3>
-
-            <span class="tag">
-              未発見
-            </span>
-
-          </div>
-
-        `;
-
-      }
-
-
-      return `
-
-        <div class="card property-card">
-
-          <div class="property-number">
-            No.${p.id}
-          </div>
-
-          <div class="property-icon">
-            ${p.tags[0] || "🏯"}
-          </div>
-
-          <h3>
-            ${escapeHtml(p.name)}
-          </h3>
-
-          <span class="tag">
-            ${escapeHtml(p.theme)}
-          </span>
-
-          <div class="property-actions">
-
-            <button
-              class="secondary-btn"
-              onclick="openPropertyDetail(${p.id})">
-              詳細
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-/* =========================================================
-   ミッション
-========================================================= */
-
-const missions = [
-
-  {
-    id:"property5",
-    name:"千曲市を知ろう",
-    description:"文化財カードを5枚発見する",
-    target:5,
-    getProgress:()=>saveData.foundCards.length,
-    reward:"🎁 探索の証"
-  },
-
-  {
-    id:"property15",
-    name:"文化財ハンター",
-    description:"文化財カードを15枚発見する",
-    target:15,
-    getProgress:()=>saveData.foundCards.length,
-    reward:"🌙 月のしるし"
-  },
-
-  {
-    id:"monster3",
-    name:"ツキモン研究家",
-    description:"ツキモンを3体発見する",
-    target:3,
-    getProgress:()=>saveData.discoveredMonsters.length,
-    reward:"✨ 発見者の証"
-  },
-
-  {
-    id:"monster10",
-    name:"ツキモン博士",
-    description:"ツキモンを10体発見する",
-    target:10,
-    getProgress:()=>saveData.discoveredMonsters.length,
-    reward:"🏆 博士の証"
-  },
-
-  {
-    id:"battle3",
-    name:"バトルトレーナー",
-    description:"バトルに3回勝利する",
-    target:3,
-    getProgress:()=>saveData.battleWins,
-    reward:"⚔️ 勝負師の証"
-  },
-
-  {
-    id:"propertyAll",
-    name:"千曲市文化財マスター",
-    description:"29枚すべての文化財を発見する",
-    target:properties.length,
-    getProgress:()=>saveData.foundCards.length,
-    reward:"👑 千曲市文化財マスター"
-  },
-
-  {
-    id:"monsterAll",
-    name:"ツキモンマスター",
-    description:"20体すべてのツキモンを発見する",
-    target:monsters.length,
-    getProgress:()=>saveData.discoveredMonsters.length,
-    reward:"🌕 ツキモンマスター"
-  }
-
-];
-
-
-function isMissionCompleted(id){
-
-  return saveData.missionCompleted.includes(
-    id
-  );
-
-}
-
-
-function getCompletedMissionCount(){
-
-  return missions.filter(
-    m=>isMissionCompleted(m.id)
-  ).length;
-
-}
-
-
-function checkMissions(){
-
-  let changed = false;
-
-
-  missions.forEach(m=>{
-
-    const progress =
-      Math.min(
-        m.target,
-        m.getProgress()
-      );
-
-
-    if(
-      progress >= m.target &&
-      !isMissionCompleted(m.id)
-    ){
-
-      saveData.missionCompleted.push(
-        m.id
-      );
-
-      changed = true;
-
-    }
-
   });
 
-
-  if(changed){
-    saveGame();
-  }
-
 }
-
 
 function renderMissions(){
 
   checkMissions();
 
-
-  const grid =
+  const container=
     document.getElementById(
-      "missionGrid"
+      "missionList"
     );
 
+  container.innerHTML="";
 
-  grid.innerHTML =
-    missions.map(m=>{
+  missions.forEach(mission=>{
 
-      const progress =
-        Math.min(
-          m.target,
-          m.getProgress()
-        );
+    const done=
+      saveData.missionCompleted.includes(
+        mission.id
+      );
 
+    const div=document.createElement("div");
 
-      const percent =
-        Math.round(
-          progress / m.target * 100
-        );
+    div.className=
+      "mission"+(done?" done":"");
 
+    div.innerHTML=`
 
-      const completed =
-        isMissionCompleted(
-          m.id
-        );
+      <div class="mission-icon">
+        ${done?"🏆":"🎯"}
+      </div>
 
+      <div style="flex:1;">
 
-      return `
-
-        <div class="card mission-card ${
-          completed ? "completed" : ""
-        }">
-
-          <div>
-
-            <h3 style="margin:0 0 5px;">
-              ${escapeHtml(m.name)}
-            </h3>
-
-            <p class="small">
-              ${escapeHtml(m.description)}
-            </p>
-
-            <div class="mission-progress">
-
-              <div class="exp-bar">
-                <div
-                  class="exp-fill"
-                  style="width:${percent}%">
-                </div>
-              </div>
-
-              <div class="small">
-                ${progress} / ${m.target}
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="mission-reward">
-
-            ${
-              completed
-                ? `
-                  <div class="mission-check">
-                    ✅
-                  </div>
-                  <div class="small">
-                    達成！
-                  </div>
-                `
-                : `
-                  <div style="font-size:28px;">
-                    🎁
-                  </div>
-                  <div class="small">
-                    ${escapeHtml(m.reward)}
-                  </div>
-                `
-            }
-
-          </div>
-
+        <div class="mission-title">
+          ${mission.title}
         </div>
 
-      `;
+        <div class="mission-reward">
+          ${done?"達成！":"報酬："+mission.reward}
+        </div>
 
-    }).join("");
+      </div>
 
-}
+      <div style="font-size:20px;">
+        ${done?"✓":"○"}
+      </div>
 
+    `;
 
-/* =========================================================
-   誕生画面
-========================================================= */
+    container.appendChild(div);
 
-
-/* =========================================================
-   共通ユーティリティ
-========================================================= */
-
-function escapeHtml(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  });
 
 }
 
 
 /* =========================================================
-   初期化
+   MESSAGE
+========================================================= */
+
+function showMessage(title,body){
+
+  document.getElementById(
+    "messageTitle"
+  ).textContent=title;
+
+  document.getElementById(
+    "messageBody"
+  ).innerHTML=body;
+
+  document.getElementById(
+    "messageModal"
+  ).classList.add("show");
+
+}
+
+function closeMessage(){
+
+  document.getElementById(
+    "messageModal"
+  ).classList.remove("show");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
 ========================================================= */
 
 loadSave();
