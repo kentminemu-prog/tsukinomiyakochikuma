@@ -40,11 +40,17 @@ button:hover{
   opacity:.85;
 }
 
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
 .container{
   max-width:760px;
   margin:auto;
   padding:16px;
 }
+
 
 /* =========================
    SCREEN
@@ -278,7 +284,8 @@ h3{
   padding:14px;
   border-radius:14px;
   cursor:pointer;
-  min-height:130px;
+  min-height:150px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 .unknown{
@@ -286,6 +293,63 @@ h3{
   font-size:36px;
   color:#aaa;
   padding:20px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.attribute{
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 10px;
+  margin:3px 0;
+  background:#eee;
+  font-weight:bold;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.stat{
+  background:#f3f3f3;
+  padding:8px 10px;
+  border-radius:10px;
+}
+
+.stat-label{
+  font-size:12px;
+  color:#666;
+}
+
+.stat-value{
+  font-weight:bold;
+  font-size:17px;
+}
+
+.skill{
+  background:#f5f5f5;
+  border-radius:12px;
+  padding:10px;
+  margin:8px 0;
+}
+
+.skill-name{
+  font-weight:bold;
+}
+
+.skill-type{
+  display:inline-block;
+  font-size:12px;
+  background:#ddd;
+  padding:3px 7px;
+  border-radius:10px;
+  margin-left:5px;
 }
 
 
@@ -298,14 +362,59 @@ h3{
   font-weight:bold;
 }
 
+.battle-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-top:10px;
+}
+
+.battle-stat{
+  font-size:13px;
+  background:#f2f2f2;
+  border-radius:8px;
+  padding:6px;
+}
+
 .battle-log{
   background:#222;
   color:#eee;
   padding:12px;
   border-radius:10px;
-  height:180px;
+  height:210px;
   overflow:auto;
   font-size:14px;
+  line-height:1.6;
+}
+
+.battle-skill-button{
+  display:block;
+  width:100%;
+  text-align:left;
+  margin:7px 0;
+}
+
+.turn-message{
+  text-align:center;
+  font-weight:bold;
+  background:#e8edf5;
+  border-radius:10px;
+  padding:10px;
+  margin:10px 0;
+}
+
+.effect-good{
+  color:#b33a2f;
+  font-weight:bold;
+}
+
+.effect-bad{
+  color:#48658c;
+  font-weight:bold;
+}
+
+.effect-normal{
+  color:#555;
 }
 
 
@@ -848,6 +957,10 @@ h3{
           自分のツキモン
         </h3>
 
+        <p class="small">
+          使用するツキモンを選んでください。
+        </p>
+
         <div
           id="battleMonsterList"
           class="monster-grid">
@@ -863,6 +976,10 @@ h3{
       style="display:none">
 
 
+      <div id="turnMessage" class="turn-message">
+      </div>
+
+
       <div class="card">
 
         <h3>
@@ -872,9 +989,17 @@ h3{
         <div id="playerName">
         </div>
 
+        <div id="playerAttribute">
+        </div>
+
         <div
           id="playerHP"
           class="battle-hp">
+        </div>
+
+        <div
+          id="playerBattleStats"
+          class="battle-stats">
         </div>
 
       </div>
@@ -889,9 +1014,17 @@ h3{
         <div id="enemyName">
         </div>
 
+        <div id="enemyAttribute">
+        </div>
+
         <div
           id="enemyHP"
           class="battle-hp">
+        </div>
+
+        <div
+          id="enemyBattleStats"
+          class="battle-stats">
         </div>
 
       </div>
@@ -900,7 +1033,7 @@ h3{
       <div class="card">
 
         <h3>
-          スキル
+          ⚔️ 技を選択
         </h3>
 
         <div id="battleSkills">
@@ -1473,268 +1606,422 @@ desc:"地域の風土や暮らしから生まれた食文化。"
 
 
 /* =====================================================
+   ATTRIBUTE DATA
+===================================================== */
+
+/*
+  属性は4種類に整理。
+
+  月 → 火
+  火 → 自然
+  自然 → 水
+  水 → 月
+
+  弱点属性への攻撃は1.5倍。
+  逆に相性が悪い属性からの攻撃は0.75倍。
+*/
+
+const attributeData={
+
+  "月":{
+    icon:"🌙",
+    name:"月",
+    strong:"火",
+    weak:"水"
+  },
+
+  "火":{
+    icon:"🔥",
+    name:"火",
+    strong:"自然",
+    weak:"月"
+  },
+
+  "水":{
+    icon:"💧",
+    name:"水",
+    strong:"月",
+    weak:"自然"
+  },
+
+  "自然":{
+    icon:"🌿",
+    name:"自然",
+    strong:"水",
+    weak:"火"
+  }
+
+};
+
+
+function getAttributeHTML(attribute){
+
+  const data =
+    attributeData[attribute];
+
+  if(!data){
+    return "";
+  }
+
+  return `
+    <span class="attribute">
+      ${data.icon} ${data.name}
+    </span>
+  `;
+
+}
+
+
+/* =====================================================
    MONSTERS
 ===================================================== */
+
+/*
+  第一段階では、
+
+  HP
+  攻撃
+  防御
+  素早さ
+
+  の4能力値を使用します。
+
+  skills：
+
+  type
+    attack = 攻撃
+    heal   = 回復
+    buff   = 強化
+
+  power
+    攻撃技の威力
+
+  amount
+    回復量・強化量
+
+  element
+    技の属性
+*/
 
 const monsters=[
 
 {
 id:1,
 name:"月影龍・タゴト",
-recipe:[5,18],
+attribute:"月",
 rarity:"★★",
 hp:100,
+attack:45,
+defense:38,
+speed:42,
 skills:[
-["月光斬",20],
-["豊穣の光",10,10],
-["田毎の月",35]
+{name:"月光斬",type:"attack",power:22,element:"月"},
+{name:"豊穣の光",type:"heal",amount:15,element:"月"},
+{name:"田毎の月",type:"attack",power:38,element:"月"}
 ]
 },
 
 {
 id:2,
 name:"タゴトミズチ",
-recipe:[5,6],
+attribute:"水",
 rarity:"★★",
 hp:110,
+attack:42,
+defense:42,
+speed:35,
 skills:[
-["水流撃",20],
-["恵みの水",0,15],
-["田水龍撃",30]
+{name:"水流撃",type:"attack",power:21,element:"水"},
+{name:"恵みの水",type:"heal",amount:18,element:"水"},
+{name:"田水龍撃",type:"attack",power:34,element:"水"}
 ]
 },
 
 {
 id:3,
 name:"ミズワケ",
-recipe:[6,7],
+attribute:"水",
 rarity:"★★",
 hp:115,
+attack:40,
+defense:45,
+speed:32,
 skills:[
-["分水撃",18],
-["清流",0,20],
-["大河流撃",32]
+{name:"分水撃",type:"attack",power:20,element:"水"},
+{name:"清流",type:"heal",amount:20,element:"水"},
+{name:"大河流撃",type:"attack",power:36,element:"水"}
 ]
 },
 
 {
 id:4,
 name:"オバステヤマノヌシ",
-recipe:[5,17],
+attribute:"自然",
 rarity:"★★",
 hp:120,
+attack:48,
+defense:50,
+speed:25,
 skills:[
-["山砕き",25],
-["大地の息吹",0,10],
-["山神撃",40]
+{name:"山砕き",type:"attack",power:25,element:"自然"},
+{name:"大地の息吹",type:"buff",amount:10,target:"defense",element:"自然"},
+{name:"山神撃",type:"attack",power:42,element:"自然"}
 ]
 },
 
 {
 id:5,
 name:"ツクヨミノカムイ",
-recipe:[16,17],
+attribute:"月",
 rarity:"★★",
 hp:100,
+attack:47,
+defense:35,
+speed:48,
 skills:[
-["神撃",25],
-["月影",30],
-["神降ろし",40]
+{name:"神撃",type:"attack",power:24,element:"月"},
+{name:"月影",type:"attack",power:30,element:"月"},
+{name:"神降ろし",type:"attack",power:42,element:"月"}
 ]
 },
 
 {
 id:6,
 name:"ムーンライナー",
-recipe:[18,23],
+attribute:"月",
 rarity:"★★",
 hp:90,
+attack:42,
+defense:30,
+speed:65,
 skills:[
-["月走り",25],
-["夜汽車",30],
-["月影疾走",35]
+{name:"月走り",type:"attack",power:22,element:"月"},
+{name:"夜汽車",type:"attack",power:29,element:"月"},
+{name:"月影疾走",type:"attack",power:37,element:"月"}
 ]
 },
 
 {
 id:7,
 name:"ツキヨミコトノハ",
-recipe:[1,5],
+attribute:"月",
 rarity:"★★",
 hp:95,
+attack:40,
+defense:34,
+speed:52,
 skills:[
-["月詠",20],
-["歌の力",15,10],
-["名月詠唱",35]
+{name:"月詠",type:"attack",power:20,element:"月"},
+{name:"歌の力",type:"buff",amount:10,target:"attack",element:"月"},
+{name:"名月詠唱",type:"attack",power:38,element:"月"}
 ]
 },
 
 {
 id:8,
 name:"マツリビ",
-recipe:[11,13],
+attribute:"火",
 rarity:"★★",
 hp:90,
+attack:55,
+defense:28,
+speed:50,
 skills:[
-["火祭",25],
-["灯火",20,5],
-["百八炎",40]
+{name:"火祭",type:"attack",power:26,element:"火"},
+{name:"灯火",type:"buff",amount:10,target:"attack",element:"火"},
+{name:"百八炎",type:"attack",power:42,element:"火"}
 ]
 },
 
 {
 id:9,
 name:"シシガミ",
-recipe:[12,16],
+attribute:"自然",
 rarity:"★★",
 hp:105,
+attack:43,
+defense:44,
+speed:34,
 skills:[
-["神楽撃",20],
-["祭神の守り",0,15],
-["神威",35]
+{name:"神楽撃",type:"attack",power:21,element:"自然"},
+{name:"祭神の守り",type:"buff",amount:15,target:"defense",element:"自然"},
+{name:"神威",type:"attack",power:37,element:"自然"}
 ]
 },
 
 {
 id:10,
 name:"月水神・オバステ",
-recipe:[5,6,18],
+attribute:"月",
 rarity:"★★★",
 hp:130,
+attack:52,
+defense:48,
+speed:38,
 skills:[
-["月水撃",25],
-["月の恵み",0,20],
-["田毎天月",45]
+{name:"月水撃",type:"attack",power:26,element:"月"},
+{name:"月の恵み",type:"heal",amount:20,element:"月"},
+{name:"田毎天月",type:"attack",power:48,element:"月"}
 ]
 },
 
 {
 id:11,
 name:"ウキヨエガミ",
-recipe:[2,3],
+attribute:"月",
 rarity:"★★",
 hp:95,
+attack:44,
+defense:32,
+speed:55,
 skills:[
-["墨流し",22],
-["月描き",28],
-["浮世月光",38]
+{name:"墨流し",type:"attack",power:22,element:"月"},
+{name:"月描き",type:"buff",amount:10,target:"attack",element:"月"},
+{name:"浮世月光",type:"attack",power:40,element:"月"}
 ]
 },
 
 {
 id:12,
 name:"オバステモノガタリ",
-recipe:[4,17],
+attribute:"月",
 rarity:"★★",
 hp:100,
+attack:45,
+defense:39,
+speed:37,
 skills:[
-["物語撃",20],
-["古の教え",0,15],
-["姨捨伝承",38]
+{name:"物語撃",type:"attack",power:21,element:"月"},
+{name:"古の教え",type:"buff",amount:12,target:"defense",element:"月"},
+{name:"姨捨伝承",type:"attack",power:40,element:"月"}
 ]
 },
 
 {
 id:13,
 name:"マツダノカミ",
-recipe:[8,9],
+attribute:"自然",
 rarity:"★★",
 hp:110,
+attack:46,
+defense:46,
+speed:30,
 skills:[
-["館守り",22],
-["神守",0,18],
-["松田神威",40]
+{name:"館守り",type:"attack",power:23,element:"自然"},
+{name:"神守",type:"buff",amount:15,target:"defense",element:"自然"},
+{name:"松田神威",type:"attack",power:41,element:"自然"}
 ]
 },
 
 {
 id:14,
 name:"イナリヤマツカサ",
-recipe:[14,21],
+attribute:"火",
 rarity:"★★",
 hp:100,
+attack:50,
+defense:35,
+speed:47,
 skills:[
-["街道撃",22],
-["祭囃子",18,10],
-["祇園大祭",38]
+{name:"街道撃",type:"attack",power:23,element:"火"},
+{name:"祭囃子",type:"buff",amount:10,target:"attack",element:"火"},
+{name:"祇園大祭",type:"attack",power:40,element:"火"}
 ]
 },
 
 {
 id:15,
 name:"サンヤヨイノツキ",
-recipe:[15,22],
+attribute:"月",
 rarity:"★★",
 hp:90,
+attack:43,
+defense:31,
+speed:58,
 skills:[
-["月待ち",20],
-["月影守",0,20],
-["十三夜光",40]
+{name:"月待ち",type:"attack",power:21,element:"月"},
+{name:"月影守",type:"buff",amount:18,target:"defense",element:"月"},
+{name:"十三夜光",type:"attack",power:42,element:"月"}
 ]
 },
 
 {
 id:16,
 name:"コウザンホタル",
-recipe:[17,24],
+attribute:"自然",
 rarity:"★★",
 hp:85,
+attack:39,
+defense:30,
+speed:68,
 skills:[
-["蛍火",22],
-["森の息吹",0,18],
-["星蛍乱舞",36]
+{name:"蛍火",type:"attack",power:23,element:"自然"},
+{name:"森の息吹",type:"heal",amount:18,element:"自然"},
+{name:"星蛍乱舞",type:"attack",power:38,element:"自然"}
 ]
 },
 
 {
 id:17,
 name:"ユノカミ",
-recipe:[25,26],
+attribute:"火",
 rarity:"★★",
 hp:115,
+attack:48,
+defense:43,
+speed:29,
 skills:[
-["湯けむり",22],
-["温泉の恵み",0,22],
-["豊年湯酒",40]
+{name:"湯けむり",type:"attack",power:23,element:"火"},
+{name:"温泉の恵み",type:"heal",amount:22,element:"火"},
+{name:"豊年湯酒",type:"attack",power:42,element:"火"}
 ]
 },
 
 {
 id:18,
 name:"サカイノカメ",
-recipe:[26,27],
+attribute:"水",
 rarity:"★★",
 hp:105,
+attack:45,
+defense:47,
+speed:31,
 skills:[
-["銘醸撃",22],
-["仕込み水",0,18],
-["芳醇波",38]
+{name:"銘醸撃",type:"attack",power:23,element:"水"},
+{name:"仕込み水",type:"heal",amount:18,element:"水"},
+{name:"芳醇波",type:"attack",power:40,element:"水"}
 ]
 },
 
 {
 id:19,
 name:"チクマガワオウ",
-recipe:[28,29],
+attribute:"水",
 rarity:"★★",
 hp:110,
+attack:49,
+defense:40,
+speed:43,
 skills:[
-["川流撃",24],
-["川の恵み",0,18],
-["千曲大漁",40]
+{name:"川流撃",type:"attack",power:25,element:"水"},
+{name:"川の恵み",type:"heal",amount:18,element:"水"},
+{name:"千曲大漁",type:"attack",power:43,element:"水"}
 ]
 },
 
 {
 id:20,
 name:"ツキノミヤコ",
-recipe:[1,5,14],
+attribute:"月",
 rarity:"★★★★",
 hp:145,
+attack:58,
+defense:52,
+speed:45,
 skills:[
-["月都斬",28],
-["都の恵み",0,22],
-["月都万華",50]
+{name:"月都斬",type:"attack",power:30,element:"月"},
+{name:"都の恵み",type:"heal",amount:22,element:"月"},
+{name:"月都万華",type:"attack",power:52,element:"月"}
 ]
 }
 
@@ -1745,36 +2032,9 @@ skills:[
    SCREEN HISTORY
 ===================================================== */
 
-/*
-  画面遷移の履歴を保存します。
-
-  例：
-
-  titleScreen
-      ↓
-  homeScreen
-      ↓
-  propertyScreen
-      ↓
-  propertyDetailScreen
-
-  「戻る」を押すと、
-
-  propertyDetailScreen
-      ↓
-  propertyScreen
-      ↓
-  homeScreen
-
-  の順番で戻ります。
-*/
-
-let screenHistory = [];
+let screenHistory=[];
 
 
-/*
-  現在表示されている画面IDを取得
-*/
 function getCurrentScreen(){
 
   const active =
@@ -1789,16 +2049,6 @@ function getCurrentScreen(){
 }
 
 
-/*
-  画面を表示する関数。
-
-  addHistory=true
-    → 通常の画面移動として履歴に追加
-
-  addHistory=false
-    → 「戻る」操作など、
-       履歴を追加せずに画面だけ変更
-*/
 function showScreen(
   id,
   addHistory=true
@@ -1808,10 +2058,6 @@ function showScreen(
     getCurrentScreen();
 
 
-  /*
-    同じ画面への移動は
-    履歴に追加しません。
-  */
   if(
     addHistory &&
     current &&
@@ -1877,12 +2123,6 @@ function showScreen(
 }
 
 
-/*
-  「← 戻る」ボタン用。
-
-  履歴から1つ前の画面を取り出し、
-  その画面へ移動します。
-*/
 function goBack(){
 
   if(
@@ -1903,12 +2143,6 @@ function goBack(){
   }
 
 
-  /*
-    履歴がない場合の安全策。
-
-    ゲーム中であればホームへ戻します。
-  */
-
   if(
     getCurrentScreen()!=="homeScreen" &&
     getCurrentScreen()!=="titleScreen"
@@ -1924,14 +2158,6 @@ function goBack(){
 }
 
 
-/*
-  「ホームへ」ボタンなど、
-  履歴を無視してホームへ戻る場合。
-
-  ホームへ戻った後に「戻る」を押して
-  過去の画面へ戻ってしまわないよう、
-  履歴もクリアします。
-*/
 function goHome(){
 
   screenHistory=[];
@@ -1986,11 +2212,6 @@ function startGame(){
 
   saveGame();
 
-
-  /*
-    新しいゲームを開始するため、
-    画面履歴もリセットします。
-  */
 
   screenHistory=[];
 
@@ -2545,9 +2766,61 @@ function showBirth(monster){
     </p>
 
     <p>
-      HP：
-      ${monster.hp}
+      ${getAttributeHTML(monster.attribute)}
     </p>
+
+    <div class="stat-grid">
+
+      <div class="stat">
+        <div class="stat-label">HP</div>
+        <div class="stat-value">${monster.hp}</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">攻撃</div>
+        <div class="stat-value">${monster.attack}</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">防御</div>
+        <div class="stat-value">${monster.defense}</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">素早さ</div>
+        <div class="stat-value">${monster.speed}</div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <strong>
+        ⚔️ 習得技
+      </strong>
+
+      ${monster.skills.map(skill=>`
+
+        <div class="skill">
+
+          <div class="skill-name">
+            ${skill.name}
+
+            <span class="skill-type">
+              ${getSkillTypeName(skill.type)}
+            </span>
+          </div>
+
+          <div class="small">
+            ${getSkillDescription(skill)}
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
 
 
     <div class="card">
@@ -2585,6 +2858,66 @@ function showBirth(monster){
   showScreen(
     "birthScreen"
   );
+
+}
+
+
+/* =====================================================
+   SKILL HELPERS
+===================================================== */
+
+function getSkillTypeName(type){
+
+  if(type==="attack"){
+    return "攻撃";
+  }
+
+  if(type==="heal"){
+    return "回復";
+  }
+
+  if(type==="buff"){
+    return "強化";
+  }
+
+  return "";
+
+}
+
+
+function getSkillDescription(skill){
+
+  if(skill.type==="attack"){
+
+    return `
+      ${getAttributeHTML(skill.element)}
+      威力：${skill.power}
+    `;
+
+  }
+
+  if(skill.type==="heal"){
+
+    return `
+      回復量：${skill.amount}
+    `;
+
+  }
+
+  if(skill.type==="buff"){
+
+    const targetName =
+      skill.target==="attack"
+      ? "攻撃"
+      : "防御";
+
+    return `
+      ${targetName} +${skill.amount}
+    `;
+
+  }
+
+  return "";
 
 }
 
@@ -2636,7 +2969,17 @@ function renderMonsters(){
         </div>
 
         <div>
+          ${getAttributeHTML(m.attribute)}
+        </div>
+
+        <div>
           HP ${m.hp}
+        </div>
+
+        <div class="small">
+          攻撃 ${m.attack}
+          ／防御 ${m.defense}
+          ／素早さ ${m.speed}
         </div>
 
       `;
@@ -2730,41 +3073,20 @@ function showMonsterDetail(id){
 
         <div class="skill">
 
-          <strong>
+          <div class="skill-name">
+
             ${index+1}.
-            ${skill[0]}
-          </strong>
+            ${skill.name}
 
-          ${
-            skill[1]>0
+            <span class="skill-type">
+              ${getSkillTypeName(skill.type)}
+            </span>
 
-            ?
+          </div>
 
-            `<div>
-              攻撃力：${skill[1]}
-            </div>`
-
-            :
-
-            ""
-
-          }
-
-
-          ${
-            skill[2]>0
-
-            ?
-
-            `<div>
-              回復力：${skill[2]}
-            </div>`
-
-            :
-
-            ""
-
-          }
+          <div class="small">
+            ${getSkillDescription(skill)}
+          </div>
 
         </div>
 
@@ -2790,9 +3112,37 @@ function showMonsterDetail(id){
       </p>
 
       <p>
-        HP：
-        ${m.hp}
+        ${getAttributeHTML(m.attribute)}
       </p>
+
+
+      <h3>
+        📊 能力値
+      </h3>
+
+      <div class="stat-grid">
+
+        <div class="stat">
+          <div class="stat-label">HP</div>
+          <div class="stat-value">${m.hp}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">攻撃</div>
+          <div class="stat-value">${m.attack}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">防御</div>
+          <div class="stat-value">${m.defense}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">素早さ</div>
+          <div class="stat-value">${m.speed}</div>
+        </div>
+
+      </div>
 
 
       <h3>
@@ -2827,6 +3177,121 @@ function showMonsterDetail(id){
 ===================================================== */
 
 let battle={};
+
+
+/*
+  属性相性を計算。
+
+  攻撃属性が相手の強属性
+    → 1.5倍
+
+  攻撃属性が相手の弱属性
+    → 0.75倍
+
+  それ以外
+    → 1倍
+*/
+function getTypeMultiplier(
+  attackAttribute,
+  defenderAttribute
+){
+
+  const defender =
+    attributeData[
+      defenderAttribute
+    ];
+
+
+  if(!defender){
+    return 1;
+  }
+
+
+  if(
+    defender.weak ===
+    attackAttribute
+  ){
+
+    return 1.5;
+
+  }
+
+
+  if(
+    defender.strong ===
+    attackAttribute
+  ){
+
+    return 0.75;
+
+  }
+
+
+  return 1;
+
+}
+
+
+/*
+  ダメージ計算。
+
+  基本ダメージ
+
+  技威力 × 攻撃力 ÷ 防御力
+
+  をベースにして、
+  最低ダメージは1とします。
+*/
+function calculateDamage(
+  attacker,
+  defender,
+  skill,
+  attackerAttackBonus=0,
+  defenderDefenseBonus=0
+){
+
+  const attack =
+    attacker.attack +
+    attackerAttackBonus;
+
+
+  const defense =
+    defender.defense +
+    defenderDefenseBonus;
+
+
+  const base =
+    skill.power *
+    attack /
+    Math.max(
+      1,
+      defense
+    );
+
+
+  const multiplier =
+    getTypeMultiplier(
+      skill.element,
+      defender.attribute
+    );
+
+
+  const damage =
+    Math.max(
+      1,
+      Math.floor(
+        base *
+        multiplier
+      )
+    );
+
+
+  return {
+    damage,
+    multiplier
+  };
+
+}
 
 
 function renderBattleSelect(){
@@ -2889,7 +3354,19 @@ function renderBattleSelect(){
       </div>
 
       <div>
+        ${getAttributeHTML(m.attribute)}
+      </div>
+
+      <div>
         HP ${m.hp}
+      </div>
+
+      <div class="small">
+
+        攻撃 ${m.attack}
+        ／防御 ${m.defense}
+        ／素早さ ${m.speed}
+
       </div>
 
     `;
@@ -2934,6 +3411,16 @@ function startBattle(playerId){
     ];
 
 
+  /*
+    戦闘中だけ使用する
+    攻撃・防御の強化値。
+  */
+  const playerAttackBonus=0;
+  const playerDefenseBonus=0;
+  const enemyAttackBonus=0;
+  const enemyDefenseBonus=0;
+
+
   battle={
 
     player,
@@ -2952,10 +3439,49 @@ function startBattle(playerId){
     enemyUses:
       [0,0,0],
 
+    playerAttackBonus,
+
+    playerDefenseBonus,
+
+    enemyAttackBonus,
+
+    enemyDefenseBonus,
+
     turn:
-      "player"
+      null,
+
+    finished:false
 
   };
+
+
+  /*
+    素早さによって先攻・後攻を決定。
+
+    同じ場合のみランダム。
+  */
+  if(
+    player.speed >
+    enemy.speed
+  ){
+
+    battle.turn="player";
+
+  }else if(
+    enemy.speed >
+    player.speed
+  ){
+
+    battle.turn="enemy";
+
+  }else{
+
+    battle.turn =
+      Math.random()<0.5
+      ? "player"
+      : "enemy";
+
+  }
 
 
   document.getElementById(
@@ -2980,6 +3506,22 @@ function startBattle(playerId){
     enemy.name;
 
 
+  document.getElementById(
+    "playerAttribute"
+  ).innerHTML =
+    getAttributeHTML(
+      player.attribute
+    );
+
+
+  document.getElementById(
+    "enemyAttribute"
+  ).innerHTML =
+    getAttributeHTML(
+      enemy.attribute
+    );
+
+
   renderBattleSkills();
 
   updateBattleDisplay();
@@ -2998,6 +3540,45 @@ function startBattle(playerId){
   battleLog(
     `敵は ${enemy.name} だ！`
   );
+
+
+  battleLog(
+    `あなたの素早さ：${player.speed}`
+  );
+
+
+  battleLog(
+    `敵の素早さ：${enemy.speed}`
+  );
+
+
+  if(
+    battle.turn==="player"
+  ){
+
+    battleLog(
+      "💨 あなたが先攻！"
+    );
+
+  }else{
+
+    battleLog(
+      "💨 敵が先攻！"
+    );
+
+    updateTurnMessage();
+
+    setTimeout(
+      enemyTurn,
+      700
+    );
+
+    return;
+
+  }
+
+
+  updateTurnMessage();
 
 }
 
@@ -3023,12 +3604,31 @@ function renderBattleSkills(){
           );
 
 
-        button.textContent =
-          `${skill[0]}（${
-            skill[1]>0
-            ? "攻撃 "+skill[1]
-            : "回復 "+skill[2]
-          }）`;
+        button.className =
+          "battle-skill-button";
+
+
+        button.innerHTML = `
+
+          <strong>
+            ${skill.name}
+          </strong>
+
+          <br>
+
+          <span class="small">
+            ${getSkillTypeName(skill.type)}
+            ／
+            ${
+              skill.type==="attack"
+              ? `威力 ${skill.power}`
+              : skill.type==="heal"
+              ? `回復 ${skill.amount}`
+              : `${skill.target==="attack" ? "攻撃" : "防御"} +${skill.amount}`
+            }
+          </span>
+
+        `;
 
 
         button.onclick=()=>{
@@ -3069,6 +3669,107 @@ function updateBattleDisplay(){
       battle.enemyHP
     )} / ${battle.enemy.hp}`;
 
+
+  document.getElementById(
+    "playerBattleStats"
+  ).innerHTML=`
+
+    <div class="battle-stat">
+      攻撃：
+      ${
+        battle.player.attack +
+        battle.playerAttackBonus
+      }
+    </div>
+
+    <div class="battle-stat">
+      防御：
+      ${
+        battle.player.defense +
+        battle.playerDefenseBonus
+      }
+    </div>
+
+    <div class="battle-stat">
+      素早さ：
+      ${battle.player.speed}
+    </div>
+
+    <div class="battle-stat">
+      属性：
+      ${battle.player.attribute}
+    </div>
+
+  `;
+
+
+  document.getElementById(
+    "enemyBattleStats"
+  ).innerHTML=`
+
+    <div class="battle-stat">
+      攻撃：
+      ${
+        battle.enemy.attack +
+        battle.enemyAttackBonus
+      }
+    </div>
+
+    <div class="battle-stat">
+      防御：
+      ${
+        battle.enemy.defense +
+        battle.enemyDefenseBonus
+      }
+    </div>
+
+    <div class="battle-stat">
+      素早さ：
+      ${battle.enemy.speed}
+    </div>
+
+    <div class="battle-stat">
+      属性：
+      ${battle.enemy.attribute}
+    </div>
+
+  `;
+
+}
+
+
+function updateTurnMessage(){
+
+  const area =
+    document.getElementById(
+      "turnMessage"
+    );
+
+
+  if(
+    battle.finished
+  ){
+
+    area.textContent="";
+    return;
+
+  }
+
+
+  if(
+    battle.turn==="player"
+  ){
+
+    area.textContent =
+      "▶ あなたのターン";
+
+  }else{
+
+    area.textContent =
+      "◀ 敵のターン";
+
+  }
+
 }
 
 
@@ -3090,10 +3791,15 @@ function battleLog(text){
 }
 
 
+/* =====================================================
+   PLAYER ATTACK
+===================================================== */
+
 function playerAttack(index){
 
   if(
-    battle.turn!=="player"
+    battle.turn!=="player" ||
+    battle.finished
   ){
     return;
   }
@@ -3106,32 +3812,128 @@ function playerAttack(index){
   battle.playerUses[index]++;
 
 
-  if(skill[1]>0){
+  if(skill.type==="attack"){
+
+    const result =
+      calculateDamage(
+        battle.player,
+        battle.enemy,
+        skill,
+        battle.playerAttackBonus,
+        battle.enemyDefenseBonus
+      );
+
 
     battle.enemyHP -=
-      skill[1];
+      result.damage;
 
 
     battleLog(
-      `▶ ${battle.player.name} の「${skill[0]}」！ ${skill[1]}ダメージ！`
+      `▶ ${battle.player.name} の「${skill.name}」！`
     );
+
+
+    battleLog(
+      `${result.damage}ダメージ！`
+    );
+
+
+    if(
+      result.multiplier===1.5
+    ){
+
+      battleLog(
+        `<span class="effect-good">
+          🔥 弱点を突いた！ こうかはばつぐん！
+        </span>`
+      );
+
+    }else if(
+      result.multiplier===0.75
+    ){
+
+      battleLog(
+        `<span class="effect-bad">
+          🛡️ 相性が悪い……ダメージが小さい！
+        </span>`
+      );
+
+    }
 
   }
 
 
-  if(skill[2]>0){
+  if(skill.type==="heal"){
+
+    const before =
+      battle.playerHP;
+
 
     battle.playerHP =
       Math.min(
         battle.player.hp,
         battle.playerHP+
-        skill[2]
+        skill.amount
       );
 
 
+    const actual =
+      battle.playerHP -
+      before;
+
+
     battleLog(
-      `▶ ${battle.player.name} は ${skill[2]} 回復！`
+      `▶ ${battle.player.name} の「${skill.name}」！`
     );
+
+
+    battleLog(
+      `${actual}回復した！`
+    );
+
+  }
+
+
+  if(skill.type==="buff"){
+
+    if(
+      skill.target==="attack"
+    ){
+
+      battle.playerAttackBonus +=
+        skill.amount;
+
+
+      battleLog(
+        `▶ ${battle.player.name} の「${skill.name}」！`
+      );
+
+
+      battleLog(
+        `攻撃力が${skill.amount}上がった！`
+      );
+
+    }
+
+
+    if(
+      skill.target==="defense"
+    ){
+
+      battle.playerDefenseBonus +=
+        skill.amount;
+
+
+      battleLog(
+        `▶ ${battle.player.name} の「${skill.name}」！`
+      );
+
+
+      battleLog(
+        `防御力が${skill.amount}上がった！`
+      );
+
+    }
 
   }
 
@@ -3154,6 +3956,9 @@ function playerAttack(index){
     "enemy";
 
 
+  updateTurnMessage();
+
+
   setTimeout(
     enemyTurn,
     700
@@ -3162,9 +3967,16 @@ function playerAttack(index){
 }
 
 
+/* =====================================================
+   ENEMY TURN
+===================================================== */
+
 function enemyTurn(){
 
-  if(!battle.enemy){
+  if(
+    !battle.enemy ||
+    battle.finished
+  ){
     return;
   }
 
@@ -3183,32 +3995,128 @@ function enemyTurn(){
   battle.enemyUses[index]++;
 
 
-  if(skill[1]>0){
+  if(skill.type==="attack"){
+
+    const result =
+      calculateDamage(
+        battle.enemy,
+        battle.player,
+        skill,
+        battle.enemyAttackBonus,
+        battle.playerDefenseBonus
+      );
+
 
     battle.playerHP -=
-      skill[1];
+      result.damage;
 
 
     battleLog(
-      `◀ ${battle.enemy.name} の「${skill[0]}」！ ${skill[1]}ダメージ！`
+      `◀ ${battle.enemy.name} の「${skill.name}」！`
     );
+
+
+    battleLog(
+      `${result.damage}ダメージ！`
+    );
+
+
+    if(
+      result.multiplier===1.5
+    ){
+
+      battleLog(
+        `<span class="effect-good">
+          💥 弱点を突かれた！
+        </span>`
+      );
+
+    }else if(
+      result.multiplier===0.75
+    ){
+
+      battleLog(
+        `<span class="effect-bad">
+          🛡️ 相性のおかげでダメージを抑えた！
+        </span>`
+      );
+
+    }
 
   }
 
 
-  if(skill[2]>0){
+  if(skill.type==="heal"){
+
+    const before =
+      battle.enemyHP;
+
 
     battle.enemyHP =
       Math.min(
         battle.enemy.hp,
         battle.enemyHP+
-        skill[2]
+        skill.amount
       );
 
 
+    const actual =
+      battle.enemyHP -
+      before;
+
+
     battleLog(
-      `◀ ${battle.enemy.name} は ${skill[2]} 回復！`
+      `◀ ${battle.enemy.name} の「${skill.name}」！`
     );
+
+
+    battleLog(
+      `${actual}回復した！`
+    );
+
+  }
+
+
+  if(skill.type==="buff"){
+
+    if(
+      skill.target==="attack"
+    ){
+
+      battle.enemyAttackBonus +=
+        skill.amount;
+
+
+      battleLog(
+        `◀ ${battle.enemy.name} の「${skill.name}」！`
+      );
+
+
+      battleLog(
+        `敵の攻撃力が${skill.amount}上がった！`
+      );
+
+    }
+
+
+    if(
+      skill.target==="defense"
+    ){
+
+      battle.enemyDefenseBonus +=
+        skill.amount;
+
+
+      battleLog(
+        `◀ ${battle.enemy.name} の「${skill.name}」！`
+      );
+
+
+      battleLog(
+        `敵の防御力が${skill.amount}上がった！`
+      );
+
+    }
 
   }
 
@@ -3230,10 +4138,20 @@ function enemyTurn(){
   battle.turn =
     "player";
 
+
+  updateTurnMessage();
+
 }
 
 
+/* =====================================================
+   BATTLE END
+===================================================== */
+
 function finishBattle(win){
+
+  battle.finished=true;
+
 
   document.getElementById(
     "battleArea"
@@ -3263,7 +4181,11 @@ function finishBattle(win){
       </h1>
 
       <p>
-        勝利しました！
+        ${battle.player.name}の勝利！
+      </p>
+
+      <p>
+        今回のバトルで経験を積みました。
       </p>
     `
 
@@ -3277,6 +4199,10 @@ function finishBattle(win){
       <h1>
         YOU LOSE
       </h1>
+
+      <p>
+        ${battle.enemy.name}に敗北しました。
+      </p>
 
       <p>
         もう一度挑戦してみよう。
@@ -3293,6 +4219,9 @@ function finishBattle(win){
 
 function endBattle(){
 
+  battle.finished=true;
+
+
   document.getElementById(
     "battleArea"
   ).style.display="none";
@@ -3302,13 +4231,6 @@ function endBattle(){
     "battleSelectArea"
   ).style.display="block";
 
-
-  /*
-    バトル画面そのものは
-    すでに表示中なので、
-    「バトルをやめる」では
-    画面履歴を追加しません。
-  */
 
   showScreen(
     "battleScreen",
@@ -3538,11 +4460,6 @@ function renderMissions(){
 loadGame();
 
 
-/*
-  起動時にはタイトル画面だけを表示。
-  ホーム画面は表示しない。
-*/
-
 document
   .querySelectorAll(".screen")
   .forEach(
@@ -3562,11 +4479,6 @@ document
     "active"
   );
 
-
-/*
-  アプリ起動時の履歴を
-  タイトル画面から開始します。
-*/
 
 screenHistory=[];
 
