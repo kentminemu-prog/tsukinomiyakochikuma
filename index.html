@@ -1991,6 +1991,13 @@ let battleSessionId = 0;
 
 let battleTimer = null;
 
+/*
+  ★今回追加
+  直前のバトルで使用したモンスターID。
+  「もう一度バトル」で同じモンスターを使用する。
+*/
+let lastBattlePlayerId = null;
+
 
 /* =========================================================
    BATTLE TIMER CONTROL
@@ -2015,8 +2022,13 @@ function scheduleEnemyTurn(delay=600){
 
   stopBattleTimers();
 
-  if(!battle){
+  if(
+    !battle ||
+    battle.finished
+  ){
+
     return;
+
   }
 
   const session =
@@ -2066,7 +2078,10 @@ function startGame(){
   stopBattleTimers();
 
   battle = null;
+
   battleSessionId++;
+
+  lastBattlePlayerId = null;
 
   saveData = {
 
@@ -2107,7 +2122,10 @@ function continueGame(){
   stopBattleTimers();
 
   battle = null;
+
   battleSessionId++;
+
+  lastBattlePlayerId = null;
 
   screenHistory = [];
 
@@ -2195,7 +2213,10 @@ function resetGame(){
   stopBattleTimers();
 
   battle = null;
+
   battleSessionId++;
+
+  lastBattlePlayerId = null;
 
   saveData = {
 
@@ -3345,6 +3366,20 @@ function showBirth(
 */
 function renderBattleSelect(){
 
+  /*
+    ★修正
+    進行中のバトルがある場合、
+    バトル状態を消さない。
+  */
+  if(
+    battle &&
+    !battle.finished
+  ){
+
+    return;
+
+  }
+
   stopBattleTimers();
 
   battle = null;
@@ -3471,6 +3506,10 @@ function startBattle(playerId){
 
   stopBattleTimers();
 
+  /*
+    ★修正
+    前回のバトル状態を完全に破棄してから開始。
+  */
   battle = null;
 
   battleSessionId++;
@@ -3483,8 +3522,18 @@ function startBattle(playerId){
       m => m.id === playerId
     );
 
-  if(!player){
+  /*
+    ★修正
+    発見済みモンスター以外では
+    バトルを開始できない。
+  */
+  if(
+    !player ||
+    !saveData.discoveredMonsters.includes(playerId)
+  ){
+
     return;
+
   }
 
   const enemies =
@@ -3495,6 +3544,14 @@ function startBattle(playerId){
   if(enemies.length === 0){
     return;
   }
+
+  /*
+    ★修正
+    今回使用するモンスターを記憶。
+    「もう一度バトル」で使用する。
+  */
+  lastBattlePlayerId =
+    playerId;
 
   const enemy =
     enemies[
@@ -3613,17 +3670,55 @@ function startBattle(playerId){
 */
 function retryBattle(){
 
+  /*
+    ★今回の重要修正
+    直前のモンスターを取得して、
+    バトル選択画面を経由せず直接再戦する。
+  */
+
   stopBattleTimers();
+
+  const playerId =
+    lastBattlePlayerId;
 
   battle = null;
 
   battleSessionId++;
 
+  /*
+    直前のモンスターが存在しない、
+    または発見済みでなくなっている場合は
+    通常のバトル選択画面へ戻す。
+  */
+  if(
+    !playerId ||
+    !saveData.discoveredMonsters.includes(playerId)
+  ){
+
+    screenHistory = [];
+
+    showScreen(
+      "battleScreen",
+      false
+    );
+
+    return;
+
+  }
+
+  /*
+    バトル選択画面を表示するだけではなく、
+    そのまま startBattle() を実行する。
+  */
   screenHistory = [];
 
   showScreen(
     "battleScreen",
     false
+  );
+
+  startBattle(
+    playerId
   );
 
 }
@@ -3699,16 +3794,6 @@ function determineFirstTurn(){
    BATTLE DAMAGE CALCULATION
 ========================================================= */
 
-
-/*
-  属性相性倍率を取得。
-  
-  攻撃属性 → 防御側属性
-  
-  強い属性：1.5倍
-  弱い属性：0.75倍
-  通常　　：1.0倍
-*/
 function getAttributeMultiplier(
   attackElement,
   defenderAttribute
@@ -3754,102 +3839,6 @@ function getAttributeMultiplier(
 }
 
 
-/*
-  実際のダメージを計算。
-  
-  基本攻撃力
-    ＝ 攻撃者の攻撃力
-      ＋ 技の威力
-      ＋ 攻撃バフ
-  
-  防御力
-    ＝ 防御者の防御力
-      ＋ 防御バフ
-  
-  防御軽減
-    ＝ 基本攻撃力 × 100
-      ÷ (100 ＋ 防御力)
-  
-  その後、属性相性を適用する。
-*/
-function calculateBattleDamage(
-  attackerStats,
-  attackerAttackBonus,
-  defenderStats,
-  defenderDefenseBonus,
-  attackElement,
-  skillPower=0
-){
-
-  const attack =
-    Math.max(
-      0,
-      Number(attackerStats.attack) || 0
-    ) +
-    Math.max(
-      0,
-      Number(attackerAttackBonus) || 0
-    ) +
-    Math.max(
-      0,
-      Number(skillPower) || 0
-    );
-
-  const defense =
-    Math.max(
-      0,
-      Number(defenderStats.defense) || 0
-    ) +
-    Math.max(
-      0,
-      Number(defenderDefenseBonus) || 0
-    );
-
-  const reducedDamage =
-    attack *
-    100 /
-    (100 + defense);
-
-  const defenderAttribute =
-    defenderStats.attribute ||
-    null;
-
-  const relation =
-    getAttributeMultiplier(
-      attackElement,
-      defenderAttribute
-    );
-
-  const finalDamage =
-    Math.max(
-      1,
-      Math.round(
-        reducedDamage *
-        relation.multiplier
-      )
-    );
-
-  return {
-
-    damage:finalDamage,
-
-    attack:Math.round(attack),
-
-    defense:Math.round(defense),
-
-    multiplier:relation.multiplier,
-
-    relation:relation.type
-
-  };
-
-}
-
-
-/*
-  上記計算ではstats自体にはattributeがないため、
-  実際のバトル用に属性を取得する。
-*/
 function getBattleDamage(
   attacker,
   attackerStats,
@@ -3958,10 +3947,6 @@ function updateBattleDisplay(){
     .textContent =
       battle.enemy.name;
 
-  /*
-    ★ 修正：
-    余分な ) を削除。
-  */
   document
     .getElementById(
       "battleEnemyLevel"
@@ -4275,9 +4260,6 @@ function playerUseSkill(index){
 }
 
 
-/*
-  旧関数名との互換用
-*/
 function playerAttack(index){
   playerUseSkill(index);
 }
@@ -4295,6 +4277,7 @@ function playerNormalAttack(){
   ){
 
     return;
+
   }
 
   if(
@@ -4302,6 +4285,7 @@ function playerNormalAttack(){
   ){
 
     return;
+
   }
 
   const session =
@@ -4398,6 +4382,7 @@ function executeSkill(
   ){
 
     return;
+
   }
 
   const isPlayer =
@@ -4646,6 +4631,7 @@ function enemyTurn(){
   ){
 
     return;
+
   }
 
   if(
@@ -4653,6 +4639,7 @@ function enemyTurn(){
   ){
 
     return;
+
   }
 
   const session =
@@ -4848,6 +4835,7 @@ function finishBattle(
   ){
 
     return;
+
   }
 
   battle.finished = true;
@@ -4866,6 +4854,13 @@ function finishBattle(
 
     const playerId =
       battle.player.id;
+
+    /*
+      ★念のため最後に使用した
+      モンスターを保持。
+    */
+    lastBattlePlayerId =
+      playerId;
 
     const reward =
       getExpReward(
@@ -4889,6 +4884,12 @@ function finishBattle(
     return;
 
   }
+
+  /*
+    ★敗北時も再戦対象を保持。
+  */
+  lastBattlePlayerId =
+    battle.player.id;
 
   showBattleResult(
     false,
@@ -5325,6 +5326,8 @@ document.addEventListener(
     battle = null;
 
     battleSessionId++;
+
+    lastBattlePlayerId = null;
 
     screenHistory = [];
 
