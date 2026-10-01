@@ -1989,10 +1989,6 @@ let battle = null;
 
 let battleSessionId = 0;
 
-/*
-  現在動いている敵ターン用タイマー。
-  これを必ず管理する。
-*/
 let battleTimer = null;
 
 
@@ -2015,9 +2011,6 @@ function stopBattleTimers(){
 }
 
 
-/*
-  敵ターンを予約する。
-*/
 function scheduleEnemyTurn(delay=600){
 
   stopBattleTimers();
@@ -3352,10 +3345,6 @@ function showBirth(
 */
 function renderBattleSelect(){
 
-  /*
-    選択画面を表示する時点で、
-    進行中のバトルは完全に終了させる。
-  */
   stopBattleTimers();
 
   battle = null;
@@ -3480,19 +3469,10 @@ function renderBattleSelect(){
 */
 function startBattle(playerId){
 
-  /*
-    前のタイマーを確実に停止。
-  */
   stopBattleTimers();
 
-  /*
-    古いバトルを完全破棄。
-  */
   battle = null;
 
-  /*
-    新しいセッション番号。
-  */
   battleSessionId++;
 
   const currentSession =
@@ -3541,11 +3521,6 @@ function startBattle(playerId){
       1
     );
 
-  /*
-    ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-    新しいバトル状態を完全初期化
-    ★★★★★★★★★★★★★★★★★★★★★★★★★
-  */
   battle = {
 
     sessionId:currentSession,
@@ -3562,10 +3537,6 @@ function startBattle(playerId){
 
     enemyHP:enemyStats.hp,
 
-    /*
-      各スキルの使用回数。
-      1バトルにつき各3回。
-    */
     playerUses:[
       0,
       0,
@@ -3624,6 +3595,10 @@ function startBattle(playerId){
     `⚔️ ${player.name} Lv.${playerProgress.level} VS ${enemy.name} Lv.1`
   );
 
+  addBattleLog(
+    `属性：${attributeData[player.attribute].icon}${player.attribute} VS ${attributeData[enemy.attribute].icon}${enemy.attribute}`
+  );
+
   updateBattleDisplay();
 
   determineFirstTurn();
@@ -3638,24 +3613,12 @@ function startBattle(playerId){
 */
 function retryBattle(){
 
-  /*
-    前のタイマーを完全停止。
-  */
   stopBattleTimers();
 
-  /*
-    前回のバトルを完全破棄。
-  */
   battle = null;
 
-  /*
-    新しいバトル世代へ。
-  */
   battleSessionId++;
 
-  /*
-    結果画面から直接バトル選択画面へ。
-  */
   screenHistory = [];
 
   showScreen(
@@ -3732,11 +3695,237 @@ function determineFirstTurn(){
 }
 
 
+/* =========================================================
+   BATTLE DAMAGE CALCULATION
+========================================================= */
+
+
 /*
-  ========================================================
-  バトル表示更新
-  ========================================================
+  属性相性倍率を取得。
+  
+  攻撃属性 → 防御側属性
+  
+  強い属性：1.5倍
+  弱い属性：0.75倍
+  通常　　：1.0倍
 */
+function getAttributeMultiplier(
+  attackElement,
+  defenderAttribute
+){
+
+  const data =
+    attributeData[attackElement];
+
+  if(!data){
+    return {
+      multiplier:1,
+      type:"通常"
+    };
+  }
+
+  if(
+    data.strong === defenderAttribute
+  ){
+
+    return {
+      multiplier:1.5,
+      type:"弱点"
+    };
+
+  }
+
+  if(
+    data.weak === defenderAttribute
+  ){
+
+    return {
+      multiplier:0.75,
+      type:"耐性"
+    };
+
+  }
+
+  return {
+    multiplier:1,
+    type:"通常"
+  };
+
+}
+
+
+/*
+  実際のダメージを計算。
+  
+  基本攻撃力
+    ＝ 攻撃者の攻撃力
+      ＋ 技の威力
+      ＋ 攻撃バフ
+  
+  防御力
+    ＝ 防御者の防御力
+      ＋ 防御バフ
+  
+  防御軽減
+    ＝ 基本攻撃力 × 100
+      ÷ (100 ＋ 防御力)
+  
+  その後、属性相性を適用する。
+*/
+function calculateBattleDamage(
+  attackerStats,
+  attackerAttackBonus,
+  defenderStats,
+  defenderDefenseBonus,
+  attackElement,
+  skillPower=0
+){
+
+  const attack =
+    Math.max(
+      0,
+      Number(attackerStats.attack) || 0
+    ) +
+    Math.max(
+      0,
+      Number(attackerAttackBonus) || 0
+    ) +
+    Math.max(
+      0,
+      Number(skillPower) || 0
+    );
+
+  const defense =
+    Math.max(
+      0,
+      Number(defenderStats.defense) || 0
+    ) +
+    Math.max(
+      0,
+      Number(defenderDefenseBonus) || 0
+    );
+
+  const reducedDamage =
+    attack *
+    100 /
+    (100 + defense);
+
+  const defenderAttribute =
+    defenderStats.attribute ||
+    null;
+
+  const relation =
+    getAttributeMultiplier(
+      attackElement,
+      defenderAttribute
+    );
+
+  const finalDamage =
+    Math.max(
+      1,
+      Math.round(
+        reducedDamage *
+        relation.multiplier
+      )
+    );
+
+  return {
+
+    damage:finalDamage,
+
+    attack:Math.round(attack),
+
+    defense:Math.round(defense),
+
+    multiplier:relation.multiplier,
+
+    relation:relation.type
+
+  };
+
+}
+
+
+/*
+  上記計算ではstats自体にはattributeがないため、
+  実際のバトル用に属性を取得する。
+*/
+function getBattleDamage(
+  attacker,
+  attackerStats,
+  attackerAttackBonus,
+  defender,
+  defenderStats,
+  defenderDefenseBonus,
+  element,
+  skillPower=0
+){
+
+  const attack =
+    Math.max(
+      0,
+      Number(attackerStats.attack) || 0
+    ) +
+    Math.max(
+      0,
+      Number(attackerAttackBonus) || 0
+    ) +
+    Math.max(
+      0,
+      Number(skillPower) || 0
+    );
+
+  const defense =
+    Math.max(
+      0,
+      Number(defenderStats.defense) || 0
+    ) +
+    Math.max(
+      0,
+      Number(defenderDefenseBonus) || 0
+    );
+
+  const reducedDamage =
+    attack *
+    100 /
+    (100 + defense);
+
+  const relation =
+    getAttributeMultiplier(
+      element,
+      defender.attribute
+    );
+
+  const damage =
+    Math.max(
+      1,
+      Math.round(
+        reducedDamage *
+        relation.multiplier
+      )
+    );
+
+  return {
+
+    damage,
+
+    attack:Math.round(attack),
+
+    defense:Math.round(defense),
+
+    multiplier:relation.multiplier,
+
+    relation:relation.type
+
+  };
+
+}
+
+
+/* =========================================================
+   BATTLE DISPLAY
+========================================================= */
+
 function updateBattleDisplay(){
 
   if(!battle){
@@ -3769,10 +3958,13 @@ function updateBattleDisplay(){
     .textContent =
       battle.enemy.name;
 
+  /*
+    ★ 修正：
+    余分な ) を削除。
+  */
   document
     .getElementById(
       "battleEnemyLevel"
-    )
     )
     .textContent =
       `Lv.1 ／ ${battle.enemy.rarity}`;
@@ -3892,11 +4084,10 @@ function updateBattleDisplay(){
 }
 
 
-/*
-  ========================================================
-  技ボタン表示
-  ========================================================
-*/
+/* =========================================================
+   BATTLE SKILLS
+========================================================= */
+
 function renderBattleSkills(){
 
   if(
@@ -3949,7 +4140,7 @@ function renderBattleSkills(){
 
             ${
               skill.type === "attack"
-                ? `攻撃 ${skill.power}`
+                ? `攻撃力 ${skill.power} ＋ 基本攻撃力`
                 : skill.type === "heal"
                   ? `回復 ${skill.power}`
                   : `強化 +${skill.power}`
@@ -3979,12 +4170,6 @@ function renderBattleSkills(){
       }
     );
 
-
-  /*
-    通常攻撃。
-    スキル3種類をすべて使い切った場合でも
-    バトルが停止しないための無制限攻撃。
-  */
   const normalButton =
     document.createElement(
       "button"
@@ -4019,11 +4204,10 @@ function renderBattleSkills(){
 }
 
 
-/*
-  ========================================================
-  プレイヤー：スキル使用
-  ========================================================
-*/
+/* =========================================================
+   PLAYER SKILL
+========================================================= */
+
 function playerUseSkill(index){
 
   if(
@@ -4099,11 +4283,10 @@ function playerAttack(index){
 }
 
 
-/*
-  ========================================================
-  プレイヤー：通常攻撃
-  ========================================================
-*/
+/* =========================================================
+   PLAYER NORMAL ATTACK
+========================================================= */
+
 function playerNormalAttack(){
 
   if(
@@ -4124,12 +4307,20 @@ function playerNormalAttack(){
   const session =
     battle.sessionId;
 
-  const damage =
-    Math.max(
-      0,
-      battle.playerStats.attack +
-      battle.playerAttackBonus
+  const calculation =
+    getBattleDamage(
+      battle.player,
+      battle.playerStats,
+      battle.playerAttackBonus,
+      battle.enemy,
+      battle.enemyStats,
+      battle.enemyDefenseBonus,
+      battle.player.attribute,
+      0
     );
+
+  const damage =
+    calculation.damage;
 
   battle.enemyHP -=
     damage;
@@ -4142,6 +4333,24 @@ function playerNormalAttack(){
     `${damage}ダメージ！`
   );
 
+  if(
+    calculation.relation === "弱点"
+  ){
+
+    addBattleLog(
+      "🔥 弱点属性！ ダメージ1.5倍！"
+    );
+
+  }else if(
+    calculation.relation === "耐性"
+  ){
+
+    addBattleLog(
+      "🛡️ 耐性属性！ ダメージ0.75倍！"
+    );
+
+  }
+
   updateBattleDisplay();
 
   if(
@@ -4149,6 +4358,16 @@ function playerNormalAttack(){
   ){
 
     finishBattle(true);
+
+    return;
+
+  }
+
+  if(
+    !battle ||
+    battle.finished ||
+    battle.sessionId !== session
+  ){
 
     return;
 
@@ -4164,11 +4383,10 @@ function playerNormalAttack(){
 }
 
 
-/*
-  ========================================================
-  スキル実行
-  ========================================================
-*/
+/* =========================================================
+   SKILL EXECUTION
+========================================================= */
+
 function executeSkill(
   side,
   skill
@@ -4192,36 +4410,74 @@ function executeSkill(
     skill.type === "attack"
   ){
 
-    /*
-      今回の仕様：
-      技powerをそのままダメージとして使用。
-      攻撃力・防御力・属性補正は使わない。
-    */
-    const damage =
-      Math.max(
-        0,
-        Number(skill.power) || 0
-      );
+    let calculation;
 
     if(isPlayer){
 
+      calculation =
+        getBattleDamage(
+          battle.player,
+          battle.playerStats,
+          battle.playerAttackBonus,
+          battle.enemy,
+          battle.enemyStats,
+          battle.enemyDefenseBonus,
+          skill.element,
+          skill.power
+        );
+
       battle.enemyHP -=
-        damage;
+        calculation.damage;
 
     }else{
 
+      calculation =
+        getBattleDamage(
+          battle.enemy,
+          battle.enemyStats,
+          battle.enemyAttackBonus,
+          battle.player,
+          battle.playerStats,
+          battle.playerDefenseBonus,
+          skill.element,
+          skill.power
+        );
+
       battle.playerHP -=
-        damage;
+        calculation.damage;
 
     }
 
+    const attackerName =
+      isPlayer
+        ? "あなた"
+        : "相手";
+
     addBattleLog(
-      `${isPlayer ? "あなたの" : "相手の"}${skill.name}！`
+      `${attackerName}の${skill.name}！`
     );
 
     addBattleLog(
-      `${damage}ダメージ！`
+      `${calculation.damage}ダメージ！`
     );
+
+    if(
+      calculation.relation === "弱点"
+    ){
+
+      addBattleLog(
+        "🔥 弱点属性！ ダメージ1.5倍！"
+      );
+
+    }else if(
+      calculation.relation === "耐性"
+    ){
+
+      addBattleLog(
+        "🛡️ 耐性属性！ ダメージ0.75倍！"
+      );
+
+    }
 
     updateBattleDisplay();
 
@@ -4378,11 +4634,10 @@ function executeSkill(
 }
 
 
-/*
-  ========================================================
-  敵ターン
-  ========================================================
-*/
+/* =========================================================
+   ENEMY TURN
+========================================================= */
+
 function enemyTurn(){
 
   if(
@@ -4403,9 +4658,6 @@ function enemyTurn(){
   const session =
     battle.sessionId;
 
-  /*
-    使用可能なスキルを取得。
-  */
   const available =
     battle.enemy.skills
       .map(
@@ -4422,19 +4674,27 @@ function enemyTurn(){
       );
 
   /*
-    3種類のスキルをすべて使い切った場合は
-    通常攻撃に切り替える。
+    すべてのスキルを使い切ったら
+    通常攻撃へ。
   */
   if(
     available.length === 0
   ){
 
-    const damage =
-      Math.max(
-        0,
-        battle.enemyStats.attack +
-        battle.enemyAttackBonus
+    const calculation =
+      getBattleDamage(
+        battle.enemy,
+        battle.enemyStats,
+        battle.enemyAttackBonus,
+        battle.player,
+        battle.playerStats,
+        battle.playerDefenseBonus,
+        battle.enemy.attribute,
+        0
       );
+
+    const damage =
+      calculation.damage;
 
     battle.playerHP -=
       damage;
@@ -4447,6 +4707,24 @@ function enemyTurn(){
       `${damage}ダメージ！`
     );
 
+    if(
+      calculation.relation === "弱点"
+    ){
+
+      addBattleLog(
+        "🔥 弱点属性！ ダメージ1.5倍！"
+      );
+
+    }else if(
+      calculation.relation === "耐性"
+    ){
+
+      addBattleLog(
+        "🛡️ 耐性属性！ ダメージ0.75倍！"
+      );
+
+    }
+
     updateBattleDisplay();
 
     if(
@@ -4454,6 +4732,16 @@ function enemyTurn(){
     ){
 
       finishBattle(false);
+
+      return;
+
+    }
+
+    if(
+      !battle ||
+      battle.finished ||
+      battle.sessionId !== session
+    ){
 
       return;
 
@@ -4562,33 +4850,18 @@ function finishBattle(
     return;
   }
 
-  /*
-    まず終了フラグを立てる。
-  */
   battle.finished = true;
 
-  /*
-    タイマーを完全停止。
-  */
   stopBattleTimers();
 
-  /*
-    セッションを無効化。
-  */
   battleSessionId++;
 
-  /*
-    技ボタンを無効化。
-  */
   document
     .getElementById(
       "battleSkills"
     )
     .innerHTML = "";
 
-  /*
-    勝利
-  */
   if(playerWon){
 
     const playerId =
@@ -4617,9 +4890,6 @@ function finishBattle(
 
   }
 
-  /*
-    敗北
-  */
   showBattleResult(
     false,
     null,
@@ -4794,9 +5064,6 @@ function showBattleResult(
 
   }
 
-  /*
-    結果画面へ。
-  */
   showScreen(
     "battleResultScreen",
     false
