@@ -63,12 +63,6 @@ button:hover{
    TITLE SCREEN
 ========================= */
 
-/*
-  ここが今回の重要修正です。
-  title-screen自体にはdisplay:flexを指定せず、
-  activeのときだけ表示します。
-*/
-
 .title-screen{
   min-height:100vh;
   align-items:center;
@@ -576,7 +570,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -621,7 +615,7 @@ h3{
 
       <button
         class="back"
-        onclick="showScreen('propertyScreen')">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -651,7 +645,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -772,7 +766,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -805,7 +799,7 @@ h3{
 
       <button
         class="back"
-        onclick="showScreen('monsterScreen')">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -835,7 +829,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -979,7 +973,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -1037,7 +1031,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -1106,7 +1100,7 @@ h3{
 
       <button
         class="back"
-        onclick="goHome()">
+        onclick="goBack()">
         ← 戻る
       </button>
 
@@ -1172,10 +1166,6 @@ function loadGame(){
       saveData =
         JSON.parse(data);
 
-      /*
-       古いセーブデータに
-       新しい項目がない場合への対応
-      */
 
       if(!Array.isArray(saveData.foundCards)){
         saveData.foundCards=[];
@@ -1750,17 +1740,90 @@ skills:[
 
 ];
 
-function goHome(){
 
-  showScreen("homeScreen");
-
-}
-  
 /* =====================================================
-   SCREEN CONTROL
+   SCREEN HISTORY
 ===================================================== */
 
-function showScreen(id){
+/*
+  画面遷移の履歴を保存します。
+
+  例：
+
+  titleScreen
+      ↓
+  homeScreen
+      ↓
+  propertyScreen
+      ↓
+  propertyDetailScreen
+
+  「戻る」を押すと、
+
+  propertyDetailScreen
+      ↓
+  propertyScreen
+      ↓
+  homeScreen
+
+  の順番で戻ります。
+*/
+
+let screenHistory = [];
+
+
+/*
+  現在表示されている画面IDを取得
+*/
+function getCurrentScreen(){
+
+  const active =
+    document.querySelector(
+      ".screen.active"
+    );
+
+  return active
+    ? active.id
+    : null;
+
+}
+
+
+/*
+  画面を表示する関数。
+
+  addHistory=true
+    → 通常の画面移動として履歴に追加
+
+  addHistory=false
+    → 「戻る」操作など、
+       履歴を追加せずに画面だけ変更
+*/
+function showScreen(
+  id,
+  addHistory=true
+){
+
+  const current =
+    getCurrentScreen();
+
+
+  /*
+    同じ画面への移動は
+    履歴に追加しません。
+  */
+  if(
+    addHistory &&
+    current &&
+    current!==id
+  ){
+
+    screenHistory.push(
+      current
+    );
+
+  }
+
 
   document
     .querySelectorAll(".screen")
@@ -1774,7 +1837,9 @@ function showScreen(id){
 
 
   if(target){
+
     target.classList.add("active");
+
   }
 
 
@@ -1812,16 +1877,78 @@ function showScreen(id){
 }
 
 
+/*
+  「← 戻る」ボタン用。
+
+  履歴から1つ前の画面を取り出し、
+  その画面へ移動します。
+*/
+function goBack(){
+
+  if(
+    screenHistory.length>0
+  ){
+
+    const previousScreen =
+      screenHistory.pop();
+
+
+    showScreen(
+      previousScreen,
+      false
+    );
+
+    return;
+
+  }
+
+
+  /*
+    履歴がない場合の安全策。
+
+    ゲーム中であればホームへ戻します。
+  */
+
+  if(
+    getCurrentScreen()!=="homeScreen" &&
+    getCurrentScreen()!=="titleScreen"
+  ){
+
+    showScreen(
+      "homeScreen",
+      false
+    );
+
+  }
+
+}
+
+
+/*
+  「ホームへ」ボタンなど、
+  履歴を無視してホームへ戻る場合。
+
+  ホームへ戻った後に「戻る」を押して
+  過去の画面へ戻ってしまわないよう、
+  履歴もクリアします。
+*/
+function goHome(){
+
+  screenHistory=[];
+
+  showScreen(
+    "homeScreen",
+    false
+  );
+
+}
+
+
 /* =====================================================
    GAME START
 ===================================================== */
 
 function startGame(){
-
-  /*
-    「はじめる」は新しいゲームとして開始。
-    既存セーブがある場合は確認する。
-  */
 
   const existing =
     localStorage.getItem(
@@ -1848,11 +1975,6 @@ function startGame(){
 
   saveData={
 
-    /*
-      最初から発見済みとする
-      基本カード
-    */
-
     foundCards:[1,5],
 
     discoveredMonsters:[],
@@ -1866,11 +1988,17 @@ function startGame(){
 
 
   /*
-    タイトル画面を完全に非表示にして
-    ホーム画面へ移動
+    新しいゲームを開始するため、
+    画面履歴もリセットします。
   */
 
-  showScreen("homeScreen");
+  screenHistory=[];
+
+
+  showScreen(
+    "homeScreen",
+    false
+  );
 
 }
 
@@ -1879,10 +2007,6 @@ function continueGame(){
 
   loadGame();
 
-
-  /*
-    セーブデータが存在しない場合
-  */
 
   if(
     !localStorage.getItem(
@@ -1900,7 +2024,13 @@ function continueGame(){
   }
 
 
-  showScreen("homeScreen");
+  screenHistory=[];
+
+
+  showScreen(
+    "homeScreen",
+    false
+  );
 
 }
 
@@ -3173,8 +3303,16 @@ function endBattle(){
   ).style.display="block";
 
 
+  /*
+    バトル画面そのものは
+    すでに表示中なので、
+    「バトルをやめる」では
+    画面履歴を追加しません。
+  */
+
   showScreen(
-    "battleScreen"
+    "battleScreen",
+    false
   );
 
 }
@@ -3423,6 +3561,14 @@ document
   .classList.add(
     "active"
   );
+
+
+/*
+  アプリ起動時の履歴を
+  タイトル画面から開始します。
+*/
+
+screenHistory=[];
 
 
 updateHome();
