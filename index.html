@@ -415,6 +415,13 @@ h1,h2,h3{
   margin-bottom:7px;
 }
 
+.battle-buff{
+  margin-top:7px;
+  font-size:12px;
+  color:#f0d77a;
+  min-height:18px;
+}
+
 .hp-bar{
   height:15px;
   background:#0a1020;
@@ -464,6 +471,10 @@ h1,h2,h3{
 
 .skill-button small{
   color:#c8d2e5;
+}
+
+.skill-button:disabled{
+  opacity:.4;
 }
 
 .result{
@@ -576,10 +587,11 @@ h1,h2,h3{
 
 <body>
 
-<!-- =========================
+<!-- =====================================================
      TITLE
-========================= -->
+===================================================== -->
 <section id="titleScreen" class="screen title-screen active">
+
   <div class="title-inner">
 
     <h1>
@@ -603,14 +615,17 @@ h1,h2,h3{
       </button>
 
     </div>
+
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      HOME
-========================= -->
+===================================================== -->
 <section id="homeScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -631,6 +646,7 @@ h1,h2,h3{
         </button>
 
       </div>
+
     </div>
 
     <div class="home-card">
@@ -717,14 +733,17 @@ h1,h2,h3{
       </button>
 
     </div>
+
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      PROPERTY
-========================= -->
+===================================================== -->
 <section id="propertyScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -762,13 +781,15 @@ h1,h2,h3{
     </div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      PROPERTY DETAIL
-========================= -->
+===================================================== -->
 <section id="propertyDetailScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -787,13 +808,15 @@ h1,h2,h3{
     <div id="propertyDetail"></div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      FUSION
-========================= -->
+===================================================== -->
 <section id="fusionScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -859,13 +882,15 @@ h1,h2,h3{
     </div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      BIRTH
-========================= -->
+===================================================== -->
 <section id="birthScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -894,13 +919,15 @@ h1,h2,h3{
     </div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      MONSTER BOOK
-========================= -->
+===================================================== -->
 <section id="monsterScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -922,13 +949,15 @@ h1,h2,h3{
     ></div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      MONSTER DETAIL
-========================= -->
+===================================================== -->
 <section id="monsterDetailScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -947,13 +976,15 @@ h1,h2,h3{
     <div id="monsterDetail"></div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
-     BATTLE SELECT / BATTLE
-========================= -->
+<!-- =====================================================
+     BATTLE
+===================================================== -->
 <section id="battleScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -962,7 +993,7 @@ h1,h2,h3{
 
       <button
         class="small-btn"
-        onclick="goBack()"
+        onclick="leaveBattleScreen()"
       >
         戻る
       </button>
@@ -986,6 +1017,11 @@ h1,h2,h3{
           ></div>
 
           <div id="battlePlayerLevel"></div>
+
+          <div
+            id="battlePlayerBuff"
+            class="battle-buff"
+          ></div>
 
           <div style="margin:7px 0;font-size:12px">
             HP
@@ -1015,6 +1051,11 @@ h1,h2,h3{
           ></div>
 
           <div id="battleEnemyLevel"></div>
+
+          <div
+            id="battleEnemyBuff"
+            class="battle-buff"
+          ></div>
 
           <div style="margin:7px 0;font-size:12px">
             HP
@@ -1051,13 +1092,15 @@ h1,h2,h3{
     </div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      BATTLE RESULT
-========================= -->
+===================================================== -->
 <section id="battleResultScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -1070,13 +1113,15 @@ h1,h2,h3{
     ></div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      PROPERTY BOOK
-========================= -->
+===================================================== -->
 <section id="propertyBookScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -1130,13 +1175,15 @@ h1,h2,h3{
     ></div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      THEME
-========================= -->
+===================================================== -->
 <section id="themeScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -1192,13 +1239,15 @@ h1,h2,h3{
     </div>
 
   </div>
+
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      MISSION
-========================= -->
+===================================================== -->
 <section id="missionScreen" class="screen">
+
   <div class="container">
 
     <div class="header">
@@ -1217,6 +1266,7 @@ h1,h2,h3{
     <div id="missionList"></div>
 
   </div>
+
 </section>
 
 
@@ -1257,10 +1307,22 @@ function getCurrentScreen(){
     : null;
 }
 
+
+/*
+  画面切り替え。
+*/
 function showScreen(id,addHistory=true){
 
   const current =
     getCurrentScreen();
+
+  /*
+    タイトル画面へ戻る場合は、
+    一時的な画面履歴をクリア。
+  */
+  if(id === "titleScreen"){
+    screenHistory = [];
+  }
 
   if(
     addHistory &&
@@ -1269,6 +1331,7 @@ function showScreen(id,addHistory=true){
   ){
 
     screenHistory.push(current);
+
   }
 
   document
@@ -1318,7 +1381,25 @@ function showScreen(id,addHistory=true){
 
 }
 
+
+/*
+  通常の「戻る」。
+*/
 function goBack(){
+
+  /*
+    バトル画面から離れる場合、
+    進行中のバトルは破棄する。
+  */
+  if(
+    getCurrentScreen() === "battleScreen" &&
+    battle
+  ){
+
+    battle = null;
+    battleSessionId++;
+
+  }
 
   if(screenHistory.length > 0){
 
@@ -1342,20 +1423,54 @@ function goBack(){
       "homeScreen",
       false
     );
+
   }
 
 }
+
+
+/*
+  バトル画面専用の戻る処理。
+*/
+function leaveBattleScreen(){
+
+  if(battle && !battle.finished){
+
+    const ok =
+      confirm(
+        "現在のバトルを終了して戻りますか？"
+      );
+
+    if(!ok){
+      return;
+    }
+
+  }
+
+  battle = null;
+  battleSessionId++;
+
+  screenHistory = [];
+
+  showScreen(
+    "homeScreen",
+    false
+  );
+
+}
+
 
 function goHome(){
 
   screenHistory = [];
 
-  /*
-    ホームへ戻るときも、
-    現在進行中の一時的なバトル状態は破棄する。
-    セーブデータには影響しない。
-  */
   battle = null;
+
+  /*
+    すでに設定されているタイマーが
+    新しい画面へ干渉しないよう世代番号を更新。
+  */
+  battleSessionId++;
 
   showScreen(
     "homeScreen",
@@ -1400,6 +1515,7 @@ const attributeData = {
   }
 
 };
+
 
 function getTypeMultiplier(
   attackElement,
@@ -2002,23 +2118,18 @@ const monsters = [
 
 let fusionSelection = [];
 
-/*
-  現在進行中のバトル。
-  勝敗が確定したらnullに戻す。
-*/
 let battle = null;
 
 /*
-  バトル世代番号。
-  setTimeoutで実行される処理が、
-  前のバトルから新しいバトルへ
-  誤って干渉するのを防ぐ。
+  バトルの世代番号。
+  古いsetTimeoutを新しいバトルへ
+  混入させないために使用。
 */
 let battleSessionId = 0;
 
 
 /* =========================================================
-   BASIC SAVE
+   SAVE DATA
 ========================================================= */
 
 function saveGame(){
@@ -2030,12 +2141,9 @@ function saveGame(){
 
 }
 
+
 function startGame(){
 
-  /*
-    新規ゲーム開始時には、
-    進行中のバトルも完全に破棄する。
-  */
   battle = null;
   battleSessionId++;
 
@@ -2062,6 +2170,7 @@ function startGame(){
 
 }
 
+
 function continueGame(){
 
   if(!loadGame()){
@@ -2084,6 +2193,7 @@ function continueGame(){
   );
 
 }
+
 
 function loadGame(){
 
@@ -2144,9 +2254,11 @@ function loadGame(){
     };
 
     return false;
+
   }
 
 }
+
 
 function resetGame(){
 
@@ -2299,6 +2411,7 @@ function renderProperties(){
 
 }
 
+
 function showPropertyDetail(id){
 
   const property =
@@ -2325,6 +2438,7 @@ function showPropertyDetail(id){
     }
 
     saveGame();
+
   }
 
   document
@@ -2417,6 +2531,7 @@ function getMonsterProgress(id){
 
 }
 
+
 function ensureMonsterProgress(id){
 
   const progress =
@@ -2433,6 +2548,7 @@ function ensureMonsterProgress(id){
   return progress;
 
 }
+
 
 function normalizeMonsterProgress(){
 
@@ -2466,11 +2582,13 @@ function normalizeMonsterProgress(){
 
 }
 
+
 function getRequiredExp(level){
 
   return level * 50 + 50;
 
 }
+
 
 function getEffectiveStats(
   monster,
@@ -2499,6 +2617,7 @@ function getEffectiveStats(
 
 }
 
+
 function getExpReward(monster){
 
   if(monster.rarity === "★★★★"){
@@ -2512,6 +2631,7 @@ function getExpReward(monster){
   return 50;
 
 }
+
 
 function gainMonsterExp(
   monsterId,
@@ -2592,6 +2712,7 @@ function monsterEmoji(monster){
     : "👾";
 
 }
+
 
 function renderMonsterCard(
   monster
@@ -2695,6 +2816,7 @@ function renderMonsterCard(
 
 }
 
+
 function renderMonsters(){
 
   const container =
@@ -2749,6 +2871,7 @@ function renderMonsters(){
     });
 
 }
+
 
 function showMonsterDetail(id){
 
@@ -2977,6 +3100,7 @@ function normalizeRecipe(recipe){
 
 }
 
+
 function sameRecipe(a,b){
 
   const aa =
@@ -2995,6 +3119,7 @@ function sameRecipe(a,b){
   );
 
 }
+
 
 function renderFusion(){
 
@@ -3033,56 +3158,70 @@ function renderFusion(){
 
   found.forEach(property => {
 
-    const selected =
-      fusionSelection
-        .includes(property.id);
-
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "card" +
-      (selected
-        ? " locked"
-        : "");
-
-    card.innerHTML = `
-
-      <div class="property-icon">
-        🏯
-      </div>
-
-      <div class="property-name">
-        ${property.name}
-      </div>
-
-      <div class="badges">
-
-        <span class="badge">
-          ${property.theme}
-        </span>
-
-      </div>
-
-      <button
-        class="small-btn"
-        style="width:100%;margin-top:10px"
-        onclick="selectFusionMaterial(${property.id})"
-      >
-        ${
-          selected
-            ? "選択済み"
-            : "素材に選ぶ"
-        }
-      </button>
-
-    `;
-
-    container.appendChild(card);
+    renderFusionCard(
+      container,
+      property
+    );
 
   });
 
 }
+
+
+function renderFusionCard(
+  container,
+  property
+){
+
+  const selected =
+    fusionSelection
+      .includes(property.id);
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "card" +
+    (selected
+      ? " locked"
+      : "");
+
+  card.innerHTML = `
+
+    <div class="property-icon">
+      🏯
+    </div>
+
+    <div class="property-name">
+      ${property.name}
+    </div>
+
+    <div class="badges">
+
+      <span class="badge">
+        ${property.theme}
+      </span>
+
+    </div>
+
+    <button
+      class="small-btn"
+      style="width:100%;margin-top:10px"
+      onclick="selectFusionMaterial(${property.id})"
+    >
+      ${
+        selected
+          ? "選択済み"
+          : "素材に選ぶ"
+      }
+    </button>
+
+  `;
+
+  container.appendChild(card);
+
+}
+
 
 function selectFusionMaterial(id){
 
@@ -3115,6 +3254,7 @@ function selectFusionMaterial(id){
 
 }
 
+
 function renderFusionListOnly(){
 
   const container =
@@ -3133,56 +3273,15 @@ function renderFusionListOnly(){
 
   found.forEach(property => {
 
-    const selected =
-      fusionSelection
-        .includes(property.id);
-
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "card" +
-      (selected
-        ? " locked"
-        : "");
-
-    card.innerHTML = `
-
-      <div class="property-icon">
-        🏯
-      </div>
-
-      <div class="property-name">
-        ${property.name}
-      </div>
-
-      <div class="badges">
-
-        <span class="badge">
-          ${property.theme}
-        </span>
-
-      </div>
-
-      <button
-        class="small-btn"
-        style="width:100%;margin-top:10px"
-        onclick="selectFusionMaterial(${property.id})"
-      >
-        ${
-          selected
-            ? "選択済み"
-            : "素材に選ぶ"
-        }
-      </button>
-
-    `;
-
-    container.appendChild(card);
+    renderFusionCard(
+      container,
+      property
+    );
 
   });
 
 }
+
 
 function updateFusionSlots(){
 
@@ -3241,6 +3340,7 @@ function updateFusionSlots(){
 
 }
 
+
 function doFusion(){
 
   if(
@@ -3296,6 +3396,7 @@ function doFusion(){
   );
 
 }
+
 
 function showBirth(
   id,
@@ -3398,10 +3499,9 @@ function showBirth(
    BATTLE
 ========================================================= */
 
+
 /*
-  バトル選択画面を表示。
-  前回のバトルが残っていても、
-  選択画面では必ずバトルエリアを閉じる。
+  バトル選択画面。
 */
 function renderBattleSelect(){
 
@@ -3415,9 +3515,26 @@ function renderBattleSelect(){
       "battleArea"
     );
 
+  /*
+    選択画面へ来た時点で、
+    表示上のバトルは必ず閉じる。
+  */
   battleArea.classList.add(
     "hidden"
   );
+
+  /*
+    前回バトルが残っている場合も、
+    選択画面では破棄する。
+  */
+  if(
+    battle &&
+    !battle.finished
+  ){
+
+    battle = null;
+
+  }
 
   if(
     saveData.discoveredMonsters.length === 0
@@ -3524,23 +3641,18 @@ function renderBattleSelect(){
 
 /*
   ========================================================
-  ★重要
-  再戦時に必ず新しいバトルを作る。
+  バトル開始
   ========================================================
 */
 function startBattle(playerId){
 
   /*
-    前回のバトルを完全に破棄する。
-    これにより、
-    HP・技使用回数・バフ・finished等が
-    次のバトルへ引き継がれない。
+    古いバトルを完全破棄。
   */
   battle = null;
 
   /*
-    バトル世代を更新。
-    古いsetTimeoutからの処理を無効化するために使用。
+    新しい世代を発行。
   */
   battleSessionId++;
 
@@ -3556,6 +3668,9 @@ function startBattle(playerId){
     return;
   }
 
+  /*
+    敵はプレイヤー以外からランダム選択。
+  */
   const enemies =
     monsters.filter(
       m => m.id !== playerId
@@ -3591,34 +3706,24 @@ function startBattle(playerId){
     );
 
   /*
-    バトル開始時の一時ステータス。
-    毎回0からスタートする。
-  */
-  const playerAttackBonus = 0;
-  const playerDefenseBonus = 0;
-  const enemyAttackBonus = 0;
-  const enemyDefenseBonus = 0;
-
-  /*
-    ★ここでbattleを完全に新規作成。
+    ★重要
+    毎回完全に初期化する。
   */
   battle = {
 
     sessionId:currentSession,
 
-    player,
+    player:player,
 
-    enemy,
+    enemy:enemy,
 
-    playerStats,
+    playerStats:playerStats,
 
-    enemyStats,
+    enemyStats:enemyStats,
 
-    playerHP:
-      playerStats.hp,
+    playerHP:playerStats.hp,
 
-    enemyHP:
-      enemyStats.hp,
+    enemyHP:enemyStats.hp,
 
     playerUses:[
       0,
@@ -3632,13 +3737,13 @@ function startBattle(playerId){
       0
     ],
 
-    playerAttackBonus,
+    playerAttackBonus:0,
 
-    playerDefenseBonus,
+    playerDefenseBonus:0,
 
-    enemyAttackBonus,
+    enemyAttackBonus:0,
 
-    enemyDefenseBonus,
+    enemyDefenseBonus:0,
 
     turn:null,
 
@@ -3647,7 +3752,7 @@ function startBattle(playerId){
   };
 
   /*
-    バトル選択画面を非表示。
+    バトル選択部分を非表示。
   */
   document
     .getElementById(
@@ -3658,7 +3763,7 @@ function startBattle(playerId){
     );
 
   /*
-    バトル画面を表示。
+    バトル本体を表示。
   */
   document
     .getElementById(
@@ -3669,7 +3774,7 @@ function startBattle(playerId){
     );
 
   /*
-    前回のログを完全に消去。
+    ログを完全クリア。
   */
   document
     .getElementById(
@@ -3678,7 +3783,7 @@ function startBattle(playerId){
     .innerHTML = "";
 
   /*
-    前回の技ボタンも消去。
+    技ボタンも完全クリア。
   */
   document
     .getElementById(
@@ -3699,27 +3804,23 @@ function startBattle(playerId){
 
 /*
   ========================================================
-  ★追加
-  「もう一度バトル」専用処理
+  もう一度バトル
   ========================================================
 */
 function retryBattle(){
 
   /*
-    現在のバトルを破棄。
-    EXPやモンスター情報などのセーブデータは
-    一切変更しない。
+    現在のバトルを完全破棄。
   */
   battle = null;
 
   /*
-    古いバトルのsetTimeoutを無効化。
+    古いタイマーを無効化。
   */
   battleSessionId++;
 
   /*
-    バトル選択画面へ戻る。
-    showScreen()がrenderBattleSelect()を呼ぶ。
+    バトル選択画面へ。
   */
   showScreen(
     "battleScreen",
@@ -3730,7 +3831,9 @@ function retryBattle(){
 
 
 /*
+  ========================================================
   先攻決定
+  ========================================================
 */
 function determineFirstTurn(){
 
@@ -3784,11 +3887,6 @@ function determineFirstTurn(){
       "相手の先攻です！"
     );
 
-    /*
-      このsetTimeoutが
-      古いバトルに干渉しないよう、
-      sessionIdを確認する。
-    */
     setTimeout(
       () => {
 
@@ -3813,7 +3911,9 @@ function determineFirstTurn(){
 
 
 /*
+  ========================================================
   バトル表示更新
+  ========================================================
 */
 function updateBattleDisplay(){
 
@@ -3853,6 +3953,71 @@ function updateBattleDisplay(){
     )
     .textContent =
       `Lv.1 ／ ${battle.enemy.rarity}`;
+
+  /*
+    バフ表示も毎回更新。
+  */
+  const playerBuffParts = [];
+
+  if(
+    battle.playerAttackBonus > 0
+  ){
+
+    playerBuffParts.push(
+      `攻撃+${battle.playerAttackBonus}`
+    );
+
+  }
+
+  if(
+    battle.playerDefenseBonus > 0
+  ){
+
+    playerBuffParts.push(
+      `防御+${battle.playerDefenseBonus}`
+    );
+
+  }
+
+  document
+    .getElementById(
+      "battlePlayerBuff"
+    )
+    .textContent =
+      playerBuffParts.length > 0
+        ? `強化：${playerBuffParts.join(" ／ ")}`
+        : "";
+
+  const enemyBuffParts = [];
+
+  if(
+    battle.enemyAttackBonus > 0
+  ){
+
+    enemyBuffParts.push(
+      `攻撃+${battle.enemyAttackBonus}`
+    );
+
+  }
+
+  if(
+    battle.enemyDefenseBonus > 0
+  ){
+
+    enemyBuffParts.push(
+      `防御+${battle.enemyDefenseBonus}`
+    );
+
+  }
+
+  document
+    .getElementById(
+      "battleEnemyBuff"
+    )
+    .textContent =
+      enemyBuffParts.length > 0
+        ? `強化：${enemyBuffParts.join(" ／ ")}`
+        : "";
 
   const playerPercent =
     Math.max(
@@ -3908,7 +4073,9 @@ function updateBattleDisplay(){
 
 
 /*
+  ========================================================
   技ボタン表示
+  ========================================================
 */
 function renderBattleSkills(){
 
@@ -3934,6 +4101,12 @@ function renderBattleSkills(){
         const used =
           battle.playerUses[index];
 
+        const remaining =
+          Math.max(
+            0,
+            3 - used
+          );
+
         const button =
           document.createElement(
             "button"
@@ -3942,8 +4115,14 @@ function renderBattleSkills(){
         button.className =
           "skill-button";
 
+        /*
+          ★修正
+          自分のターンでない、
+          または3回使用済みなら押せない。
+        */
         button.disabled =
-          battle.turn !== "player";
+          battle.turn !== "player" ||
+          used >= 3;
 
         button.innerHTML = `
 
@@ -3969,11 +4148,7 @@ function renderBattleSkills(){
 
             ${skill.element}
 
-            ${
-              used
-                ? ` ／ 使用済み ${used}回`
-                : ""
-            }
+            ／ 残り${remaining}回
 
           </small>
 
@@ -3995,7 +4170,9 @@ function renderBattleSkills(){
 
 
 /*
+  ========================================================
   ダメージ計算
+  ========================================================
 */
 function calculateDamage(
   attacker,
@@ -4048,7 +4225,9 @@ function calculateDamage(
 
 
 /*
+  ========================================================
   プレイヤー攻撃
+  ========================================================
 */
 function playerAttack(index){
 
@@ -4067,9 +4246,6 @@ function playerAttack(index){
     return;
   }
 
-  const session =
-    battle.sessionId;
-
   const skill =
     battle.player.skills[index];
 
@@ -4077,6 +4253,27 @@ function playerAttack(index){
     return;
   }
 
+  /*
+    ★修正
+    3回使用済みなら実行しない。
+  */
+  if(
+    battle.playerUses[index] >= 3
+  ){
+
+    addBattleLog(
+      "この技はもう使用できません。"
+    );
+
+    return;
+  }
+
+  const session =
+    battle.sessionId;
+
+  /*
+    技使用回数を先に増やす。
+  */
   battle.playerUses[index]++;
 
   executeSkill(
@@ -4086,21 +4283,21 @@ function playerAttack(index){
 
   if(
     !battle ||
-    battle.finished
+    battle.finished ||
+    battle.sessionId !== session
   ){
 
     return;
   }
 
+  /*
+    敵ターンへ。
+  */
   battle.turn =
     "enemy";
 
   renderBattleSkills();
 
-  /*
-    古いバトルからの処理が
-    新しいバトルに入らないようにする。
-  */
   setTimeout(
     () => {
 
@@ -4123,7 +4320,9 @@ function playerAttack(index){
 
 
 /*
+  ========================================================
   スキル実行
+  ========================================================
 */
 function executeSkill(
   side,
@@ -4147,6 +4346,9 @@ function executeSkill(
       ? battle.enemy
       : battle.player;
 
+  /*
+    攻撃
+  */
   if(
     skill.type === "attack"
   ){
@@ -4227,6 +4429,9 @@ function executeSkill(
   }
 
 
+  /*
+    回復
+  */
   if(
     skill.type === "heal"
   ){
@@ -4288,6 +4493,9 @@ function executeSkill(
   }
 
 
+  /*
+    バフ
+  */
   if(
     skill.type === "buff"
   ){
@@ -4340,6 +4548,12 @@ function executeSkill(
 
     }
 
+    /*
+      ★修正
+      バフ後も表示を更新。
+    */
+    updateBattleDisplay();
+
     return;
 
   }
@@ -4348,7 +4562,9 @@ function executeSkill(
 
 
 /*
+  ========================================================
   敵ターン
+  ========================================================
 */
 function enemyTurn(){
 
@@ -4370,6 +4586,9 @@ function enemyTurn(){
   const session =
     battle.sessionId;
 
+  /*
+    まだ使用可能な技を取得。
+  */
   const available =
     battle.enemy.skills
       .map(
@@ -4404,6 +4623,18 @@ function enemyTurn(){
 
   }else{
 
+    /*
+      全技を3回使い切った場合は、
+      技使用回数をリセットして再使用可能にする。
+
+      これによりバトルが永久停止しない。
+    */
+    battle.enemyUses = [
+      0,
+      0,
+      0
+    ];
+
     selected = {
 
       skill:
@@ -4420,9 +4651,6 @@ function enemyTurn(){
 
   }
 
-  /*
-    この時点でもバトル世代を確認。
-  */
   if(
     !battle ||
     battle.finished ||
@@ -4443,7 +4671,8 @@ function enemyTurn(){
 
   if(
     !battle ||
-    battle.finished
+    battle.finished ||
+    battle.sessionId !== session
   ){
 
     return;
@@ -4458,7 +4687,9 @@ function enemyTurn(){
 
 
 /*
+  ========================================================
   バトルログ
+  ========================================================
 */
 function addBattleLog(text){
 
@@ -4490,7 +4721,9 @@ function addBattleLog(text){
 
 
 /*
+  ========================================================
   バトル終了
+  ========================================================
 */
 function finishBattle(
   playerWon
@@ -4504,7 +4737,16 @@ function finishBattle(
     return;
   }
 
+  /*
+    終了フラグを即座に立てる。
+    これにより同じターンで二重終了することを防ぐ。
+  */
   battle.finished = true;
+
+  /*
+    以後のタイマーを無効化。
+  */
+  battleSessionId++;
 
   document
     .getElementById(
@@ -4514,8 +4756,8 @@ function finishBattle(
 
   if(playerWon){
 
-    const player =
-      battle.player;
+    const playerId =
+      battle.player.id;
 
     const reward =
       getExpReward(
@@ -4524,7 +4766,7 @@ function finishBattle(
 
     const result =
       gainMonsterExp(
-        player.id,
+        playerId,
         reward
       );
 
@@ -4532,14 +4774,16 @@ function finishBattle(
 
     showBattleResult(
       true,
-      result
+      result,
+      playerId
     );
 
   }else{
 
     showBattleResult(
       false,
-      null
+      null,
+      battle.player.id
     );
 
   }
@@ -4548,11 +4792,14 @@ function finishBattle(
 
 
 /*
+  ========================================================
   バトル結果
+  ========================================================
 */
 function showBattleResult(
   playerWon,
-  result
+  result,
+  playerId
 ){
 
   const container =
@@ -4560,14 +4807,21 @@ function showBattleResult(
       "battleResult"
     );
 
-  if(playerWon){
+  /*
+    battle本体が画面遷移後に
+    変更されても結果表示が崩れないよう、
+    IDからプレイヤーを取得。
+  */
+  const player =
+    monsters.find(
+      m => m.id === playerId
+    );
 
-    const player =
-      battle.player;
+  if(playerWon){
 
     const progress =
       getMonsterProgress(
-        player.id
+        playerId
       );
 
     let levelUpHtml = "";
@@ -4620,7 +4874,7 @@ function showBattleResult(
       </h2>
 
       <p>
-        ${player.name} が勝利しました！
+        ${player ? player.name : "モンスター"} が勝利しました！
       </p>
 
       <div class="exp-gain">
@@ -4634,7 +4888,8 @@ function showBattleResult(
         ／
 
         EXP ${progress.exp}
-        / ${getRequiredExp(
+        /
+        ${getRequiredExp(
           progress.level
         )}
 
@@ -4710,6 +4965,9 @@ function showBattleResult(
 
   }
 
+  /*
+    結果画面では履歴を作らない。
+  */
   showScreen(
     "battleResultScreen",
     false
@@ -4996,11 +5254,20 @@ document.addEventListener(
   () => {
 
     /*
-      タイトル画面を表示。
-      セーブデータは「つづきから」を押した時に読み込む。
+      初期状態では必ずタイトル画面のみ表示。
     */
-
     battle = null;
+
+    battleSessionId++;
+
+    screenHistory = [];
+
+    document
+      .querySelectorAll(".screen")
+      .forEach(
+        el =>
+          el.classList.remove("active")
+      );
 
     showScreen(
       "titleScreen",
