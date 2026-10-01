@@ -587,9 +587,6 @@ h1,h2,h3{
 
 <body>
 
-<!-- =====================================================
-     TITLE
-===================================================== -->
 <section id="titleScreen" class="screen title-screen active">
 
   <div class="title-inner">
@@ -621,9 +618,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     HOME
-===================================================== -->
 <section id="homeScreen" class="screen">
 
   <div class="container">
@@ -668,66 +662,42 @@ h1,h2,h3{
 
     <div class="menu-grid">
 
-      <button
-        class="menu-card"
-        onclick="showScreen('propertyScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('propertyScreen')">
         <strong>🏯 文化財を探す</strong>
         <span>千曲市の歴史・文化を発見</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="showScreen('fusionScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('fusionScreen')">
         <strong>✨ モンスター融合</strong>
         <span>文化財を組み合わせて誕生</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="showScreen('monsterScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('monsterScreen')">
         <strong>👾 モンスター図鑑</strong>
         <span>発見したモンスターを確認</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="showScreen('battleScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('battleScreen')">
         <strong>⚔️ バトル</strong>
         <span>モンスター同士で対戦</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="showScreen('propertyBookScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('propertyBookScreen')">
         <strong>📖 文化財図鑑</strong>
         <span>発見した文化財を振り返る</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="showScreen('themeScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('themeScreen')">
         <strong>🌙 テーマ</strong>
         <span>千曲市の物語を知る</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="showScreen('missionScreen')"
-      >
+      <button class="menu-card" onclick="showScreen('missionScreen')">
         <strong>🎯 ミッション</strong>
         <span>発見・収集の進捗を確認</span>
       </button>
 
-      <button
-        class="menu-card"
-        onclick="resetGame()"
-      >
+      <button class="menu-card" onclick="resetGame()">
         <strong>🔄 データリセット</strong>
         <span>ゲームデータを最初から</span>
       </button>
@@ -739,9 +709,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     PROPERTY
-===================================================== -->
 <section id="propertyScreen" class="screen">
 
   <div class="container">
@@ -750,10 +717,7 @@ h1,h2,h3{
 
       <h2>🏯 文化財を探す</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -764,17 +728,11 @@ h1,h2,h3{
       発見した文化財は文化財図鑑に登録されます。
     </div>
 
-    <div
-      id="propertyList"
-      class="card-grid"
-    ></div>
+    <div id="propertyList" class="card-grid"></div>
 
     <div class="back-bottom">
 
-      <button
-        class="btn secondary"
-        onclick="goBack()"
-      >
+      <button class="btn secondary" onclick="goBack()">
         ← 戻る
       </button>
 
@@ -785,9 +743,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     PROPERTY DETAIL
-===================================================== -->
 <section id="propertyDetailScreen" class="screen">
 
   <div class="container">
@@ -796,10 +751,7 @@ h1,h2,h3{
 
       <h2>文化財詳細</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -812,9 +764,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     FUSION
-===================================================== -->
 <section id="fusionScreen" class="screen">
 
   <div class="container">
@@ -823,10 +772,7 @@ h1,h2,h3{
 
       <h2>✨ モンスター融合</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -837,10 +783,7 @@ h1,h2,h3{
       ※現在は融合レシピが設定されたモンスターのみ誕生します。
     </div>
 
-    <div
-      id="fusionList"
-      class="card-grid"
-    ></div>
+    <div id="fusionList" class="card-grid"></div>
 
     <div class="fusion-area">
 
@@ -850,17 +793,11 @@ h1,h2,h3{
 
         <div class="fusion-materials">
 
-          <div
-            id="fusionSlot1"
-            class="fusion-slot"
-          >
+          <div id="fusionSlot1" class="fusion-slot">
             素材①を選択
           </div>
 
-          <div
-            id="fusionSlot2"
-            class="fusion-slot"
-          >
+          <div id="fusionSlot2" class="fusion-slot">
             素材②を選択
           </div>
 
@@ -868,10 +805,7 @@ h1,h2,h3{
 
         <div style="margin-top:15px">
 
-          <button
-            class="btn gold"
-            onclick="doFusion()"
-          >
+          <button class="btn gold" onclick="doFusion()">
             融合する
           </button>
 
@@ -886,9 +820,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     BIRTH
-===================================================== -->
 <section id="birthScreen" class="screen">
 
   <div class="container">
@@ -901,10 +832,7 @@ h1,h2,h3{
 
     <div class="back-bottom">
 
-      <button
-        class="btn"
-        onclick="showScreen('monsterScreen')"
-      >
+      <button class="btn" onclick="showScreen('monsterScreen')">
         モンスター図鑑を見る
       </button>
 
@@ -923,9 +851,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     MONSTER BOOK
-===================================================== -->
 <section id="monsterScreen" class="screen">
 
   <div class="container">
@@ -934,28 +859,19 @@ h1,h2,h3{
 
       <h2>👾 モンスター図鑑</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
     </div>
 
-    <div
-      id="monsterList"
-      class="card-grid"
-    ></div>
+    <div id="monsterList" class="card-grid"></div>
 
   </div>
 
 </section>
 
 
-<!-- =====================================================
-     MONSTER DETAIL
-===================================================== -->
 <section id="monsterDetailScreen" class="screen">
 
   <div class="container">
@@ -964,10 +880,7 @@ h1,h2,h3{
 
       <h2>モンスター詳細</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -980,9 +893,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     BATTLE
-===================================================== -->
 <section id="battleScreen" class="screen">
 
   <div class="container">
@@ -1028,12 +938,10 @@ h1,h2,h3{
           </div>
 
           <div class="hp-bar">
-
             <div
               id="battlePlayerHP"
               class="hp-fill"
             ></div>
-
           </div>
 
           <div
@@ -1096,9 +1004,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     BATTLE RESULT
-===================================================== -->
 <section id="battleResultScreen" class="screen">
 
   <div class="container">
@@ -1117,9 +1022,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     PROPERTY BOOK
-===================================================== -->
 <section id="propertyBookScreen" class="screen">
 
   <div class="container">
@@ -1128,10 +1030,7 @@ h1,h2,h3{
 
       <h2>📖 文化財図鑑</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -1179,9 +1078,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     THEME
-===================================================== -->
 <section id="themeScreen" class="screen">
 
   <div class="container">
@@ -1190,10 +1086,7 @@ h1,h2,h3{
 
       <h2>🌙 テーマ</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -1243,9 +1136,6 @@ h1,h2,h3{
 </section>
 
 
-<!-- =====================================================
-     MISSION
-===================================================== -->
 <section id="missionScreen" class="screen">
 
   <div class="container">
@@ -1254,10 +1144,7 @@ h1,h2,h3{
 
       <h2>🎯 ミッション</h2>
 
-      <button
-        class="small-btn"
-        onclick="goBack()"
-      >
+      <button class="small-btn" onclick="goBack()">
         戻る
       </button>
 
@@ -1279,15 +1166,10 @@ h1,h2,h3{
 const SAVE_KEY = "chikumaMonsterSave";
 
 let saveData = {
-
   foundCards:[],
-
   discoveredMonsters:[],
-
   viewedCards:[],
-
   monsterProgress:{}
-
 };
 
 
@@ -1305,21 +1187,15 @@ function getCurrentScreen(){
   return active
     ? active.id
     : null;
+
 }
 
 
-/*
-  画面切り替え。
-*/
 function showScreen(id,addHistory=true){
 
   const current =
     getCurrentScreen();
 
-  /*
-    タイトル画面へ戻る場合は、
-    一時的な画面履歴をクリア。
-  */
   if(id === "titleScreen"){
     screenHistory = [];
   }
@@ -1344,9 +1220,7 @@ function showScreen(id,addHistory=true){
     document.getElementById(id);
 
   if(target){
-
     target.classList.add("active");
-
   }
 
   window.scrollTo(0,0);
@@ -1382,15 +1256,8 @@ function showScreen(id,addHistory=true){
 }
 
 
-/*
-  通常の「戻る」。
-*/
 function goBack(){
 
-  /*
-    バトル画面から離れる場合、
-    進行中のバトルは破棄する。
-  */
   if(
     getCurrentScreen() === "battleScreen" &&
     battle
@@ -1412,6 +1279,7 @@ function goBack(){
     );
 
     return;
+
   }
 
   if(
@@ -1429,9 +1297,6 @@ function goBack(){
 }
 
 
-/*
-  バトル画面専用の戻る処理。
-*/
 function leaveBattleScreen(){
 
   if(battle && !battle.finished){
@@ -1448,6 +1313,11 @@ function leaveBattleScreen(){
   }
 
   battle = null;
+
+  /*
+    現在動いている敵ターンなどの
+    setTimeoutを無効化。
+  */
   battleSessionId++;
 
   screenHistory = [];
@@ -1466,10 +1336,6 @@ function goHome(){
 
   battle = null;
 
-  /*
-    すでに設定されているタイマーが
-    新しい画面へ干渉しないよう世代番号を更新。
-  */
   battleSessionId++;
 
   showScreen(
@@ -1515,31 +1381,6 @@ const attributeData = {
   }
 
 };
-
-
-function getTypeMultiplier(
-  attackElement,
-  defenderAttribute
-){
-
-  const data =
-    attributeData[defenderAttribute];
-
-  if(!data){
-    return 1;
-  }
-
-  if(attackElement === data.weak){
-    return 1.5;
-  }
-
-  if(attackElement === data.strong){
-    return 0.75;
-  }
-
-  return 1;
-
-}
 
 
 /* =========================================================
@@ -2120,11 +1961,6 @@ let fusionSelection = [];
 
 let battle = null;
 
-/*
-  バトルの世代番号。
-  古いsetTimeoutを新しいバトルへ
-  混入させないために使用。
-*/
 let battleSessionId = 0;
 
 
@@ -2180,6 +2016,7 @@ function continueGame(){
     );
 
     return;
+
   }
 
   battle = null;
@@ -2244,11 +2081,8 @@ function loadGame(){
     saveData = {
 
       foundCards:[],
-
       discoveredMonsters:[],
-
       viewedCards:[],
-
       monsterProgress:{}
 
     };
@@ -2520,7 +2354,6 @@ function getMonsterProgress(id){
     saveData.monsterProgress[key] = {
 
       level:1,
-
       exp:0
 
     };
@@ -2572,9 +2405,7 @@ function normalizeMonsterProgress(){
 
       if(monster){
 
-        ensureMonsterProgress(
-          id
-        );
+        ensureMonsterProgress(id);
 
       }
 
@@ -2665,15 +2496,11 @@ function gainMonsterExp(
 
     levelUps.push({
 
-      level:
-        progress.level,
+      level:progress.level,
 
       hp:5,
-
       attack:2,
-
       defense:2,
-
       speed:1
 
     });
@@ -2684,11 +2511,9 @@ function gainMonsterExp(
 
     amount,
 
-    level:
-      progress.level,
+    level:progress.level,
 
-    exp:
-      progress.exp,
+    exp:progress.exp,
 
     levelUps
 
@@ -2714,9 +2539,7 @@ function monsterEmoji(monster){
 }
 
 
-function renderMonsterCard(
-  monster
-){
+function renderMonsterCard(monster){
 
   const progress =
     getMonsterProgress(
@@ -2752,9 +2575,7 @@ function renderMonsterCard(
       </div>
 
       <div style="text-align:center">
-        ${attributeData[
-          monster.attribute
-        ].icon}
+        ${attributeData[monster.attribute].icon}
         ${monster.attribute}
       </div>
 
@@ -2765,39 +2586,23 @@ function renderMonsterCard(
       <div class="stat-grid">
 
         <div class="stat">
-          <div class="stat-label">
-            HP
-          </div>
-          <div class="stat-value">
-            ${stats.hp}
-          </div>
+          <div class="stat-label">HP</div>
+          <div class="stat-value">${stats.hp}</div>
         </div>
 
         <div class="stat">
-          <div class="stat-label">
-            攻撃
-          </div>
-          <div class="stat-value">
-            ${stats.attack}
-          </div>
+          <div class="stat-label">攻撃</div>
+          <div class="stat-value">${stats.attack}</div>
         </div>
 
         <div class="stat">
-          <div class="stat-label">
-            防御
-          </div>
-          <div class="stat-value">
-            ${stats.defense}
-          </div>
+          <div class="stat-label">防御</div>
+          <div class="stat-value">${stats.defense}</div>
         </div>
 
         <div class="stat">
-          <div class="stat-label">
-            素早さ
-          </div>
-          <div class="stat-value">
-            ${stats.speed}
-          </div>
+          <div class="stat-label">素早さ</div>
+          <div class="stat-value">${stats.speed}</div>
         </div>
 
       </div>
@@ -2843,6 +2648,7 @@ function renderMonsters(){
     `;
 
     return;
+
   }
 
   saveData.discoveredMonsters
@@ -2861,9 +2667,7 @@ function renderMonsters(){
 
         container.insertAdjacentHTML(
           "beforeend",
-          renderMonsterCard(
-            monster
-          )
+          renderMonsterCard(monster)
         );
 
       }
@@ -2920,13 +2724,8 @@ function showMonsterDetail(id){
         <div style="text-align:center">
 
           ${monster.rarity}
-
           ／
-
-          ${attributeData[
-            monster.attribute
-          ].icon}
-
+          ${attributeData[monster.attribute].icon}
           ${monster.attribute}
 
         </div>
@@ -2942,51 +2741,23 @@ function showMonsterDetail(id){
         <div class="stat-grid">
 
           <div class="stat">
-
-            <div class="stat-label">
-              HP
-            </div>
-
-            <div class="stat-value">
-              ${stats.hp}
-            </div>
-
+            <div class="stat-label">HP</div>
+            <div class="stat-value">${stats.hp}</div>
           </div>
 
           <div class="stat">
-
-            <div class="stat-label">
-              攻撃
-            </div>
-
-            <div class="stat-value">
-              ${stats.attack}
-            </div>
-
+            <div class="stat-label">攻撃</div>
+            <div class="stat-value">${stats.attack}</div>
           </div>
 
           <div class="stat">
-
-            <div class="stat-label">
-              防御
-            </div>
-
-            <div class="stat-value">
-              ${stats.defense}
-            </div>
-
+            <div class="stat-label">防御</div>
+            <div class="stat-value">${stats.defense}</div>
           </div>
 
           <div class="stat">
-
-            <div class="stat-label">
-              素早さ
-            </div>
-
-            <div class="stat-value">
-              ${stats.speed}
-            </div>
-
+            <div class="stat-label">素早さ</div>
+            <div class="stat-value">${stats.speed}</div>
           </div>
 
         </div>
@@ -2997,43 +2768,38 @@ function showMonsterDetail(id){
 
         <h3>スキル</h3>
 
-        ${monster.skills.map(
-          skill => `
+        ${monster.skills.map(skill => `
 
-            <div class="skill">
+          <div class="skill">
 
-              <div class="skill-name">
-                ${skill.name}
-              </div>
+            <div class="skill-name">
+              ${skill.name}
+            </div>
 
-              <div class="skill-info">
+            <div class="skill-info">
 
-                ${
-                  skill.type === "attack"
-                    ? `攻撃力 ${skill.power}`
-                    : skill.type === "heal"
-                      ? `HP回復 ${skill.power}`
-                      : `強化 +${skill.power} ${
-                          skill.target === "attack"
-                            ? "攻撃"
-                            : "防御"
-                        }`
-                }
+              ${
+                skill.type === "attack"
+                  ? `攻撃力 ${skill.power}`
+                  : skill.type === "heal"
+                    ? `HP回復 ${skill.power}`
+                    : `強化 +${skill.power} ${
+                        skill.target === "attack"
+                          ? "攻撃"
+                          : "防御"
+                      }`
+              }
 
-                ／
+              ／
 
-                ${attributeData[
-                  skill.element
-                ].icon}
-
-                ${skill.element}
-
-              </div>
+              ${attributeData[skill.element].icon}
+              ${skill.element}
 
             </div>
 
-          `
-        ).join("")}
+          </div>
+
+        `).join("")}
 
       </div>
 
@@ -3045,22 +2811,18 @@ function showMonsterDetail(id){
 
           ${
             Array.isArray(monster.recipe)
+              ? monster.recipe.map(id => {
 
-              ? monster.recipe.map(
-                  id => {
+                  const p =
+                    properties.find(
+                      x => x.id === id
+                    );
 
-                    const p =
-                      properties.find(
-                        x => x.id === id
-                      );
+                  return p
+                    ? p.name
+                    : `文化財ID ${id}`;
 
-                    return p
-                      ? p.name
-                      : `文化財ID ${id}`;
-
-                  }
-                ).join(" ＋ ")
-
+                }).join(" ＋ ")
               : "融合素材の情報はありません。"
           }
 
@@ -3137,8 +2899,7 @@ function renderFusion(){
   const found =
     properties.filter(
       p =>
-        saveData.foundCards
-          .includes(p.id)
+        saveData.foundCards.includes(p.id)
     );
 
   if(found.length < 2){
@@ -3146,14 +2907,13 @@ function renderFusion(){
     container.innerHTML = `
 
       <div class="empty">
-
         融合には2つ以上の文化財が必要です。
-
       </div>
 
     `;
 
     return;
+
   }
 
   found.forEach(property => {
@@ -3174,17 +2934,16 @@ function renderFusionCard(
 ){
 
   const selected =
-    fusionSelection
-      .includes(property.id);
+    fusionSelection.includes(
+      property.id
+    );
 
   const card =
     document.createElement("div");
 
   card.className =
     "card" +
-    (selected
-      ? " locked"
-      : "");
+    (selected ? " locked" : "");
 
   card.innerHTML = `
 
@@ -3265,8 +3024,7 @@ function renderFusionListOnly(){
   const found =
     properties.filter(
       p =>
-        saveData.foundCards
-          .includes(p.id)
+        saveData.foundCards.includes(p.id)
     );
 
   container.innerHTML = "";
@@ -3287,13 +3045,8 @@ function updateFusionSlots(){
 
   const slots = [
 
-    document.getElementById(
-      "fusionSlot1"
-    ),
-
-    document.getElementById(
-      "fusionSlot2"
-    )
+    document.getElementById("fusionSlot1"),
+    document.getElementById("fusionSlot2")
 
   ];
 
@@ -3316,12 +3069,7 @@ function updateFusionSlots(){
         slot.innerHTML = `
 
           🏯<br>
-
-          ${
-            property
-              ? property.name
-              : ""
-          }
+          ${property ? property.name : ""}
 
         `;
 
@@ -3352,6 +3100,7 @@ function doFusion(){
     );
 
     return;
+
   }
 
   const monster =
@@ -3371,6 +3120,7 @@ function doFusion(){
     );
 
     return;
+
   }
 
   const already =
@@ -3432,17 +3182,10 @@ function showBirth(
         </h2>
 
         <p>
-
           ${monster.rarity}
-
           ／
-
-          ${attributeData[
-            monster.attribute
-          ].icon}
-
+          ${attributeData[monster.attribute].icon}
           ${monster.attribute}
-
         </p>
 
         <div class="level-line">
@@ -3463,22 +3206,18 @@ function showBirth(
 
           ${
             Array.isArray(monster.recipe)
+              ? monster.recipe.map(id => {
 
-              ? monster.recipe.map(
-                  id => {
+                  const p =
+                    properties.find(
+                      x => x.id === id
+                    );
 
-                    const p =
-                      properties.find(
-                        x => x.id === id
-                      );
+                  return p
+                    ? p.name
+                    : `文化財ID ${id}`;
 
-                    return p
-                      ? p.name
-                      : `文化財ID ${id}`;
-
-                  }
-                ).join(" ＋ ")
-
+                }).join(" ＋ ")
               : "融合素材の情報はありません。"
           }
 
@@ -3501,7 +3240,7 @@ function showBirth(
 
 
 /*
-  バトル選択画面。
+  バトル選択画面
 */
 function renderBattleSelect(){
 
@@ -3516,16 +3255,16 @@ function renderBattleSelect(){
     );
 
   /*
-    選択画面へ来た時点で、
-    表示上のバトルは必ず閉じる。
+    バトル選択画面を表示するときは、
+    現在のバトル画面を必ず初期化。
   */
   battleArea.classList.add(
     "hidden"
   );
 
   /*
-    前回バトルが残っている場合も、
-    選択画面では破棄する。
+    選択画面へ戻った場合は、
+    進行中のバトルを破棄。
   */
   if(
     battle &&
@@ -3545,7 +3284,6 @@ function renderBattleSelect(){
       <div class="empty">
 
         バトルできるモンスターがいません。<br>
-
         まずモンスターを発見してください。
 
       </div>
@@ -3553,6 +3291,7 @@ function renderBattleSelect(){
     `;
 
     return;
+
   }
 
   selectArea.innerHTML = `
@@ -3560,7 +3299,6 @@ function renderBattleSelect(){
     <div class="notice">
 
       バトルするモンスターを選んでください。<br>
-
       勝利すると選択したモンスターが経験値を獲得します。
 
     </div>
@@ -3569,66 +3307,63 @@ function renderBattleSelect(){
 
       ${
         saveData.discoveredMonsters
-          .map(
-            id =>
-              monsters.find(
-                m => m.id === id
-              )
+          .map(id =>
+            monsters.find(
+              m => m.id === id
+            )
           )
           .filter(Boolean)
-          .map(
-            monster => {
+          .map(monster => {
 
-              ensureMonsterProgress(
+            ensureMonsterProgress(
+              monster.id
+            );
+
+            const progress =
+              getMonsterProgress(
                 monster.id
               );
 
-              const progress =
-                getMonsterProgress(
-                  monster.id
-                );
+            return `
 
-              return `
+              <div class="card">
 
-                <div class="card">
+                <div class="monster-emoji">
+                  ${monsterEmoji(monster)}
+                </div>
 
-                  <div class="monster-emoji">
-                    ${monsterEmoji(monster)}
-                  </div>
+                <div class="monster-name">
+                  ${monster.name}
+                </div>
 
-                  <div class="monster-name">
-                    ${monster.name}
-                  </div>
+                <div class="level-line">
+                  Lv.${progress.level}
+                </div>
 
-                  <div class="level-line">
-                    Lv.${progress.level}
-                  </div>
+                <div class="exp-line">
 
-                  <div class="exp-line">
-
-                    EXP
-                    ${progress.exp}
-                    /
-                    ${getRequiredExp(
-                      progress.level
-                    )}
-
-                  </div>
-
-                  <button
-                    class="btn"
-                    style="width:100%;margin-top:12px"
-                    onclick="startBattle(${monster.id})"
-                  >
-                    このモンスターで戦う
-                  </button>
+                  EXP
+                  ${progress.exp}
+                  /
+                  ${getRequiredExp(
+                    progress.level
+                  )}
 
                 </div>
 
-              `;
+                <button
+                  class="btn"
+                  style="width:100%;margin-top:12px"
+                  onclick="startBattle(${monster.id})"
+                >
+                  このモンスターで戦う
+                </button>
 
-            }
-          )
+              </div>
+
+            `;
+
+          })
           .join("")
       }
 
@@ -3647,12 +3382,13 @@ function renderBattleSelect(){
 function startBattle(playerId){
 
   /*
-    古いバトルを完全破棄。
+    既存バトルを完全破棄。
   */
   battle = null;
 
   /*
-    新しい世代を発行。
+    新しいバトル世代を発行。
+    古いsetTimeoutはこの番号と一致しなくなる。
   */
   battleSessionId++;
 
@@ -3669,7 +3405,7 @@ function startBattle(playerId){
   }
 
   /*
-    敵はプレイヤー以外からランダム選択。
+    プレイヤー以外から敵をランダム選択。
   */
   const enemies =
     monsters.filter(
@@ -3699,6 +3435,9 @@ function startBattle(playerId){
       playerProgress.level
     );
 
+  /*
+    敵はLv.1。
+  */
   const enemyStats =
     getEffectiveStats(
       enemy,
@@ -3706,8 +3445,9 @@ function startBattle(playerId){
     );
 
   /*
-    ★重要
-    毎回完全に初期化する。
+    ★★★
+    バトル状態を毎回完全初期化。
+    ★★★
   */
   battle = {
 
@@ -3725,6 +3465,10 @@ function startBattle(playerId){
 
     enemyHP:enemyStats.hp,
 
+    /*
+      3種類の技。
+      各技3回まで。
+    */
     playerUses:[
       0,
       0,
@@ -3737,6 +3481,9 @@ function startBattle(playerId){
       0
     ],
 
+    /*
+      バフ値も毎回0から。
+    */
     playerAttackBonus:0,
 
     playerDefenseBonus:0,
@@ -3752,7 +3499,7 @@ function startBattle(playerId){
   };
 
   /*
-    バトル選択部分を非表示。
+    選択画面を隠す。
   */
   document
     .getElementById(
@@ -3763,7 +3510,7 @@ function startBattle(playerId){
     );
 
   /*
-    バトル本体を表示。
+    バトル画面を表示。
   */
   document
     .getElementById(
@@ -3774,7 +3521,7 @@ function startBattle(playerId){
     );
 
   /*
-    ログを完全クリア。
+    ログを完全初期化。
   */
   document
     .getElementById(
@@ -3783,7 +3530,7 @@ function startBattle(playerId){
     .innerHTML = "";
 
   /*
-    技ボタンも完全クリア。
+    技ボタンも完全初期化。
   */
   document
     .getElementById(
@@ -3850,7 +3597,9 @@ function determineFirstTurn(){
   const enemySpeed =
     battle.enemyStats.speed;
 
-  if(playerSpeed > enemySpeed){
+  if(
+    playerSpeed > enemySpeed
+  ){
 
     battle.turn =
       "player";
@@ -3895,7 +3644,6 @@ function determineFirstTurn(){
           battle.finished ||
           battle.sessionId !== session
         ){
-
           return;
         }
 
@@ -3955,7 +3703,7 @@ function updateBattleDisplay(){
       `Lv.1 ／ ${battle.enemy.rarity}`;
 
   /*
-    バフ表示も毎回更新。
+    バフ表示
   */
   const playerBuffParts = [];
 
@@ -4116,9 +3864,9 @@ function renderBattleSkills(){
           "skill-button";
 
         /*
-          ★修正
-          自分のターンでない、
-          または3回使用済みなら押せない。
+          ★重要
+          ・自分のターンのみ使用可能
+          ・1つの技につき3回まで
         */
         button.disabled =
           battle.turn !== "player" ||
@@ -4155,9 +3903,7 @@ function renderBattleSkills(){
         `;
 
         button.onclick =
-          () => playerAttack(
-            index
-          );
+          () => playerAttack(index);
 
         container.appendChild(
           button
@@ -4173,6 +3919,22 @@ function renderBattleSkills(){
   ========================================================
   ダメージ計算
   ========================================================
+
+  ★今回の重要修正
+
+  攻撃技のダメージは、
+  「技に設定されたpower」を基本値として使用する。
+
+  例：
+  月光斬 power:22
+  → 相手HPから22減る
+
+  以前入っていた
+  ・攻撃力補正
+  ・防御力補正
+  ・属性相性倍率
+
+  は、このバトル仕様では使用しない。
 */
 function calculateDamage(
   attacker,
@@ -4182,42 +3944,20 @@ function calculateDamage(
   defenderDefenseBonus=0
 ){
 
-  const attack =
-    attacker.attack +
-    attackerAttackBonus;
-
-  const defense =
-    defender.defense +
-    defenderDefenseBonus;
-
-  const base =
-    skill.power
-    + Math.floor(
-        (attack - 40) * 0.3
-      )
-    - Math.floor(
-        (defense - 35) * 0.2
-      );
-
-  const multiplier =
-    getTypeMultiplier(
-      skill.element,
-      defender.attribute
-    );
-
+  /*
+    技のpowerをそのままダメージにする。
+  */
   const damage =
     Math.max(
-      1,
-      Math.floor(
-        base * multiplier
-      )
+      0,
+      Number(skill.power) || 0
     );
 
   return {
 
-    damage,
+    damage:damage,
 
-    multiplier
+    multiplier:1
 
   };
 
@@ -4239,6 +3979,9 @@ function playerAttack(index){
     return;
   }
 
+  /*
+    プレイヤーのターンでなければ無効。
+  */
   if(
     battle.turn !== "player"
   ){
@@ -4254,8 +3997,7 @@ function playerAttack(index){
   }
 
   /*
-    ★修正
-    3回使用済みなら実行しない。
+    ★各技3回まで。
   */
   if(
     battle.playerUses[index] >= 3
@@ -4265,22 +4007,32 @@ function playerAttack(index){
       "この技はもう使用できません。"
     );
 
+    renderBattleSkills();
+
     return;
+
   }
 
   const session =
     battle.sessionId;
 
   /*
-    技使用回数を先に増やす。
+    使用回数を1増やす。
   */
   battle.playerUses[index]++;
 
+  /*
+    技を実行。
+  */
   executeSkill(
     "player",
     skill
   );
 
+  /*
+    技によってバトルが終了した場合は、
+    ここから先を実行しない。
+  */
   if(
     !battle ||
     battle.finished ||
@@ -4296,8 +4048,14 @@ function playerAttack(index){
   battle.turn =
     "enemy";
 
+  /*
+    プレイヤーのボタンを無効化。
+  */
   renderBattleSkills();
 
+  /*
+    少し間を置いて敵が行動。
+  */
   setTimeout(
     () => {
 
@@ -4329,22 +4087,16 @@ function executeSkill(
   skill
 ){
 
-  if(!battle){
+  if(
+    !battle ||
+    battle.finished
+  ){
+
     return;
   }
 
   const isPlayer =
     side === "player";
-
-  const attacker =
-    isPlayer
-      ? battle.player
-      : battle.enemy;
-
-  const defender =
-    isPlayer
-      ? battle.enemy
-      : battle.player;
 
   /*
     攻撃
@@ -4353,28 +4105,21 @@ function executeSkill(
     skill.type === "attack"
   ){
 
-    const result =
-      calculateDamage(
-        attacker,
-        defender,
-        skill,
-        isPlayer
-          ? battle.playerAttackBonus
-          : battle.enemyAttackBonus,
-        isPlayer
-          ? battle.enemyDefenseBonus
-          : battle.playerDefenseBonus
+    const damage =
+      Math.max(
+        0,
+        Number(skill.power) || 0
       );
 
     if(isPlayer){
 
       battle.enemyHP -=
-        result.damage;
+        damage;
 
     }else{
 
       battle.playerHP -=
-        result.damage;
+        damage;
 
     }
 
@@ -4383,29 +4128,14 @@ function executeSkill(
     );
 
     addBattleLog(
-      `${result.damage}ダメージ！`
+      `${damage}ダメージ！`
     );
-
-    if(
-      result.multiplier > 1
-    ){
-
-      addBattleLog(
-        "💥 効果はばつぐんだ！"
-      );
-
-    }else if(
-      result.multiplier < 1
-    ){
-
-      addBattleLog(
-        "🛡️ 効果はいまひとつだ…"
-      );
-
-    }
 
     updateBattleDisplay();
 
+    /*
+      ★HP0なら即終了。
+    */
     if(
       battle.enemyHP <= 0
     ){
@@ -4414,13 +4144,19 @@ function executeSkill(
         true
       );
 
-    }else if(
+      return;
+
+    }
+
+    if(
       battle.playerHP <= 0
     ){
 
       finishBattle(
         false
       );
+
+      return;
 
     }
 
@@ -4430,7 +4166,9 @@ function executeSkill(
 
 
   /*
+    ======================================================
     回復
+    ======================================================
   */
   if(
     skill.type === "heal"
@@ -4445,7 +4183,7 @@ function executeSkill(
         Math.min(
           battle.playerStats.hp,
           battle.playerHP +
-            skill.power
+          skill.power
         );
 
       const healed =
@@ -4469,7 +4207,7 @@ function executeSkill(
         Math.min(
           battle.enemyStats.hp,
           battle.enemyHP +
-            skill.power
+          skill.power
         );
 
       const healed =
@@ -4494,7 +4232,9 @@ function executeSkill(
 
 
   /*
+    ======================================================
     バフ
+    ======================================================
   */
   if(
     skill.type === "buff"
@@ -4548,10 +4288,6 @@ function executeSkill(
 
     }
 
-    /*
-      ★修正
-      バフ後も表示を更新。
-    */
     updateBattleDisplay();
 
     return;
@@ -4587,17 +4323,14 @@ function enemyTurn(){
     battle.sessionId;
 
   /*
-    まだ使用可能な技を取得。
+    まだ3回使用していない技だけを候補にする。
   */
   const available =
     battle.enemy.skills
       .map(
         (skill,index) => ({
-
           skill,
-
           index
-
         })
       )
       .filter(
@@ -4607,49 +4340,57 @@ function enemyTurn(){
           ] < 3
       );
 
-  let selected;
-
+  /*
+    敵が全技を3回ずつ使用した場合、
+    全技の使用回数をリセット。
+    
+    これによりバトルが止まらない。
+  */
   if(
-    available.length > 0
+    available.length === 0
   ){
 
-    selected =
-      available[
-        Math.floor(
-          Math.random() *
-          available.length
-        )
-      ];
-
-  }else{
-
-    /*
-      全技を3回使い切った場合は、
-      技使用回数をリセットして再使用可能にする。
-
-      これによりバトルが永久停止しない。
-    */
     battle.enemyUses = [
       0,
       0,
       0
     ];
 
-    selected = {
+  }
 
-      skill:
-        battle.enemy.skills[
-          Math.floor(
-            Math.random() *
-            battle.enemy.skills.length
-          )
-        ],
+  const usable =
+    battle.enemy.skills
+      .map(
+        (skill,index) => ({
+          skill,
+          index
+        })
+      )
+      .filter(
+        x =>
+          battle.enemyUses[
+            x.index
+          ] < 3
+      );
 
-      index:0
+  if(
+    usable.length === 0
+  ){
 
-    };
+    return;
 
   }
+
+  /*
+    敵は使用可能な技からランダム選択。
+  */
+  const selected =
+    usable[
+      Math.floor(
+        Math.random() *
+        usable.length
+      )
+    ];
 
   if(
     !battle ||
@@ -4660,15 +4401,24 @@ function enemyTurn(){
     return;
   }
 
+  /*
+    敵の使用回数を1増やす。
+  */
   battle.enemyUses[
     selected.index
   ]++;
 
+  /*
+    技を実行。
+  */
   executeSkill(
     "enemy",
     selected.skill
   );
 
+  /*
+    バトル終了ならターン変更しない。
+  */
   if(
     !battle ||
     battle.finished ||
@@ -4678,6 +4428,9 @@ function enemyTurn(){
     return;
   }
 
+  /*
+    プレイヤーターンへ。
+  */
   battle.turn =
     "player";
 
@@ -4738,16 +4491,21 @@ function finishBattle(
   }
 
   /*
-    終了フラグを即座に立てる。
-    これにより同じターンで二重終了することを防ぐ。
+    ★終了フラグを最初に立てる。
+    
+    同じ処理内で複数回finishBattleが
+    呼ばれることを防止。
   */
   battle.finished = true;
 
   /*
-    以後のタイマーを無効化。
+    古いsetTimeoutを無効化。
   */
   battleSessionId++;
 
+  /*
+    技ボタンを消す。
+  */
   document
     .getElementById(
       "battleSkills"
@@ -4807,11 +4565,6 @@ function showBattleResult(
       "battleResult"
     );
 
-  /*
-    battle本体が画面遷移後に
-    変更されても結果表示が崩れないよう、
-    IDからプレイヤーを取得。
-  */
   const player =
     monsters.find(
       m => m.id === playerId
@@ -4846,11 +4599,8 @@ function showBattleResult(
                 <div style="margin-top:8px">
 
                   HP　＋${up.hp}<br>
-
                   攻撃 ＋${up.attack}<br>
-
                   防御 ＋${up.defense}<br>
-
                   素早さ ＋${up.speed}
 
                 </div>
@@ -4988,19 +4738,13 @@ function renderPropertyBook(
   if(clickedButton){
 
     document
-      .querySelectorAll(
-        ".filter-btn"
-      )
+      .querySelectorAll(".filter-btn")
       .forEach(
         btn =>
-          btn.classList.remove(
-            "active"
-          )
+          btn.classList.remove("active")
       );
 
-    clickedButton.classList.add(
-      "active"
-    );
+    clickedButton.classList.add("active");
 
   }
 
@@ -5041,60 +4785,56 @@ function renderPropertyBook(
     return;
   }
 
-  list.forEach(
-    property => {
+  list.forEach(property => {
 
-      const card =
-        document.createElement(
-          "div"
-        );
+    const card =
+      document.createElement(
+        "div"
+      );
 
-      card.className =
-        "card property-card";
+    card.className =
+      "card property-card";
 
-      card.innerHTML = `
+    card.innerHTML = `
 
-        <div>
+      <div>
 
-          <div class="property-icon">
-            🏯
-          </div>
+        <div class="property-icon">
+          🏯
+        </div>
 
-          <div class="property-name">
-            ${property.name}
-          </div>
+        <div class="property-name">
+          ${property.name}
+        </div>
 
-          <div class="badges">
+        <div class="badges">
 
-            <span class="badge">
-              ${property.theme}
-            </span>
+          <span class="badge">
+            ${property.theme}
+          </span>
 
-            ${property.tags.map(
-              tag =>
-                `<span class="badge">${tag}</span>`
-            ).join("")}
-
-          </div>
+          ${property.tags.map(
+            tag =>
+              `<span class="badge">${tag}</span>`
+          ).join("")}
 
         </div>
 
-        <button
-          class="small-btn"
-          style="margin-top:12px"
-          onclick="showPropertyDetail(${property.id})"
-        >
-          詳細を見る
-        </button>
+      </div>
 
-      `;
+      <button
+        class="small-btn"
+        style="margin-top:12px"
+        onclick="showPropertyDetail(${property.id})"
+      >
+        詳細を見る
+      </button>
 
-      container.appendChild(
-        card
-      );
+    `;
 
-    }
-  );
+    container.appendChild(card);
+
+  });
 
 }
 
@@ -5121,49 +4861,35 @@ function renderMissions(){
     {
       title:"文化財ハンター",
       text:"文化財を5件発見する",
-      current:
-        Math.min(
-          propertyCount,
-          5
-        ),
+      current:Math.min(propertyCount,5),
       max:5
     },
 
     {
       title:"歴史探訪",
       text:"文化財を15件発見する",
-      current:
-        Math.min(
-          propertyCount,
-          15
-        ),
+      current:Math.min(propertyCount,15),
       max:15
     },
 
     {
       title:"千曲市マスター",
       text:"29件すべての文化財を発見する",
-      current:
-        propertyCount,
+      current:propertyCount,
       max:29
     },
 
     {
       title:"モンスター収集家",
       text:"モンスターを5体発見する",
-      current:
-        Math.min(
-          monsterCount,
-          5
-        ),
+      current:Math.min(monsterCount,5),
       max:5
     },
 
     {
       title:"モンスターマスター",
       text:"20体すべてのモンスターを発見する",
-      current:
-        monsterCount,
+      current:monsterCount,
       max:20
     }
 
@@ -5190,19 +4916,14 @@ function renderMissions(){
 
               <strong>
 
-                ${done
-                  ? "✅"
-                  : "🎯"
-                }
+                ${done ? "✅" : "🎯"}
 
                 ${mission.title}
 
               </strong>
 
               <div style="margin-top:7px">
-
                 ${mission.text}
-
               </div>
 
               <div class="progress-bar">
@@ -5253,9 +4974,6 @@ document.addEventListener(
   "DOMContentLoaded",
   () => {
 
-    /*
-      初期状態では必ずタイトル画面のみ表示。
-    */
     battle = null;
 
     battleSessionId++;
