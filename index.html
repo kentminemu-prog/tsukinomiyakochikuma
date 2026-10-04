@@ -698,6 +698,7 @@ button{
 
 .monster-card.locked{
   background:#f6f7f9;
+}
   color:#8a94a5;
 }
 
@@ -1398,7 +1399,7 @@ button{
       </div>
 
       <div class="stat-card">
-        <div class="stat-label">バトル勝利</div>
+      <div class="stat-label">バトル勝利</div>
         <div class="stat-value" id="homeBattleWins">0</div>
       </div>
 
@@ -2097,7 +2098,6 @@ function normalizeSave(data){
      typeof data.monsterProgress !== "object"){
     data.monsterProgress = {};
   }
-
   if(!Array.isArray(data.missionCompleted)){
     data.missionCompleted = [];
   }
@@ -2674,7 +2674,7 @@ const propertyDetails = {
   point:"古代の人々の移動を想像できます。",
   quiz:{
     question:"東山道の支道が示すものは？",
-    choices:["古代の交通","近代の航空路","海上航路"],
+    choices:["古代の交通","近未来の航空路","海上航路"],
     answer:0
   }
 },
@@ -2798,8 +2798,7 @@ properties.forEach(p => {
       p,
       propertyDetails[p.id]
     );
-  }
-
+    }
 });
 
 
@@ -3388,6 +3387,10 @@ function renderScreen(id){
       renderMissions();
       break;
 
+    case "aboutScreen":
+      renderAboutScreen();
+      break;
+
     case "battleSelectScreen":
       renderBattleSelect();
       break;
@@ -3397,6 +3400,25 @@ function renderScreen(id){
       break;
 
   }
+
+}
+
+
+/* =========================================================
+   ツキモンについて画面
+========================================================= */
+
+function renderAboutScreen(){
+
+  const content = document.querySelector("#aboutScreen .about-list");
+
+  if(!content){
+    return;
+  }
+
+  /* HTMLに記載した説明文をそのまま表示する。 */
+  content.style.display = "grid";
+  content.style.gap = "14px";
 
 }
 
@@ -3474,7 +3496,6 @@ function renderExplore(){
     item.className =
       "property-list-item " +
       (found ? "found" : "");
-
     item.innerHTML = `
 
       <div class="property-num">
@@ -4875,707 +4896,7 @@ function getFieldSkillMultiplier(unit){
 
 /*
  * 重要：
- * 共鳴していなくても 1 を返すため、
- * スペシャルスキルそのものは使用可能。
- *
- * 共鳴時だけ攻撃系スキルの威力が上昇する。
- */
-
-
-/* =========================================================
-   属性相性
-========================================================= */
-
-function getAttributeMultiplier(
-  attackerAttr,
-  defenderAttr
-){
-
-  if(
-    (attackerAttr==="火" && defenderAttr==="自然") ||
-    (attackerAttr==="自然" && defenderAttr==="水") ||
-    (attackerAttr==="水" && defenderAttr==="月") ||
-    (attackerAttr==="月" && defenderAttr==="火")
-  ){
-
-    return 1.5;
-
-  }
-
-  if(
-    (defenderAttr==="火" && attackerAttr==="自然") ||
-    (defenderAttr==="自然" && attackerAttr==="水") ||
-    (defenderAttr==="水" && attackerAttr==="月") ||
-    (defenderAttr==="月" && attackerAttr==="火")
-  ){
-
-    return .7;
-
-  }
-
-  return 1;
-
-}
-
-
-/* =========================================================
-   ダメージ計算
-========================================================= */
-
-function calculateBattleDamage(
-  actor,
-  target,
-  skillPower
-){
-
-  const base =
-    (
-      actor.attack +
-      actor.attackBonus
-    ) +
-    skillPower -
-    (
-      target.defense +
-      target.defenseBonus
-    ) * .55;
-
-  const attributeMultiplier =
-    getAttributeMultiplier(
-      actor.attr,
-      target.attr
-    );
-
-  return Math.max(
-    5,
-    Math.round(
-      base * attributeMultiplier
-    )
-  );
-
-}
-
-
-/* =========================================================
-   バトル描画
-========================================================= */
-
-function renderBattle(){
-
-  if(!battle){
-    return;
-  }
-
-  const player =
-    battle.player;
-
-  const enemy =
-    battle.enemy;
-
-  const field =
-    battle.field;
-
-  document.getElementById("battleFieldIcon")
-    .textContent = field.icon;
-
-  document.getElementById("battleFieldName")
-    .textContent =
-      "フィールド： " + field.name;
-
-  document.getElementById("battleFieldEffect")
-    .textContent =
-      field.effect;
-
-  const fieldBar =
-    document.getElementById("battleFieldBar");
-
-  fieldBar.className =
-    "battle-field-bar " +
-    field.className;
-
-
-  document.getElementById("enemyMonsterName")
-    .textContent =
-      enemy.name + " Lv." + enemy.level;
-
-  document.getElementById("enemyAttr")
-    .textContent =
-      enemy.attr + "属性";
-
-  document.getElementById("enemyHpText")
-    .textContent =
-      enemy.hp + " / " + enemy.maxHp;
-
-  document.getElementById("enemyHpBar")
-    .style.width =
-      Math.max(
-        0,
-        enemy.hp / enemy.maxHp * 100
-      ) + "%";
-
-  document.getElementById("enemyAtk")
-    .textContent =
-      enemy.attack + enemy.attackBonus;
-
-  document.getElementById("enemyDef")
-    .textContent =
-      enemy.defense + enemy.defenseBonus;
-
-  document.getElementById("enemySpd")
-    .textContent =
-      enemy.speed;
-
-
-  document.getElementById("playerMonsterName")
-    .textContent =
-      player.name + " Lv." + player.level;
-
-  document.getElementById("playerAttr")
-    .textContent =
-      player.attr + "属性";
-
-  document.getElementById("playerHpText")
-    .textContent =
-      player.hp + " / " + player.maxHp;
-
-  document.getElementById("playerHpBar")
-    .style.width =
-      Math.max(
-        0,
-        player.hp / player.maxHp * 100
-      ) + "%";
-
-  document.getElementById("playerAtk")
-    .textContent =
-      player.attack + player.attackBonus;
-
-  document.getElementById("playerDef")
-    .textContent =
-      player.defense + player.defenseBonus;
-
-  document.getElementById("playerSpd")
-    .textContent =
-      player.speed;
-
-
-  const isPlayerTurn =
-    battle.turn === "player" &&
-    !battle.over;
-
-  document.getElementById("battleTurn")
-    .textContent =
-      battle.over
-      ? "バトル終了"
-      : isPlayerTurn
-        ? "あなたのターン"
-        : "相手のターン";
-
-
-  renderBattleSkills();
-
-  renderBattleLog();
-
-}
-
-
-/* =========================================================
-   スキル表示
-   ★共鳴しなくても disabled にしない
-========================================================= */
-
-function renderBattleSkills(){
-
-  if(!battle){
-    return;
-  }
-
-  const monster =
-    getMonster(
-      battle.player.id
-    );
-
-  const container =
-    document.getElementById("battleSkills");
-
-  container.innerHTML = "";
-
-  const playerTurn =
-    battle.turn === "player" &&
-    !battle.over;
-
-  monster.skills.forEach((skill,index) => {
-
-    const uses =
-      battle.playerSkillUses[index];
-
-    const resonance =
-      isFieldResonance(
-        battle.player,
-        battle.field
-      );
-
-    let effectivePower =
-      skill.power;
-
-    if(
-      skill.type === "attack" &&
-      resonance
-    ){
-
-      effectivePower =
-        Math.round(
-          skill.power *
-          getFieldSkillMultiplier(
-            battle.player
-          )
-        );
-
-    }
-
-    let info = "";
-
-    if(skill.type==="attack"){
-
-      info =
-        "攻撃力 " +
-        effectivePower;
-
-      if(resonance){
-
-        info +=
-          "（共鳴+" +
-          Math.round(
-            battle.field.skillBonus * 100
-          ) +
-          "%）";
-
-      }
-
-    }else if(skill.type==="heal"){
-
-      info =
-        "HP回復 " +
-        skill.power;
-
-    }else if(skill.type==="buffAttack"){
-
-      info =
-        "ATK +" +
-        skill.power;
-
-    }else if(skill.type==="buffDefense"){
-
-      info =
-        "DEF +" +
-        skill.power;
-
-    }
-
-    const button =
-      document.createElement("button");
-
-    button.className =
-      "skill-btn";
-
-    /*
-     * ★重要
-     * 共鳴していないことを理由に
-     * disabled にしない。
-     *
-     * 使用回数3回を超えた場合のみ使用不可。
-     */
-
-    button.disabled =
-      !playerTurn ||
-      uses >= 3;
-
-    button.onclick =
-      () => executeSkill(
-        "player",
-        index
-      );
-
-    button.innerHTML = `
-
-      <div class="skill-name">
-        ${skill.name}
-      </div>
-
-      <div class="skill-info">
-        ${info}
-      </div>
-
-      ${
-        resonance
-        ? `
-          <div class="skill-resonance">
-            ✨ フィールド共鳴
-          </div>
-        `
-        : `
-          <div class="skill-resonance" style="color:#8a94a5;">
-            通常威力
-          </div>
-        `
-      }
-
-      <div class="skill-info">
-        使用回数：${uses} / 3
-      </div>
-
-    `;
-
-    container.appendChild(button);
-
-  });
-
-  document.getElementById("normalAttackBtn")
-    .disabled =
-      !playerTurn;
-
-}
-
-
-/* =========================================================
-   バトルログ
-========================================================= */
-
-function addBattleLog(text){
-
-  if(!battle){
-    return;
-  }
-
-  battle.log.push(text);
-
-  if(battle.log.length > 30){
-
-    battle.log.shift();
-
-  }
-
-}
-
-
-function renderBattleLog(){
-
-  if(!battle){
-    return;
-  }
-
-  const container =
-    document.getElementById("battleLog");
-
-  container.innerHTML =
-    battle.log
-      .slice(-15)
-      .map(
-        text =>
-          `<div class="log-line">${text}</div>`
-      )
-      .join("");
-
-  container.scrollTop =
-    container.scrollHeight;
-
-}
-
-
-/* =========================================================
-   スキル実行
-========================================================= */
-
-function executeSkill(
-  side,
-  index
-){
-
-  if(!battle || battle.over){
-    return;
-  }
-
-  if(
-    side==="player" &&
-    battle.turn!=="player"
-  ){
-
-    return;
-
-  }
-
-  const actor =
-    side==="player"
-    ? battle.player
-    : battle.enemy;
-
-  const target =
-    side==="player"
-    ? battle.enemy
-    : battle.player;
-
-  const uses =
-    side==="player"
-    ? battle.playerSkillUses
-    : battle.enemySkillUses;
-
-  const monster =
-    getMonster(actor.id);
-
-  const skill =
-    monster.skills[index];
-
-  if(!skill){
-    return;
-  }
-
-  if(uses[index]>=3){
-    return;
-  }
-
-  uses[index]++;
-
-  const resonance =
-    isFieldResonance(
-      actor,
-      battle.field
-    );
-
-  if(skill.type==="attack"){
-
-    let effectivePower =
-      skill.power;
-
-    if(resonance){
-
-      effectivePower =
-        Math.round(
-          skill.power *
-          getFieldSkillMultiplier(actor)
-        );
-
-    }
-
-    const damage =
-      calculateBattleDamage(
-        actor,
-        target,
-        effectivePower
-      );
-
-    target.hp =
-      Math.max(
-        0,
-        target.hp - damage
-      );
-
-    addBattleLog(
-      `${actor.name}の「${skill.name}」！`
-    );
-
-    if(resonance){
-
-      addBattleLog(
-        `✨ フィールド共鳴！`
-      );
-
-    }
-
-    addBattleLog(
-      `${target.name}に${damage}ダメージ！`
-    );
-
-  }else if(skill.type==="heal"){
-
-    const before =
-      actor.hp;
-
-    actor.hp =
-      Math.min(
-        actor.maxHp,
-        actor.hp + skill.power
-      );
-
-    const amount =
-      actor.hp - before;
-
-    addBattleLog(
-      `${actor.name}の「${skill.name}」！`
-    );
-
-    addBattleLog(
-      `HPが${amount}回復した！`
-    );
-
-  }else if(skill.type==="buffAttack"){
-
-    actor.attackBonus +=
-      skill.power;
-
-    addBattleLog(
-      `${actor.name}の「${skill.name}」！`
-    );
-
-    addBattleLog(
-      `ATKが${skill.power}上昇した！`
-    );
-
-  }else if(skill.type==="buffDefense"){
-
-    actor.defenseBonus +=
-      skill.power;
-
-    addBattleLog(
-      `${actor.name}の「${skill.name}」！`
-    );
-
-    addBattleLog(
-      `DEFが${skill.power}上昇した！`
-    );
-
-  }
-
-  renderBattle();
-
-  if(target.hp<=0){
-
-    finishBattle(
-      side==="player"
-    );
-
-    return;
-
-  }
-
-  if(side==="player"){
-
-    battle.turn = "enemy";
-
-    renderBattle();
-
-    scheduleEnemyTurn(
-      battle.sessionId
-    );
-
-  }else{
-
-    battle.turn = "player";
-
-    renderBattle();
-
-  }
-
-}
-
-
-/* =========================================================
-   通常攻撃
-========================================================= */
-
-function executeNormalAttack(side){
-
-  if(!battle || battle.over){
-    return;
-  }
-
-  if(
-    side==="player" &&
-    battle.turn!=="player"
-  ){
-
-    return;
-
-  }
-
-  const actor =
-    side==="player"
-    ? battle.player
-    : battle.enemy;
-
-  const target =
-    side==="player"
-    ? battle.enemy
-    : battle.player;
-
-  const damage =
-    calculateBattleDamage(
-      actor,
-      target,
-      0
-    );
-
-  target.hp =
-    Math.max(
-      0,
-      target.hp - damage
-    );
-
-  addBattleLog(
-    `${actor.name}の通常攻撃！`
-  );
-
-  addBattleLog(
-    `${target.name}に${damage}ダメージ！`
-  );
-
-  renderBattle();
-
-  if(target.hp<=0){
-
-    finishBattle(
-      side==="player"
-    );
-
-    return;
-
-  }
-
-  if(side==="player"){
-
-    battle.turn = "enemy";
-
-    renderBattle();
-
-    scheduleEnemyTurn(
-      battle.sessionId
-    );
-
-  }else{
-
-    battle.turn = "player";
-
-    renderBattle();
-
-  }
-
-}
-
-
-/* =========================================================
-   敵ターン予約
-   ★停止対策
-========================================================= */
-
-function scheduleEnemyTurn(sessionId){
-
-  clearBattleTimers();
-
-  const timer =
-    setTimeout(
-      () => enemyTurn(sessionId),
-      700
-    );
-
-  battleTimers.push(timer);
-
-}
-
-
-/* =========================================================
-   敵ターン
-========================================================= */
-
-function enemyTurn(sessionId){
-
-  if(!battle){
+if(!battle){
     return;
   }
 
